@@ -9,3 +9,6 @@
 
 Episode 1 of the story is fully implemented. Episode 2 is in development and will be released soon!
 
+## License
+
+This project is licensed under the [MIT License](LICENSE).
