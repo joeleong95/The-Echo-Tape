@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Echo Tape - Episode 1</title>
+    <style>
+        /* CSS styles from your original file are preserved here for consistency */
+        @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Orbitron:wght@400;700;900&display=swap');
+        
+        body {
+            font-family: 'Courier Prime', monospace;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(45deg, #0a0a0a, #1a0033, #330011);
+            background-size: 400% 400%;
+            animation: trippy-bg 8s ease-in-out infinite;
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        @keyframes trippy-bg {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        #title-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            text-align: center;
+        }
+
+        #start-btn {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.5em;
+            padding: 20px 40px;
+            margin-top: 40px;
+            cursor: pointer;
+            color: #fff;
+            background: linear-gradient(135deg, #ff00ff, #00ffff);
+            border: none;
+            border-radius: 10px;
+            text-shadow: 0 0 10px #fff;
+            animation: pulse 2s infinite;
+            transition: all 0.3s ease;
+        }
+
+        #start-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 30px #ff00ff, 0 0 30px #00ffff;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            display: none; /* Hidden until game starts */
+        }
+        
+        .glitch-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 3.5em;
+            text-align: center;
+            color: #ff00ff;
+            text-shadow: 2px 2px #00ffff, -2px -2px #ffff00;
+            animation: glitch 2s infinite;
+            margin: 30px 0;
+            position: relative;
+        }
+        
+        @keyframes glitch {
+            0%, 100% { transform: translate(0); }
+            10% { transform: translate(-2px, -2px); }
+            20% { transform: translate(2px, 2px); }
+            30% { transform: translate(-2px, 2px); }
+            40% { transform: translate(2px, -2px); }
+            50% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            70% { transform: translate(-2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            90% { transform: translate(-2px, -2px); }
+        }
+        
+        .vhs-screen {
+            background: #000;
+            border: 20px solid #333;
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px 0;
+            position: relative;
+            box-shadow: 0 0 50px rgba(255, 0, 255, 0.3);
+        }
+        
+        .vhs-screen::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent 0px,
+                transparent 2px,
+                rgba(255, 255, 255, 0.03) 2px,
+                rgba(255, 255, 255, 0.03) 4px
+            );
+            pointer-events: none;
+        }
+        
+        .interactive-scene {
+            background: rgba(0, 0, 0, 0.9);
+            border: 3px solid #ffff00;
+            border-radius: 20px;
+            margin: 30px 0;
+            padding: 30px;
+            display: none; /* Initially hide all scenes */
+        }
+
+        #scene-start {
+            display: block; /* Show the starting scene by default */
+        }
+        
+        .character {
+            font-weight: bold;
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 8px;
+            margin-right: 10px;
+        }
+
+        .joe { color: #ff6b6b; }
+        .newt { color: #4ecdc4; }
+        .gooby { color: #9c88ff; font-style: italic; }
+        .system { color: #ffff00; }
+        .void { color: #be2edd; font-weight: bold; font-style: italic; }
+        .granny { color: #f368e0; font-style: italic;}
+
+        .glitched-memory {
+            border: 2px dashed #ff00ff;
+            padding: 15px;
+            margin: 20px auto;
+            text-align: center;
+            font-style: italic;
+            color: #00ffff;
+            animation: flicker 1s infinite;
+        }
+        
+        @keyframes flicker {
+            0%, 100% { opacity: 1; text-shadow: 0 0 5px #00ffff; }
+            50% { opacity: 0.4; text-shadow: none; }
+        }
+
+        .dialogue {
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 5px solid #00ffff;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            font-size: 1.1em;
+            line-height: 1.8;
+        }
+        
+        .choice-container {
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .choice-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            margin: 10px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Orbitron', monospace;
+        }
+        
+        .choice-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        .trippy-text {
+            animation: rainbow 3s infinite;
+            font-weight: bold;
+        }
+        
+        @keyframes rainbow {
+            0%{color:#ff0000;} 16%{color:#ff8000;} 32%{color:#ffff00;} 48%{color:#00ff00;} 64%{color:#0080ff;} 80%{color:#8000ff;} 100%{color:#ff0000;}
+        }
+        
+        .static-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"/></filter></defs><rect width="100%" height="100%" filter="url(%23noiseFilter)" opacity="0.05"/></svg>');
+            pointer-events: none; animation: static 0.1s infinite;
+        }
+        
+        @keyframes static { 0% {opacity: 0.05;} 50% {opacity: 0.1;} 100% {opacity: 0.05;} }
+        
+        .record-light {
+            position: fixed; top: 20px; right: 20px; width: 20px; height: 20px;
+            background: #ff0000; border-radius: 50%;
+            animation: pulse 2s infinite;
+            display: none; /* Hidden until game starts */
+        }
+        
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+    </style>
+</head>
+<body>
+    <div id="title-screen">
+         <h1 class="glitch-title">🌀 THE ECHO TAPE 🌀</h1>
+         <p style="font-size: 1.2em; color: #ccc;">An Interactive Experience</p>
+         <button id="start-btn">INSERT TAPE</button>
+    </div>
+
+    <div class="static-overlay"></div>
+    <div class="record-light"></div>
+    
+    <div class="container">
+        <h1 class="glitch-title">🌀 THE ECHO TAPE 🌀</h1>
+        
+        <div class="vhs-screen">
+            <!-- ########## START SCENE ########## -->
+            <div id="scene-start" class="interactive-scene">
+                <h2 style="color: #ff00ff;">EPISODE 1: THE TAPE & THE LANE</h2>
+                <div class="dialogue">
+                    <span class="character joe">JOE:</span> In the dusty catacombs of the Home Office, I found it. A VHS tape. Unlabelled, except for a yellowed Post-it screaming in quiet desperation: 'DO NOT WATCH ALONE.'
+                </div>
+                <div class="dialogue">
+                    <span class="character newt">NEWT:</span> Bro, you are not gonna believe this. Granny just sent me this absolutely fried voice note... something about a 'Larkhill Lane'? Says it's important. But it's mostly... noise.
+                </div>
+                <div class="choice-container">
+                    <p>Newt holds out his phone. You can hear static and what sounds like someone gargling bong water.</p>
+                    <button class="choice-btn" onclick="goToScene('scene-ignore-granny')">"I've got my own problems, mate."</button>
+                    <button class="choice-btn" onclick="goToScene('scene-granny-deciphered')">Try to make sense of the message.</button>
+                </div>
+            </div>
+            
+            <!-- ########## GRANNY PATH ########## -->
+            <div id="scene-granny-deciphered" class="interactive-scene">
+                <div class="dialogue">
+                    <span class="character granny">DECIPHERED MESSAGE:</span> The cats... they know the frequency... it hums under the... *static*... don't forget the milk... no, the other milk... from the turning sky... at Larkhill Lane...
+                </div>
+                <div class="dialogue">
+                    <span class="character joe">JOE:</span> That... barely makes sense. But Larkhill Lane again. And my work computer glitched and showed that same name. This feels... connected. Come over. Bring the Echo Kush.
+                </div>
+                 <div class="choice-container">
+                    <p><span class="trippy-text">At Joe's flat, the tape waits. What's the plan?</span></p>
+                    <button class="choice-btn" onclick="goToScene('scene-get-higher')">Get properly stoned first.</button>
+                    <button class="choice-btn" onclick="goToScene('scene-watch-cautiously')">Watch it, but be ready to pull the plug.</button>
+                </div>
+            </div>
+            
+            <div id="scene-ignore-granny" class="interactive-scene">
+                <div class="dialogue">
+                    <span class="character joe">JOE:</span> A ghost street? Funny you should say that. The system at work just glitched and flashed that exact name on my screen. This feels... connected. Come over. Bring the Echo Kush. We're getting to the bottom of this.
+                </div>
+                <div class="choice-container">
+                    <p><span class="trippy-text">At Joe's flat, the tape waits. The air is thick with smoke and anticipation. What's the plan?</span></p>
+                    <button class="choice-btn" onclick="goToScene('scene-get-higher')">Get properly stoned first.</button>
+                    <button class="choice-btn" onclick="goToScene('scene-watch-cautiously')">Watch it, but be ready to pull the plug.</button>
+                    <button class="choice-btn" onclick="goToScene('scene-heed-warning')">Heed the warning. Don't watch it.</button>
+                </div>
+            </div>
+            
+            <!-- ########## GET HIGHER PATH ########## -->
+            <div id="scene-get-higher" class="interactive-scene">
+                <div class="dialogue">
+                    <span class="character system">SYSTEM:</span> You prep the bongs and light up the Echo Kush. The smoke fills the room, thick and sweet. The edges of reality begin to soften.
+                </div>
+                <div class="choice-container">
+                    <p>Now that you're suitably fried, what about the tape?</p>
+                    <button class="choice-btn" onclick="goToScene('scene-watch-tape-high')">Press play. Let's see how deep the rabbit hole goes.</button>
+                    <button class="choice-btn" onclick="goToScene('scene-higher-forget')">Forget the tape. Let's just vibe.</button>
+                     <button class="choice-btn" onclick="goToScene('scene-investigate-cats')">The cats are acting weird. Investigate.</button>
+                </div>
+            </div>
+
+            <div id="scene-watch-tape-high" class="interactive-scene">
+                 <div class="dialogue">
+                    <span class="character system">SYSTEM:</span> Through a haze of smoke, you press play. The tape becomes a portal. Not just showing reality—creating it. You watch yourselves get high, watching yourselves get high... The timestamp reads 10 YEARS AGO. The cats start speaking in unison: 'The loop tastes like time.'
+                </div>
+                <div class="choice-container">
+                    <p>The loop is delicious. Do you...</p>
+                    <button class="choice-btn" onclick="goToScene('scene-embrace-loop')">Embrace the loop. Get even higher.</button>
+                    <button class="choice-btn" onclick="goToScene('scene-hallucination-start')">Fight it. Try to make sense of it.</button>
+                </div>
+            </div>
+
+            <div id="scene-higher-forget" class="interactive-scene">
+                 <div class="dialogue">
+                    <span class="character newt">NEWT:</span> "You know what? Screw the tape. This is a top-tier vibe. Let's make some beats."
+                </div>
+                <div class="dialogue">
+                     <span class="character system">SYSTEM:</span> You spend hours lost in music and smoke. The beats you make sound... familiar. Like you've heard them in a dream. The tape sits on the table, forgotten. As the sun rises, you feel a sense of relief. But when you look at the tape, the post-it note has changed. It now reads: 'YOU CAN'T IGNORE ME.'
+                </div>
+                <div class="choice-container">
+                     <p>You delayed the inevitable, but the loop has tightened its grip. It demands to be seen.</p>
+                    <button class="choice-btn" onclick="goToScene('scene-watch-tape-high')">There's no choice. Watch the tape.</button>
+                </div>
+            </div>
+            
+             <div id="scene-investigate-cats" class="interactive-scene">
+                <div class="dialogue">
+                    <span class="character newt">NEWT:</span> "Joe, look at Gooby and Doobie. They're staring at the wall... like they see something we don't."
+                </div>
+                 <div class="dialogue">
+                    <span class="character system">SYSTEM:</span> As you watch, the wallpaper where the cats are staring begins to warp and shift. A faint pattern emerges from the floral design. It looks like a map.
+                </div>
+                <div class="choice-container">
+                     <p>What do you do?</p>
+                    <button class="choice-btn" onclick="goToScene('scene-trace-map')">Try to trace the map on the wall.</button>
+                     <button class="choice-btn" onclick="goToScene('scene-get-higher')">This is too weird. Get higher.</button>
+                </div>
+            </div>
+
+            <div id="scene-trace-map" class="interactive-scene">
+                 <div class="dialogue">
+                    <span class="character system">SYSTEM:</span> You trace the swirling patterns with your finger. They feel strangely cold. As your finger completes a loop, the wallpaper peels away, revealing a small, dark hole. A faint, distorted voice whispers from inside.
+                </div>
+                <div class="choice-container">
+                     <p>The hole seems to breathe. You feel a pull towards it.</p>
+                    <button class="choice-btn" onclick="goToScene('scene-peek-hole')">Peek inside the hole.</button>
+                    <button class="choice-btn" onclick="goToScene('scene-heed-warning')">"Nope. Absolutely not." Back away slowly.</button>
+                </div>
+            </div>
+            
+            <div id="scene-peek-hole" class="interactive-scene">
+                <div class="dialogue">
+                    <span class="character system">SYSTEM:</span> You press your eye to the hole. For a second, you see an infinite library, shelves filled with VHS tapes. A figure in the distance turns, and you realize it's you, much older. They raise a hand, not in greeting, but in warning. Then the vision is gone. You stumble back, the knowledge of the loop crashing down on you.
+                </div>
+                <div class="choice-container">
+                     <p>You've seen too much. The loop is no longer a question, but a certainty.</p>
+                     <button class="choice-btn" onclick="goToScene('scene-hallucination-start')">The vision triggers a shared spiral.</button>
+                </div>
+            </div>
+
+            <!-- ########## WATCH CAUTIOUSLY PATH ########## -->
+            <div id="scene-watch-cautiously" class="interactive-scene">
+                 <div class="dialogue">
+                    <span class="character joe">JOE:</span> "Alright, let's do this. But Newt, keep your hand on the power cord. If things get weird... you pull it. No questions."
+                </div>
+                 <div class="dialogue">
+                    <span class="character system">SYSTEM:</span> You press play. The screen flickers. It shows... you. Both of you. Standing outside the corner shop, right now. But the timestamp reads: 10 YEARS AGO. Time glitches. The cats, Gooby and Doobie, stare at the screen, transfixed. A voice enters Newt's mind... <br><br> <span class='character gooby'>GOOBY:</span> 'Don't trust Joe. Not yet. He's still decoding.'
+                </div>
+                <div class="choice-container">
+                    <p>Reality is fracturing. What's your immediate reaction?</p>
+                    <button class="choice-btn" onclick="goToScene('scene-pull-plug')">"PULL THE PLUG, NEWT!"</button>
+                    <button class="choice-btn" onclick="goToScene('scene-confront-joe')">"Joe, what does the cat mean, 'decoding'?"</button>
+                    <button class="choice-btn" onclick="goToScene('scene-rewind-tape')">Rewind the tape a few seconds.</button>
+                </div>
+            </div>
+            
+            <div id="scene-rewind-tape" class="interactive-scene">
+                <div class="dialogue">
+                    <span class="character system">SYSTEM:</span> You hit rewind. The tape screeches. For a split second, a new image flashes on screen...
+                </div>
+                <div class="glitched-memory">
+                    The taste of rust on a playground swing.
+                </div>
+                <div class="dialogue">
+                    <span class="character void">A VOICE FROM THE STATIC WHISPERS:</span> The tape does not remember. It only records. Are you the tape, or the one being recorded?
+                </div>
+                <div class="choice-container">
+                    <p>The tape plays forward again, showing the same scene as before. The new information settles like dust.</p>
+                     <button class="choice-btn" onclick="goToScene('scene-pull-plug')">"That's it, pull the plug."</button>
+                    <button class="choice-btn" onclick="goToScene('scene-confront-joe')">"Joe, what is happening?"</button>
+                </div>
+            </div>
+
+            <!-- ########## HEED WARNING PATH ########## -->
+            <div id="scene-heed-warning" class="interactive-scene">
+                 <div class="dialogue">
+                    <span class="character system">SYSTEM:</span> You decide against it. The risk is too great. You put the tape away in a drawer. But as you do, the TV turns on by itself. Static. Then, a clear image: the two of you, putting the tape away. Timestamped 10 years ago. A voice from the speakers whispers... 'The loop has already begun.'
+                </div>
+                <div class="choice-container">
+                    <p>You're already in the loop. Panicking, you...</p>
+                    <button class="choice-btn" onclick="goToScene('scene-smash-tv')">Smash the TV.</button>
+                    <button class="choice-btn" onclick="goToScene('scene-run-away')">Get the hell out of the flat.</button>
+                     <button class="choice-btn" onclick="goToScene('scene-burn-tape')">Find the tape and burn it.</button>
+                </div>
+            </div>
+
+            <div id="scene-burn-tape" class="interactive-scene">
+                <div class="dialogue">
+                    <span class="character system">SYSTEM:</span> You grab the tape and a lighter. As the flame touches the plastic, the tape doesn't melt. It glows. The room fills with the smell of ozone and burnt sugar. The tape begins to speak, its voice a chorus of every conversation you've ever had. It knows everything.
+                </div>
+                 <div class="choice-container">
+                    <p>You can't destroy it. You've only made it aware of you. This is a <span class="trippy-text">DEAD END</span>.</p>
+                    <button class="choice-btn" onclick="goToScene('scene-start')">Restart The Loop</button>
+                </div>
+            </div>
+            
+            <!-- ########## SUB-BRANCHES & DEAD ENDS ########## -->
+            <div id="scene-pull-plug" class="interactive-scene">
+                <div class="dialogue">
+                     <span class="character system">SYSTEM:</span> Newt yanks the cord. The screen goes black. The room is silent, except for the frantic beating of your own hearts. For a moment, you think it's over. Then, your phone buzzes. It's a text from an unknown number.
+                </div>
+                <div class="dialogue">
+                     <span class="character system">MESSAGE:</span> 'You can't just turn it off.'
+                </div>
+                 <div class="choice-container">
+                     <p>You didn't escape. You just pissed it off. The story must continue.</p>
+                    <button class="choice-btn" onclick="goToScene('scene-hallucination-start')">The text triggers another shared spiral.</button>
+                </div>
+            </div>
+
+            <div id="scene-confront-joe" class="interactive-scene">
+                <div class="dialogue">
+                    <span class="character newt">NEWT:</span> "Joe... mate... the cat just spoke in my head. Said you were 'decoding'. What the fuck is that about?"
+                </div>
+                <div class="dialogue">
+                    <span class="character joe">JOE:</span> *Doesn't seem surprised. He looks... tired.* "It's not the first time they've said that. Every loop, they say the same thing. I think... I think I'm the one who finds the tape because I'm the only one who can see the code in the static."
+                </div>
+                 <div class="choice-container">
+                     <p>Joe's admission changes everything. Do you believe him?</p>
+                    <button class="choice-btn" onclick="goToScene('scene-hallucination-start')">"You're spiraling, man. We both are."</button>
+                    <button class="choice-btn" onclick="goToScene('scene-ask-joe-code')">"Show me. Show me the code."</button>
+                </div>
+            </div>
+            
+            <div id="scene-ask-joe-code" class="interactive-scene">
+                 <div class="dialogue">
+                    <span class="character joe">JOE:</span> "I can't *show* you. It's not visual. It's... a feeling. A frequency. Like Granny's message. It's all connected. The lane, the tape, the cats... it's a system. And I'm trying to find a bug to exploit."
+                </div>
+                 <div class="choice-container">
+                     <p>This is either a breakthrough or a complete psychotic break.</p>
+                     <button class="choice-btn" onclick="goToScene('scene-hallucination-start')">"Okay, 'bug exploiter'. Let's calm down."</button>
+                </div>
+            </div>
+
+            <!-- ########## HALLUCINATION SCENES ########## -->
+             <div id="scene-hallucination-start" class="interactive-scene">
+                <div class="dialogue">
+                    <span class="character system">SYSTEM:</span> The room dissolves. You're no longer in the flat, but a strange, shifting courtroom inside your own head. Multiple versions of Joe and Newt are present. A serious Joe in a suit points at a giggling, stoned Newt.
+                </div>
+                <div class="dialogue">
+                    <span class="character joe">PROSECUTOR JOE:</span> "Objection! His memory is unreliable! Contaminated by the substance!"
+                </div>
+                 <div class="dialogue">
+                    <span class="character newt">DEFENDANT NEWT:</span> "But the vibe, man! The vibe is the only real evidence!"
+                </div>
+                <div class="choice-container">
+                     <p>A booming voice echoes: "Whose testimony do you trust?"</p>
+                    <button class="choice-btn" onclick="goToScene('scene-trust-joe')">Trust Joe's analytical mind.</button>
+                    <button class="choice-btn" onclick="goToScene('scene-trust-newt')">Trust Newt's gut feeling.</button>
+                    <button class="choice-btn" onclick="goToScene('scene-trust-cats')">"I trust the cats."</button>
+                </div>
+            </div>
+            
+            <div id="scene-trust-cats" class="interactive-scene">
+                 <div class="dialogue">
+                    <span class="character system">SYSTEM:</span> As you say it, the courtroom shatters. Gooby and Doobie are now giant, cosmic beings, their purrs resonating through the void. They show you a vision.
+                </div>
+                <div class="glitched-memory">
+                    A door standing alone in a field. A phantom roundabout. A naked rave.
+                </div>
+                <div class="choice-container">
+                    <p>The vision is a premonition. A path forward.</p>
+                    <button class="choice-btn" onclick="goToScene('scene-trust-newt')">You understand. The vibe is the way.</button>
+                </div>
+            </div>
+
+            <div id="scene-trust-joe" class="interactive-scene">
+                 <div class="dialogue">
+                    <span class="character system">SYSTEM:</span> You focus on logic, on patterns. The hallucination sharpens. The courtroom becomes an office, papers flying everywhere. Each page is a frame from the tape. The task is immense, the data overwhelming. You feel your sense of self begin to fray under the pressure of the infinite information.
+                </div>
+                <div class="choice-container">
+                    <p>You're drowning in data. You're losing yourself. This is a <span class="trippy-text">DEAD END</span>.</p>
+                    <button class="choice-btn" onclick="goToScene('scene-start')">Restart The Loop</button>
+                </div>
+            </div>
+
+            <div id="scene-trust-newt" class="interactive-scene">
+                 <div class="dialogue">
+                    <span class="character system">SYSTEM:</span> You let go of logic and embrace the vibe. The courtroom melts into a pulsing soundscape of colour and light. The different versions of yourselves stop arguing and start vibing. The anxiety lifts.
+                </div>
+                <div class="dialogue">
+                    <span class="character joe">JOE:</span> "Okay... okay. This is... too much. We need to ground ourselves. We need to get high again. Properly."
+                </div>
+                <div class="dialogue">
+                    <span class="character newt">NEWT:</span> "And plan a party. A big, reality-breaking party. It's the only way to introduce a new variable!"
+                </div>
+                <div class="choice-container">
+                     <p>The plan is insane. But it's a plan. It's the only plan.</p>
+                    <button class="choice-btn" onclick="goToScene('scene-tobecontinued')">TO BE CONTINUED...</button>
+                </div>
+            </div>
+
+             <div id="scene-embrace-loop" class="interactive-scene">
+                <div class="dialogue">
+                     <span class="character system">SYSTEM:</span> You take another hit. And another. The concept of 'time' dissolves. The loop is no longer a prison, but a warm, comfortable blanket. You and Newt and the cats become one with the static. It's peaceful. Too peaceful. You see all moments at once. The party. The door. The end. The beginning.
+                </div>
+                <div class="choice-container">
+                     <p>You have become one with the loop. There is no story anymore, only the eternal now. This is a <span class="trippy-text">DEAD END</span>.</p>
+                    <button class="choice-btn" onclick="goToScene('scene-start')">Start Again</button>
+                </div>
+            </div>
+             
+             <div id="scene-smash-tv" class="interactive-scene">
+                <div class="dialogue">
+                    <span class="character system">SYSTEM:</span> Newt grabs a bong and smashes it against the screen. The glass shatters, the TV dies with a fizz. You're left in the dark, panting. You think you've won. Then, the tape rewinds inside your head. You're back at the start, tape in hand, the TV perfectly intact. You just made the loop angry.
+                </div>
+                <div class="choice-container">
+                     <p>Violence is not the answer. The loop feeds on it. You have to play by its rules. This is a <span class="trippy-text">DEAD END</span>.</p>
+                    <button class="choice-btn" onclick="goToScene('scene-start')">Start Again</button>
+                </div>
+            </div>
+             <div id="scene-run-away" class="interactive-scene">
+                <div class="dialogue">
+                    <span class="character system">SYSTEM:</span> You both bolt from the flat, running down the street with no destination in mind. You turn a corner and find yourselves on a street you don't recognize. A single street sign stands under a flickering lamp. It reads: LARKHILL LANE.
+                </div>
+                 <div class="dialogue">
+                    <span class="character joe">JOE:</span> "No... it's not possible."
+                </div>
+                 <div class="dialogue">
+                    <span class="character newt">NEWT:</span> "We ran right into it, bro. We ran right to the heart of it."
+                </div>
+                <div class="choice-container">
+                     <p>You tried to run, but you only ran deeper into the story. There's no escaping now.</p>
+                    <button class="choice-btn" onclick="goToScene('scene-tobecontinued')">TO BE CONTINUED...</button>
+                </div>
+            </div>
+            
+            <!-- ########## TO BE CONTINUED SCENE ########## -->
+            <div id="scene-tobecontinued" class="interactive-scene">
+                 <div class="dialogue">
+                     <span class="character system">SYSTEM:</span> The path forward is shrouded in smoke and static. The party awaits, and with it, a new set of choices that will either tighten the loop or shatter it entirely.
+                </div>
+                <h2 style="color: #ff00ff; text-align: center;">END OF EPISODE 1</h2>
+                <div class="choice-container">
+                     <button class="choice-btn" onclick="restartGame()">RESTART THE LOOP</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Game State Elements
+        const titleScreen = document.getElementById('title-screen');
+        const gameContainer = document.querySelector('.container');
+        const startBtn = document.getElementById('start-btn');
+        const recordLight = document.querySelector('.record-light');
+
+        startBtn.addEventListener('click', () => {
+            titleScreen.style.display = 'none';
+            gameContainer.style.display = 'block';
+            recordLight.style.display = 'block';
+            goToScene('scene-start'); // Ensure the first scene is shown
+        });
+
+        function restartGame() {
+            // Hide the game container and show the title screen
+            gameContainer.style.display = 'none';
+            recordLight.style.display = 'none';
+            titleScreen.style.display = 'flex';
+        }
+
+        function goToScene(sceneId) {
+            const scenes = document.querySelectorAll('.interactive-scene');
+            scenes.forEach(scene => scene.style.display = 'none');
+            const targetScene = document.getElementById(sceneId);
+            if (targetScene) {
+                targetScene.style.display = 'block';
+                targetScene.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    </script>
+</body>
+</html>
