@@ -7,8 +7,6 @@
 1. Clone or download this repository.
 2. Open `index.html` in your favorite web browser (double‑click the file or serve it with a simple HTTP server).
 
-Episode 1 of the story is fully implemented. Episode 2 is in development and will be released soon!
-
 ## License
 
 This project is licensed under the **Creative Commons Attribution-NonCommercial 4.0 International License**. See the [LICENSE](LICENSE) file for details.
