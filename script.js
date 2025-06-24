@@ -94,20 +94,23 @@ function showScene(scene) {
 }
 
 function hideScene(scene) {
-    scene.classList.remove('visible');
-    scene.addEventListener('transitionend', function handler() {
-        scene.style.display = 'none';
-        scene.removeEventListener('transitionend', handler);
-    }, { once: true });
+    return new Promise(resolve => {
+        scene.classList.remove('visible');
+        scene.addEventListener('transitionend', function handler() {
+            scene.style.display = 'none';
+            scene.removeEventListener('transitionend', handler);
+            resolve();
+        }, { once: true });
+    });
 }
 
-function goToScene(sceneId) {
+async function goToScene(sceneId) {
     const targetScene = document.getElementById(sceneId);
     if (!targetScene) return;
 
     const currentScene = document.querySelector('.interactive-scene.visible');
     if (currentScene && currentScene !== targetScene) {
-        hideScene(currentScene);
+        await hideScene(currentScene);
     }
 
     showScene(targetScene);
