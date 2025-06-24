@@ -1,0 +1,10 @@
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+## [0.2.0] - 2025-06-24
+### Added
+- Episode selection screen that lets you choose which episode to play.
+
+## [Future]
+Planned enhancements and updates will be listed here as they are decided.
