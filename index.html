@@ -140,7 +140,7 @@
                 </div>
                 <div class="choice-container">
                      <p>You've seen too much. The loop is no longer a question, but a certainty.</p>
-                     <button class="choice-btn" onclick="goToScene('scene-hallucination-start')">The vision triggers a shared spiral.</button>
+                     <button class="choice-btn" onclick="setState('awareOfLoop', true); goToScene('scene-hallucination-start')">The vision triggers a shared spiral.</button>
                 </div>
             </div>
 
@@ -186,7 +186,7 @@
                     <p>You're already in the loop. Panicking, you...</p>
                     <button class="choice-btn" onclick="goToScene('scene-smash-tv')">Smash the TV.</button>
                     <button class="choice-btn" onclick="goToScene('scene-run-away')">Get the hell out of the flat.</button>
-                     <button class="choice-btn" onclick="goToScene('scene-burn-tape')">Find the tape and burn it.</button>
+                     <button class="choice-btn" onclick="setState('hasTape', true); goToScene('scene-burn-tape')">Find the tape and burn it.</button>
                 </div>
             </div>
 
@@ -336,6 +336,7 @@
                  <div class="dialogue">
                      <span class="character system">SYSTEM:</span> The path forward is shrouded in smoke and static. The party awaits, and with it, a new set of choices that will either tighten the loop or shatter it entirely.
                 </div>
+                <div class="dialogue" id="state-summary"></div>
                 <h2 style="color: #ff00ff; text-align: center;">END OF EPISODE 1</h2>
                 <div class="choice-container">
                      <button class="choice-btn" onclick="restartGame()">RESTART THE LOOP</button>
