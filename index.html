@@ -25,22 +25,30 @@
             50% { background-position: 100% 50%; }
         }
 
-        #title-screen {
+        .screen {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: #000;
-            display: flex;
+            display: none;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            z-index: 100;
             text-align: center;
+            z-index: 100;
         }
 
-        #start-btn {
+        #title-screen {
+            background: #000;
+            display: flex;
+        }
+
+        #episode-screen {
+            background: #000;
+        }
+
+        .menu-btn {
             font-family: 'Orbitron', monospace;
             font-size: 1.5em;
             padding: 20px 40px;
@@ -55,9 +63,28 @@
             transition: all 0.3s ease;
         }
 
-        #start-btn:hover {
+        .menu-btn:hover {
             transform: scale(1.1);
             box-shadow: 0 0 30px #ff00ff, 0 0 30px #00ffff;
+        }
+
+        .episode-btn {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.2em;
+            padding: 15px 30px;
+            margin: 10px;
+            cursor: pointer;
+            color: #fff;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 10px;
+            text-shadow: 0 0 10px #fff;
+            transition: all 0.3s ease;
+        }
+
+        .episode-btn:hover:not([disabled]) {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px #667eea;
         }
         
         .container {
@@ -223,10 +250,16 @@
     </style>
 </head>
 <body>
-    <div id="title-screen">
+    <div id="title-screen" class="screen" style="display:flex;">
          <h1 class="glitch-title">🌀 THE ECHO TAPE 🌀</h1>
          <p style="font-size: 1.2em; color: #ccc;">An Interactive Experience</p>
-         <button id="start-btn">INSERT TAPE</button>
+         <button id="start-btn" class="menu-btn">INSERT TAPE</button>
+    </div>
+
+    <div id="episode-screen" class="screen">
+         <h1 class="glitch-title">SELECT EPISODE</h1>
+         <button class="episode-btn" data-episode="1">Episode 1: The Tape & The Lane</button>
+         <button class="episode-btn" disabled>Episode 2 - Coming Soon</button>
     </div>
 
     <div class="static-overlay"></div>
@@ -554,22 +587,34 @@
     <script>
         // Game State Elements
         const titleScreen = document.getElementById('title-screen');
+        const episodeScreen = document.getElementById('episode-screen');
         const gameContainer = document.querySelector('.container');
         const startBtn = document.getElementById('start-btn');
         const recordLight = document.querySelector('.record-light');
+        const episodeButtons = document.querySelectorAll('.episode-btn');
 
         startBtn.addEventListener('click', () => {
             titleScreen.style.display = 'none';
-            gameContainer.style.display = 'block';
-            recordLight.style.display = 'block';
-            goToScene('scene-start'); // Ensure the first scene is shown
+            episodeScreen.style.display = 'flex';
+        });
+
+        episodeButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const ep = btn.dataset.episode;
+                if (ep === '1') {
+                    episodeScreen.style.display = 'none';
+                    gameContainer.style.display = 'block';
+                    recordLight.style.display = 'block';
+                    goToScene('scene-start');
+                }
+            });
         });
 
         function restartGame() {
-            // Hide the game container and show the title screen
+            // Hide the game container and return to episode selection
             gameContainer.style.display = 'none';
             recordLight.style.display = 'none';
-            titleScreen.style.display = 'flex';
+            episodeScreen.style.display = 'flex';
         }
 
         function goToScene(sceneId) {
