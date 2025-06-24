@@ -30,6 +30,13 @@ body {
     align-items: center;
     text-align: center;
     z-index: 100;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.screen.visible {
+    display: flex;
+    opacity: 1;
 }
 
 #title-screen {
@@ -145,11 +152,18 @@ body {
     border-radius: 20px;
     margin: 30px 0;
     padding: 30px;
-    display: none; /* Initially hide all scenes */
+    display: none; /* Hidden until activated */
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.interactive-scene.visible {
+    display: block;
+    opacity: 1;
 }
 
 #scene-start {
-    display: block; /* Show the starting scene by default */
+    display: block;
 }
 
 .character {
