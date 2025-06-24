@@ -50,43 +50,72 @@ function updateStateSummary() {
 }
 
 loadState();
-    startBtn.addEventListener('click', () => {
-    titleScreen.style.display = 'none';
-    episodeScreen.style.display = 'flex';
-    });
+
+function showScreen(el) {
+    el.style.display = 'flex';
+    requestAnimationFrame(() => el.classList.add('visible'));
+}
+
+function hideScreen(el) {
+    el.classList.remove('visible');
+    el.addEventListener('transitionend', function handler() {
+        el.style.display = 'none';
+        el.removeEventListener('transitionend', handler);
+    }, { once: true });
+}
+
+startBtn.addEventListener('click', () => {
+    hideScreen(titleScreen);
+    showScreen(episodeScreen);
+});
     
-    episodeButtons.forEach(btn => {
+episodeButtons.forEach(btn => {
     btn.addEventListener('click', () => {
-    const ep = btn.dataset.episode;
-    if (ep === '1') {
-        episodeScreen.style.display = 'none';
-        gameContainer.style.display = 'block';
-        recordLight.style.display = 'block';
-        goToScene('scene-start');
-    }
+        const ep = btn.dataset.episode;
+        if (ep === '1') {
+            hideScreen(episodeScreen);
+            gameContainer.style.display = 'block';
+            recordLight.style.display = 'block';
+            goToScene('scene-start');
+        }
     });
-    });
+});
     
-    function restartGame() {
-    // Hide the game container and return to episode selection
+function restartGame() {
     gameContainer.style.display = 'none';
     recordLight.style.display = 'none';
     resetState();
-    episodeScreen.style.display = 'flex';
-    }
+    showScreen(episodeScreen);
+}
     
-    function goToScene(sceneId) {
-    const scenes = document.querySelectorAll('.interactive-scene');
-    scenes.forEach(scene => scene.style.display = 'none');
+function showScene(scene) {
+    scene.style.display = 'block';
+    requestAnimationFrame(() => scene.classList.add('visible'));
+}
+
+function hideScene(scene) {
+    scene.classList.remove('visible');
+    scene.addEventListener('transitionend', function handler() {
+        scene.style.display = 'none';
+        scene.removeEventListener('transitionend', handler);
+    }, { once: true });
+}
+
+function goToScene(sceneId) {
     const targetScene = document.getElementById(sceneId);
-    if (targetScene) {
-    targetScene.style.display = 'block';
+    if (!targetScene) return;
+
+    const currentScene = document.querySelector('.interactive-scene.visible');
+    if (currentScene && currentScene !== targetScene) {
+        hideScene(currentScene);
+    }
+
+    showScene(targetScene);
     targetScene.scrollIntoView({ behavior: 'smooth' });
-        if (sceneId === 'scene-tobecontinued') {
-            updateStateSummary();
-        }
+    if (sceneId === 'scene-tobecontinued') {
+        updateStateSummary();
     }
-    }
+}
 
 window.setState = setState;
 window.getState = getState;
