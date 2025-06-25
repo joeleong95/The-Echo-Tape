@@ -31,6 +31,45 @@ for (const jsonFile of episodeJsons) {
     continue;
   }
 
+  if (!Array.isArray(jsonData.scenes)) {
+    console.error(`No scenes array in ${jsonFile}`);
+    missing = true;
+    continue;
+  }
+
+  // Validate unique scene IDs and collect them
+  const sceneIds = new Set();
+  for (const scene of jsonData.scenes) {
+    if (!scene.id) {
+      console.error(`Scene missing id in ${jsonFile}`);
+      missing = true;
+      continue;
+    }
+    if (sceneIds.has(scene.id)) {
+      console.error(`Duplicate scene id ${scene.id} in ${jsonFile}`);
+      missing = true;
+    }
+    sceneIds.add(scene.id);
+  }
+
+  if (!sceneIds.has(jsonData.start)) {
+    console.error(`Start scene '${jsonData.start}' not found in ${jsonFile}`);
+    missing = true;
+  }
+
+  const goToRegex = /goToScene\(['"]([^'"]+)['"]\)/g;
+  for (const scene of jsonData.scenes) {
+    const html = scene.html || '';
+    let m;
+    while ((m = goToRegex.exec(html))) {
+      const target = m[1];
+      if (!sceneIds.has(target)) {
+        console.error(`${jsonFile} scene '${scene.id}' links to missing scene '${target}'`);
+        missing = true;
+      }
+    }
+  }
+
   const jsPath = path.join(episodesDir, jsonFile.replace(/\.json$/, '.js'));
   const name = path.basename(jsonFile, '.json');
   if (!fs.existsSync(jsPath)) {
