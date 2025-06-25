@@ -1,6 +1,9 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## [0.1.15] - 2025-07-14
+### Changed
+- Contributor guide now instructs running `npm run build-episodes` after editing episodes and committing the generated files.
 ## [0.1.14] - 2025-07-13
 ### Added
 - Build script `scripts/embedEpisodes.js` for embedding episodes.

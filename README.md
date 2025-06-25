@@ -8,14 +8,15 @@ Episode 1 is playable and features sound effects and a scene history overlay. P
 
 ## Writing Episodes
 
-All episode data resides in the `episodes` folder. Each file is a JSON document describing a list of scenes. Writers can follow the structure documented in [WRITING_GUIDE.md](WRITING_GUIDE.md) to create new episodes.
+All episode data resides in the `episodes` folder. Each file is a JSON document describing a list of scenes. Writers can follow the structure documented in [WRITING_GUIDE.md](WRITING_GUIDE.md) to create new episodes. After editing a `.json` file, run `npm run build-episodes` to regenerate the embedded `.js` and commit both files.
 
 ## Getting Started
 
 1. Clone or download this repository.
 2. Either open `index.html` directly or serve the folder with a simple HTTP server (`npx http-server` works nicely). Episode data is embedded so it works offline.
 3. Run `npm install` (if needed) and `npm test` to verify required files and script syntax.
-4. Use the **Dev Tools** button on the title screen if you need to clear saved progress.
+4. After editing an episode's `.json`, run `npm run build-episodes` to regenerate the `.js` version.
+5. Use the **Dev Tools** button on the title screen if you need to clear saved progress.
 
 ## License
 
