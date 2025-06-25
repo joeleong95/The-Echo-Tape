@@ -23,6 +23,14 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 - Minor bugs discovered during playtesting.
 
+## [0.4.1] - 2025-06-26
+### Added
+- Embedded episode data so the game works when opened directly from the file system.
+### Changed
+- Improved README with clearer instructions.
+### Fixed
+- Episode selection now loads correctly without a web server.
+
 ## [0.2.0] - 2025-06-24
 ### Added
 - Episode selection screen that lets you choose which episode to play.

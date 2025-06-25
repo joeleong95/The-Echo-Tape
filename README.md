@@ -1,8 +1,8 @@
 # The Echo Tape
 
-**The Echo Tape** is an experimental interactive story told entirely in the browser. Each episode unfolds like a choose‑your‑own‑adventure, letting you guide the characters through multiple paths. This was a story that me and my best friend came up with. To be used as both a learning tool and to tell a story.
+**The Echo Tape** is an experimental interactive story told entirely in the browser. Every episode plays out like a choose‑your‑own‑adventure, letting you guide the characters down branching paths. The project started as a fun way for two friends to learn and tell a weird story together.
 
-Episode 1 is still in development and not yet fully playable. It currently includes sound effects and a scene history overlay. Game progress is saved in your browser using local storage. Episode 2 is currently in development.
+Episode 1 is playable and features sound effects and a scene history overlay. Progress is saved in your browser using local storage. Episode 2 is under construction.
 
 ## Writing Episodes
 
@@ -11,8 +11,8 @@ All episode data resides in the `episodes` folder. Each file is a JSON document 
 ## Getting Started
 
 1. Clone or download this repository.
-2. Open `index.html` in your favorite web browser (double‑click the file or serve it with a simple HTTP server).
-3. (Optional) Run `npm test` to verify required files and script syntax.
+2. Either open `index.html` directly or serve the folder with a simple HTTP server (`npx http-server` works nicely). Episode data is embedded so it works offline.
+3. (Optional) run `npm test` to verify required files and script syntax.
 
 ## License
 
