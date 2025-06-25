@@ -1,6 +1,11 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## [0.1.6] - 2025-07-05
+### Added
+- Simple dev tools screen with a button to clear saved progress.
+### Fixed
+- Continue now resumes play immediately instead of showing the episode menu.
 ## [0.1.5] - 2025-07-04
 ### Added
 - Conditional `showIf` support for scenes and buttons.
