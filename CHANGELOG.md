@@ -1,6 +1,12 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## [0.1.9] - 2025-07-08
+### Added
+- Volume sliders for music and SFX with adjustable levels.
+- Title music continues on the episode selection screen.
+### Changed
+- Audio helper functions respect the current volume settings.
 ## [0.1.8] - 2025-07-07
 ### Added
 - Title music now fades in over three seconds after a short delay.

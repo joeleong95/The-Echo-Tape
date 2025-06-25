@@ -22,6 +22,8 @@
     const closeHistoryBtn = document.getElementById('close-history-btn');
     const muteMusicBtn = document.getElementById('mute-music-btn');
     const muteSfxBtn = document.getElementById('mute-sfx-btn');
+    const musicVolSlider = document.getElementById('music-volume');
+    const sfxVolSlider = document.getElementById('sfx-volume');
     const sfxClick = document.getElementById('sfx-click');
     const sfxStatic = document.getElementById('sfx-static');
     const titleMusic = document.getElementById('title-music');
@@ -38,6 +40,8 @@ let audioCtx;
 // Audio settings
 let musicMuted = false;
 let sfxMuted = false;
+let musicVolume = 1;
+let sfxVolume = 1;
 
 // Tracks the sequence of visited scenes
 let sceneHistory = [];
@@ -133,6 +137,7 @@ function initAudio() {
 
 function playVhsSound() {
     if (sfxStatic && sfxStatic.paused && !musicMuted) {
+        sfxStatic.volume = musicVolume;
         sfxStatic.currentTime = 0;
         sfxStatic.play();
     }
@@ -140,6 +145,7 @@ function playVhsSound() {
 
 function playSceneSound() {
     if (sfxStatic && sfxStatic.paused && !musicMuted) {
+        sfxStatic.volume = musicVolume;
         sfxStatic.currentTime = 0;
         sfxStatic.play();
     }
@@ -147,12 +153,13 @@ function playSceneSound() {
 
 function playClickSound() {
     if (sfxClick && !sfxMuted) {
+        sfxClick.volume = sfxVolume;
         sfxClick.currentTime = 0;
         sfxClick.play();
     }
 }
 
-function fadeInAudio(el, duration) {
+function fadeInAudio(el, duration, targetVol = 1) {
     if (!el) return;
     const start = performance.now();
     el.volume = 0;
@@ -164,7 +171,7 @@ function fadeInAudio(el, duration) {
         } else {
             volume = 0.6 + (progress - 0.5) * 0.8;
         }
-        el.volume = Math.min(volume, 1);
+        el.volume = Math.min(volume, 1) * targetVol;
         if (progress < 1) requestAnimationFrame(step);
     }
     requestAnimationFrame(step);
@@ -180,7 +187,7 @@ function playTitleMusic() {
                     document.addEventListener('click', () => titleMusic.play(), { once: true });
                 });
             }
-            fadeInAudio(titleMusic, 3000);
+            fadeInAudio(titleMusic, 3000, musicVolume);
         };
         setTimeout(startPlayback, 500);
     }
@@ -293,7 +300,6 @@ function hideScreen(el) {
 
 startBtn.addEventListener('click', () => {
     initAudio();
-    stopTitleMusic();
     hideScreen(titleScreen);
     showScreen(episodeScreen);
 });
@@ -339,6 +345,7 @@ if (clearSaveBtn) {
 }
 
 function startEpisode(ep) {
+    stopTitleMusic();
     hideScreen(introScreen);
     gameContainer.style.display = 'block';
     currentEpisode = ep;
@@ -390,6 +397,7 @@ function restartGame() {
     if (screen) screen.innerHTML = '';
     updateBackButton();
     showScreen(episodeScreen);
+    playTitleMusic();
 }
     
 function showScene(scene) {
@@ -474,6 +482,21 @@ if (muteSfxBtn) {
         sfxMuted = !sfxMuted;
         if (sfxClick) sfxClick.muted = sfxMuted;
         muteSfxBtn.textContent = sfxMuted ? 'Unmute SFX' : 'Mute SFX';
+    });
+}
+
+if (musicVolSlider) {
+    musicVolSlider.addEventListener('input', () => {
+        musicVolume = parseFloat(musicVolSlider.value);
+        if (titleMusic) titleMusic.volume = musicVolume;
+        if (sfxStatic) sfxStatic.volume = musicVolume;
+    });
+}
+
+if (sfxVolSlider) {
+    sfxVolSlider.addEventListener('input', () => {
+        sfxVolume = parseFloat(sfxVolSlider.value);
+        if (sfxClick) sfxClick.volume = sfxVolume;
     });
 }
 

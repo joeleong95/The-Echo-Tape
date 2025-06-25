@@ -56,7 +56,11 @@
         </div>
         <div class="audio-controls">
             <button id="mute-music-btn" class="choice-btn" aria-label="Toggle static audio">Mute Music</button>
+            <label for="music-volume" class="visually-hidden">Music Volume</label>
+            <input type="range" id="music-volume" min="0" max="1" step="0.01" value="1" aria-label="Music volume">
             <button id="mute-sfx-btn" class="choice-btn" aria-label="Toggle click sound">Mute SFX</button>
+            <label for="sfx-volume" class="visually-hidden">SFX Volume</label>
+            <input type="range" id="sfx-volume" min="0" max="1" step="0.01" value="1" aria-label="SFX volume">
         </div>
         <div id="vhs-screen" class="vhs-screen"></div>
         

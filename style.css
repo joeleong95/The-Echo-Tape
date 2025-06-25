@@ -329,3 +329,15 @@ body {
     margin: 0 5px;
     padding: 5px 10px;
 }
+.audio-controls input[type=range] {
+    margin: 0 5px;
+    vertical-align: middle;
+}
+
+.visually-hidden {
+    position: absolute !important;
+    height: 1px; width: 1px;
+    overflow: hidden;
+    clip: rect(1px, 1px, 1px, 1px);
+    clip-path: inset(50%);
+}
