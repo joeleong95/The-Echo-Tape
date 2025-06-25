@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.22] - 2025-07-21
+### Changed
+- Replaced inline `onclick` attributes in episode files with `data` attributes and event delegation.
+- Updated writing guide and tests accordingly.
+
 ## [0.1.21] - 2025-07-20
 ### Changed
 - Split `script.js` into `state.js`, `audio.js`, and `ui.js` modules.

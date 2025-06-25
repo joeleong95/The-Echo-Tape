@@ -39,9 +39,9 @@ and buttons the player will see.
 2. **Use plain HTML for formatting.** Stick with paragraphs and headings. For a
    choice, add a button like:
 
-   ```html
-   <button onclick="goToScene('next-id')">Go forward</button>
-   ```
+    ```html
+    <button class="choice-btn" data-scene="next-id">Go forward</button>
+    ```
 
 3. **Keep quotes simple.** The JSON file itself uses double quotes, so prefer
    single quotes inside the HTML when needed.

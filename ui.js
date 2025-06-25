@@ -384,8 +384,25 @@
       }
 
       document.addEventListener('click', e => {
-          if (e.target.closest('button')) {
-              AudioModule.playClickSound();
+          const btn = e.target.closest('button');
+          if (!btn) return;
+          AudioModule.playClickSound();
+
+          if (btn.dataset.setState) {
+              try {
+                  const obj = JSON.parse(btn.dataset.setState);
+                  for (const key in obj) {
+                      StateModule.setState(key, obj[key]);
+                  }
+              } catch (err) {
+                  console.error('Invalid data-set-state', err);
+              }
+          }
+
+          if (btn.dataset.scene) {
+              goToScene(btn.dataset.scene);
+          } else if (btn.dataset.restart !== undefined) {
+              restartGame();
           }
       });
 
