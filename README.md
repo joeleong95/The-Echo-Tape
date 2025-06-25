@@ -2,6 +2,8 @@
 
 **The Echo Tape** is an experimental interactive story told entirely in the browser. Every episode plays out like a choose‑your‑own‑adventure, letting you guide the characters down branching paths. The project started as a fun way for two friends to learn and tell a weird story together.
 
+Episode 1 ultimately aims for about an hour of play time, but the project is still in its infancy—less than ten percent of the planned content exists so far.
+
 Episode 1 is playable and features sound effects and a scene history overlay. Progress is saved in your browser using local storage. Episode 2 is under construction.
 
 ## Writing Episodes
