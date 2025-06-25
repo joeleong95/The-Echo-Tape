@@ -1,6 +1,10 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## [0.1.14] - 2025-07-13
+### Added
+- Build script `scripts/embedEpisodes.js` for embedding episodes.
+
 ## [0.1.13] - 2025-07-12
 ### Added
 - Test now validates episode JSON files and their generated JS counterparts.
