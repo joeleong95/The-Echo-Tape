@@ -4,6 +4,10 @@
 
 Episode 1 is still in development and not yet fully playable. It currently includes sound effects and a scene history overlay. Game progress is saved in your browser using local storage. Episode 2 is currently in development.
 
+## Writing Episodes
+
+All episode data resides in the `episodes` folder. Each file is a JSON document describing a list of scenes. Writers can follow the structure documented in [WRITING_GUIDE.md](WRITING_GUIDE.md) to create new episodes.
+
 ## Getting Started
 
 1. Clone or download this repository.
