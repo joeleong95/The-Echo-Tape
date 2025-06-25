@@ -5,6 +5,9 @@
     const startBtn = document.getElementById('start-btn');
     const recordLight = document.querySelector('.record-light');
     const episodeButtons = document.querySelectorAll('.episode-btn');
+
+    // Audio context will be created on the first user interaction
+    let audioCtx;
     
 
 // Persistent state
@@ -49,6 +52,44 @@ function updateStateSummary() {
     }
 }
 
+// ------- Audio helpers -------
+function initAudio() {
+    if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+}
+
+function playVhsSound() {
+    if (!audioCtx) return;
+    const duration = 0.5;
+    const buffer = audioCtx.createBuffer(1, audioCtx.sampleRate * duration, audioCtx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < buffer.length; i++) {
+        data[i] = Math.random() * 2 - 1; // white noise
+    }
+    const noise = audioCtx.createBufferSource();
+    noise.buffer = buffer;
+    const gain = audioCtx.createGain();
+    gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+    noise.connect(gain).connect(audioCtx.destination);
+    noise.start();
+    noise.stop(audioCtx.currentTime + duration);
+}
+
+function playSceneSound() {
+    if (!audioCtx) return;
+    const osc = audioCtx.createOscillator();
+    osc.type = 'square';
+    osc.frequency.value = 900;
+    const gain = audioCtx.createGain();
+    gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.2);
+    osc.connect(gain).connect(audioCtx.destination);
+    osc.start();
+    osc.stop(audioCtx.currentTime + 0.2);
+}
+
 loadState();
 
 function showScreen(el) {
@@ -65,6 +106,7 @@ function hideScreen(el) {
 }
 
 startBtn.addEventListener('click', () => {
+    initAudio();
     hideScreen(titleScreen);
     showScreen(episodeScreen);
 });
@@ -76,6 +118,7 @@ episodeButtons.forEach(btn => {
             hideScreen(episodeScreen);
             gameContainer.style.display = 'block';
             recordLight.style.display = 'block';
+            playVhsSound();
             goToScene('scene-start');
         }
     });
@@ -114,6 +157,7 @@ async function goToScene(sceneId) {
     }
 
     showScene(targetScene);
+    playSceneSound();
     targetScene.scrollIntoView({ behavior: 'smooth' });
     if (sceneId === 'scene-tobecontinued') {
         updateStateSummary();
