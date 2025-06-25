@@ -1,6 +1,9 @@
 # Writing Guide
 
-This project stores each episode's content in a JSON file located in the `episodes` directory. The JSON structure is designed to be modular so that each scene can be edited independently.
+This project keeps the story for each episode in a single JSON file under the
+`episodes` folder. You don't need to know JavaScript to write an episode.
+Think of the JSON file as a simple list of scenes. Each scene contains the text
+and buttons the player will see.
 
 ## JSON Structure
 
@@ -20,17 +23,29 @@ This project stores each episode's content in a JSON file located in the `episod
 }
 ```
 
-- **start**: ID of the initial scene shown when the episode loads.
-- **scenes**: An array of objects. Each object describes one scene.
-  - **id**: A unique string used for navigation (`goToScene('scene-id')`).
-  - **html**: The HTML markup that makes up the inside of the scene's `<div>` element. You can include dialogue, images, and buttons that call `goToScene()`.
+* **start** – the ID of the first scene to show when the episode begins.
+* **scenes** – a list of scene objects. Each scene contains:
+  * **id** – a unique name for the scene. Use short, descriptive words (e.g. `alley-start`).
+  * **html** – the text and choices written in simple HTML. Use paragraphs
+    (`<p>`), headings (`<h2>`), and buttons. A button should call
+    `goToScene('target-id')` when clicked.
 
 ## Tips for Writing
 
-1. Keep each scene focused on a single moment or choice.
-2. Use standard HTML elements in the `html` field. Buttons should call `goToScene('target-id')` to navigate.
-3. Remember to escape quotes within the HTML string. You can use double quotes for the JSON string and single quotes inside your HTML, or vice versa.
-4. Test your episode locally by placing the JSON file in the `episodes` folder and selecting it from the episode menu in the browser.
-5. Avoid very long scenes. Breaking them into smaller ones makes the story easier to manage.
+1. **Write one moment per scene.** Short scenes keep the pacing quick and make
+   it easier to add branches later.
+2. **Use plain HTML for formatting.** Stick with paragraphs and headings. For a
+   choice, add a button like:
+
+   ```html
+   <button onclick="goToScene('next-id')">Go forward</button>
+   ```
+
+3. **Keep quotes simple.** The JSON file itself uses double quotes, so prefer
+   single quotes inside the HTML when needed.
+4. **Test locally.** Drop your JSON file in the `episodes` folder and open
+   `index.html` in a browser. Choose your episode from the menu to try it out.
+5. **Break up long passages.** It's easier for readers to digest short chunks
+   with clear choices.
 
 See `episodes/episode1.json` for a complete example.
