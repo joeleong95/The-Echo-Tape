@@ -10,6 +10,7 @@ This repository uses an agent-assisted workflow. Please follow the guidelines be
 ## Writing Episodes
 - Episode files live under the `episodes/` directory.
 - Follow the structure and tips in `WRITING_GUIDE.md` when adding or editing episodes.
+- After changing any episode JSON, run `npm run embed` to regenerate the corresponding `.js` files.
 
 ## Coding Conventions
 - Keep JavaScript code valid for Node. The tests run `node -c` against `script.js`.

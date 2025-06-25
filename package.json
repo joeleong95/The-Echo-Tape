@@ -4,7 +4,8 @@
   "description": "**The Echo Tape** is an experimental interactive story told entirely in the browser. Each episode unfolds like a choose‑your‑own‑adventure, letting you guide the characters through multiple paths. This was a story that me and my best friend came up with. To be used as both a learning tool and to tell a story.",
   "main": "script.js",
   "scripts": {
-    "test": "node test/check.js"
+    "test": "node test/check.js",
+    "embed": "node tools/embedEpisodes.js"
   },
   "keywords": [],
   "author": "",

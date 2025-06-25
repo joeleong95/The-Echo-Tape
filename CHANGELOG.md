@@ -1,6 +1,12 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## [0.1.12] - 2025-07-11
+### Added
+- Script `tools/embedEpisodes.js` to embed JSON episodes into JavaScript.
+### Changed
+- Contributor guide now notes running `npm run embed` after editing episodes.
+
 ## [0.1.11] - 2025-07-10
 ### Changed
 - Audio files now use .ogg format and .wav files removed.
