@@ -10,6 +10,8 @@
     const historyOverlay = document.getElementById('history-overlay');
     const historyList = document.getElementById('history-list');
     const closeHistoryBtn = document.getElementById('close-history-btn');
+    const muteMusicBtn = document.getElementById('mute-music-btn');
+    const muteSfxBtn = document.getElementById('mute-sfx-btn');
     const sfxClick = document.getElementById('sfx-click');
     const sfxStatic = document.getElementById('sfx-static');
     if (sfxStatic) {
@@ -18,6 +20,10 @@
 
     // Audio context will be created on the first user interaction
 let audioCtx;
+
+// Audio settings
+let musicMuted = false;
+let sfxMuted = false;
 
 // Tracks the sequence of visited scenes
 let sceneHistory = [];
@@ -73,21 +79,21 @@ function initAudio() {
 }
 
 function playVhsSound() {
-    if (sfxStatic && sfxStatic.paused) {
+    if (sfxStatic && sfxStatic.paused && !musicMuted) {
         sfxStatic.currentTime = 0;
         sfxStatic.play();
     }
 }
 
 function playSceneSound() {
-    if (sfxStatic && sfxStatic.paused) {
+    if (sfxStatic && sfxStatic.paused && !musicMuted) {
         sfxStatic.currentTime = 0;
         sfxStatic.play();
     }
 }
 
 function playClickSound() {
-    if (sfxClick) {
+    if (sfxClick && !sfxMuted) {
         sfxClick.currentTime = 0;
         sfxClick.play();
     }
@@ -160,7 +166,6 @@ episodeButtons.forEach(btn => {
         hideScreen(episodeScreen);
         gameContainer.style.display = 'block';
         recordLight.style.display = 'block';
-        playClickSound();
         playVhsSound();
         await loadEpisode(ep);
     });
@@ -169,7 +174,6 @@ episodeButtons.forEach(btn => {
 function restartGame() {
     gameContainer.style.display = 'none';
     recordLight.style.display = 'none';
-    playClickSound();
     resetState();
     sceneHistory = [];
     const screen = document.getElementById('vhs-screen');
@@ -245,6 +249,28 @@ function closeHistory() {
 if (backBtn) backBtn.addEventListener('click', goBack);
 if (historyBtn) historyBtn.addEventListener('click', showHistory);
 if (closeHistoryBtn) closeHistoryBtn.addEventListener('click', closeHistory);
+if (muteMusicBtn) {
+    muteMusicBtn.addEventListener('click', () => {
+        musicMuted = !musicMuted;
+        if (sfxStatic) sfxStatic.muted = musicMuted;
+        muteMusicBtn.textContent = musicMuted ? 'Unmute Music' : 'Mute Music';
+    });
+}
+
+if (muteSfxBtn) {
+    muteSfxBtn.addEventListener('click', () => {
+        sfxMuted = !sfxMuted;
+        if (sfxClick) sfxClick.muted = sfxMuted;
+        muteSfxBtn.textContent = sfxMuted ? 'Unmute SFX' : 'Mute SFX';
+    });
+}
+
+// play click sound on all button presses
+document.addEventListener('click', (e) => {
+    if (e.target.closest('button')) {
+        playClickSound();
+    }
+});
 
 updateBackButton();
 
