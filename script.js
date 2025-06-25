@@ -26,6 +26,7 @@
     const sfxVolSlider = document.getElementById('sfx-volume');
     const sfxClick = document.getElementById('sfx-click');
     const sfxStatic = document.getElementById('sfx-static');
+    const tapeFx = document.getElementById('tape-fx');
     const titleMusic = document.getElementById('title-music');
     const titleMusic2 = document.getElementById('title-music2');
     if (sfxStatic) {
@@ -160,6 +161,21 @@ function playClickSound() {
         sfxClick.volume = sfxVolume;
         sfxClick.currentTime = 0;
         sfxClick.play();
+    }
+}
+
+function playTapeFx() {
+    if (tapeFx && !sfxMuted) {
+        tapeFx.volume = sfxVolume;
+        tapeFx.currentTime = 0;
+        tapeFx.play();
+    }
+}
+
+function stopVhsSound() {
+    if (sfxStatic && !sfxStatic.paused) {
+        sfxStatic.pause();
+        sfxStatic.currentTime = 0;
     }
 }
 
@@ -323,12 +339,14 @@ startBtn.addEventListener('click', () => {
     initAudio();
     stopTitleMusic();
     hideScreen(titleScreen);
+    playTapeFx();
     playTitleMusic2();
     showScreen(episodeScreen);
 });
 if (returnTitleBtn) {
     returnTitleBtn.addEventListener('click', () => {
         hideScreen(episodeScreen);
+        stopVhsSound();
         stopTitleMusic2();
         playTitleMusic();
         showScreen(titleScreen);
@@ -416,6 +434,7 @@ function restartGame() {
     selectedEpisode = null;
     introTimers.forEach(clearTimeout);
     hideScreen(introScreen);
+    stopVhsSound();
     clearProgress();
     resetState();
     sceneHistory = [];

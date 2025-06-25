@@ -1,6 +1,11 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## [0.1.11] - 2025-07-10
+### Changed
+- Audio files now use .ogg format and .wav files removed.
+- Static audio stops when returning to menus.
+
 ## [0.1.10] - 2025-07-09
 ### Added
 - Second title music track that plays on the episode selection screen.
