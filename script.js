@@ -93,11 +93,22 @@ function playClickSound() {
 loadState();
 
 async function loadEpisode(ep) {
+    let data;
     try {
         const resp = await fetch(`episodes/episode${ep}.json`);
-        const data = await resp.json();
-        const screen = document.getElementById('vhs-screen');
-        if (!screen) return;
+        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+        data = await resp.json();
+    } catch (err) {
+        console.warn('Fetch failed, trying embedded episode data', err);
+        if (window.localEpisodes && window.localEpisodes[`episode${ep}`]) {
+            data = window.localEpisodes[`episode${ep}`];
+        } else {
+            console.error('Episode data not found');
+            return;
+        }
+    }
+    const screen = document.getElementById('vhs-screen');
+    if (!screen) return;
 
         // clear any previous scenes
         screen.innerHTML = '';
@@ -119,9 +130,6 @@ async function loadEpisode(ep) {
         if (startId) {
             goToScene(startId);
         }
-    } catch (err) {
-        console.error('Failed to load episode', err);
-    }
 }
 
 function showScreen(el) {
