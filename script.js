@@ -1,6 +1,10 @@
     // Game State Elements
     const titleScreen = document.getElementById('title-screen');
     const episodeScreen = document.getElementById('episode-screen');
+    const introScreen = document.getElementById('intro-screen');
+    const introText = document.querySelector('.intro-text');
+    const introTitle = document.getElementById('intro-title');
+    const skipIntroBtn = document.getElementById('skip-intro-btn');
     const gameContainer = document.querySelector('.container');
     const startBtn = document.getElementById('start-btn');
     const recordLight = document.querySelector('.record-light');
@@ -27,6 +31,8 @@ let sfxMuted = false;
 
 // Tracks the sequence of visited scenes
 let sceneHistory = [];
+let selectedEpisode = null;
+let introTimers = [];
     
 
 // Persistent state
@@ -159,15 +165,41 @@ startBtn.addEventListener('click', () => {
     hideScreen(titleScreen);
     showScreen(episodeScreen);
 });
-    
+
+function startEpisode(ep) {
+    hideScreen(introScreen);
+    gameContainer.style.display = 'block';
+    recordLight.style.display = 'block';
+    playVhsSound();
+    loadEpisode(ep);
+}
+
+function playIntro(ep) {
+    selectedEpisode = ep;
+    hideScreen(episodeScreen);
+    showScreen(introScreen);
+    introText.classList.remove('fade-out');
+    introTitle.classList.remove('visible');
+    introTimers.forEach(clearTimeout);
+    introTimers = [];
+    introTimers.push(setTimeout(() => {
+        introText.classList.add('fade-out');
+        introTitle.classList.add('visible');
+    }, 8000));
+    introTimers.push(setTimeout(() => {
+        startEpisode(selectedEpisode);
+    }, 14000));
+}
+
 episodeButtons.forEach(btn => {
-    btn.addEventListener('click', async () => {
+    btn.addEventListener('click', () => {
         const ep = btn.dataset.episode;
-        hideScreen(episodeScreen);
-        gameContainer.style.display = 'block';
-        recordLight.style.display = 'block';
-        playVhsSound();
-        await loadEpisode(ep);
+        if (ep === '1') {
+            playIntro(ep);
+        } else {
+            hideScreen(episodeScreen);
+            startEpisode(ep);
+        }
     });
 });
     
@@ -271,6 +303,13 @@ document.addEventListener('click', (e) => {
         playClickSound();
     }
 });
+
+if (skipIntroBtn) {
+    skipIntroBtn.addEventListener('click', () => {
+        introTimers.forEach(clearTimeout);
+        startEpisode(selectedEpisode || '1');
+    });
+}
 
 updateBackButton();
 
