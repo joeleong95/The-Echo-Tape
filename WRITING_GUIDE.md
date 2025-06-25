@@ -47,5 +47,7 @@ and buttons the player will see.
    `index.html` in a browser. Choose your episode from the menu to try it out.
 5. **Break up long passages.** It's easier for readers to digest short chunks
    with clear choices.
+6. **Use the built‑in styles.** Wrap dialogue in `<div class="dialogue">` and
+   apply the `choice-btn` class to your buttons so they match the game’s look.
 
 See `episodes/episode1.json` for a complete example.

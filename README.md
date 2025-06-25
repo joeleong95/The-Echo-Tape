@@ -12,7 +12,7 @@ All episode data resides in the `episodes` folder. Each file is a JSON document 
 
 1. Clone or download this repository.
 2. Either open `index.html` directly or serve the folder with a simple HTTP server (`npx http-server` works nicely). Episode data is embedded so it works offline.
-3. (Optional) run `npm test` to verify required files and script syntax.
+3. Run `npm install` (if needed) and `npm test` to verify required files and script syntax.
 
 ## License
 

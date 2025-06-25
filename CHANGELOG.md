@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.4.3] - 2025-06-28
+### Added
+- Tip on using built-in CSS classes in the writing guide.
+### Changed
+- README now explains how to run the test script.
+
 ## [0.3.0] - 2025-06-24
 ### Added
 - SEO meta description and Open Graph tags.
