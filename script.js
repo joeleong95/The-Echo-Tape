@@ -24,8 +24,12 @@
     const muteSfxBtn = document.getElementById('mute-sfx-btn');
     const sfxClick = document.getElementById('sfx-click');
     const sfxStatic = document.getElementById('sfx-static');
+    const titleMusic = document.getElementById('title-music');
     if (sfxStatic) {
         sfxStatic.loop = true;
+    }
+    if (titleMusic) {
+        titleMusic.loop = true;
     }
 
     // Audio context will be created on the first user interaction
@@ -148,9 +152,29 @@ function playClickSound() {
     }
 }
 
+function playTitleMusic() {
+    if (titleMusic && titleMusic.paused && !musicMuted) {
+        titleMusic.currentTime = 0;
+        const playPromise = titleMusic.play();
+        if (playPromise && typeof playPromise.catch === 'function') {
+            playPromise.catch(() => {
+                document.addEventListener('click', () => titleMusic.play(), { once: true });
+            });
+        }
+    }
+}
+
+function stopTitleMusic() {
+    if (titleMusic && !titleMusic.paused) {
+        titleMusic.pause();
+        titleMusic.currentTime = 0;
+    }
+}
+
 loadState();
 
 loadProgress();
+playTitleMusic();
 async function loadEpisode(ep) {
     let data;
     try {
@@ -247,18 +271,21 @@ function hideScreen(el) {
 
 startBtn.addEventListener('click', () => {
     initAudio();
+    stopTitleMusic();
     hideScreen(titleScreen);
     showScreen(episodeScreen);
 });
 if (returnTitleBtn) {
     returnTitleBtn.addEventListener('click', () => {
         hideScreen(episodeScreen);
+        playTitleMusic();
         showScreen(titleScreen);
     });
 }
 if (continueBtn) {
     continueBtn.addEventListener("click", () => {
         initAudio();
+        stopTitleMusic();
         hideScreen(titleScreen);
         resumeScene = progress.scene;
         startEpisode(progress.episode || "1");
@@ -268,6 +295,7 @@ if (continueBtn) {
 if (devBtn) {
     devBtn.addEventListener('click', () => {
         hideScreen(titleScreen);
+        stopTitleMusic();
         showScreen(devScreen);
     });
 }
@@ -275,6 +303,7 @@ if (devBtn) {
 if (closeDevBtn) {
     closeDevBtn.addEventListener('click', () => {
         hideScreen(devScreen);
+        playTitleMusic();
         showScreen(titleScreen);
     });
 }
@@ -413,6 +442,7 @@ if (muteMusicBtn) {
     muteMusicBtn.addEventListener('click', () => {
         musicMuted = !musicMuted;
         if (sfxStatic) sfxStatic.muted = musicMuted;
+        if (titleMusic) titleMusic.muted = musicMuted;
         muteMusicBtn.textContent = musicMuted ? 'Unmute Music' : 'Mute Music';
     });
 }
