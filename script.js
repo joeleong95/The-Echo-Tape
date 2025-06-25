@@ -218,6 +218,9 @@ if (returnTitleBtn) {
     returnTitleBtn.addEventListener('click', () => {
         hideScreen(episodeScreen);
         showScreen(titleScreen);
+        if (sfxStatic) {
+            sfxStatic.pause();
+        }
     });
 }
 if (continueBtn) {
@@ -271,6 +274,9 @@ episodeButtons.forEach(btn => {
 function restartGame() {
     gameContainer.style.display = 'none';
     recordLight.style.display = 'none';
+    if (sfxStatic) {
+        sfxStatic.pause();
+    }
     currentEpisode = null;
     selectedEpisode = null;
     introTimers.forEach(clearTimeout);
