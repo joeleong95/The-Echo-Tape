@@ -92,6 +92,20 @@ function playClickSound() {
 
 loadState();
 
+async function loadEpisode(ep) {
+    try {
+        const resp = await fetch(`episodes/episode${ep}.json`);
+        const data = await resp.json();
+        const screen = document.getElementById('vhs-screen');
+        screen.innerHTML = data.html;
+        sceneHistory = [];
+        updateBackButton();
+        goToScene('scene-start');
+    } catch (err) {
+        console.error('Failed to load episode', err);
+    }
+}
+
 function showScreen(el) {
     el.style.display = 'flex';
     requestAnimationFrame(() => el.classList.add('visible'));
@@ -112,16 +126,14 @@ startBtn.addEventListener('click', () => {
 });
     
 episodeButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', async () => {
         const ep = btn.dataset.episode;
-        if (ep === '1') {
-            hideScreen(episodeScreen);
-            gameContainer.style.display = 'block';
-            recordLight.style.display = 'block';
-            playClickSound();
-            playVhsSound();
-            goToScene('scene-start');
-        }
+        hideScreen(episodeScreen);
+        gameContainer.style.display = 'block';
+        recordLight.style.display = 'block';
+        playClickSound();
+        playVhsSound();
+        await loadEpisode(ep);
     });
 });
     
@@ -131,6 +143,8 @@ function restartGame() {
     playClickSound();
     resetState();
     sceneHistory = [];
+    const screen = document.getElementById('vhs-screen');
+    if (screen) screen.innerHTML = '';
     updateBackButton();
     showScreen(episodeScreen);
 }
