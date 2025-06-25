@@ -27,11 +27,15 @@
     const sfxClick = document.getElementById('sfx-click');
     const sfxStatic = document.getElementById('sfx-static');
     const titleMusic = document.getElementById('title-music');
+    const titleMusic2 = document.getElementById('title-music2');
     if (sfxStatic) {
         sfxStatic.loop = true;
     }
     if (titleMusic) {
         titleMusic.loop = true;
+    }
+    if (titleMusic2) {
+        titleMusic2.loop = true;
     }
 
     // Audio context will be created on the first user interaction
@@ -179,17 +183,14 @@ function fadeInAudio(el, duration, targetVol = 1) {
 
 function playTitleMusic() {
     if (titleMusic && !musicMuted) {
-        const startPlayback = () => {
-            titleMusic.currentTime = 0;
-            const playPromise = titleMusic.play();
-            if (playPromise && typeof playPromise.catch === 'function') {
-                playPromise.catch(() => {
-                    document.addEventListener('click', () => titleMusic.play(), { once: true });
-                });
-            }
-            fadeInAudio(titleMusic, 3000, musicVolume);
-        };
-        setTimeout(startPlayback, 500);
+        titleMusic.currentTime = 0;
+        const playPromise = titleMusic.play();
+        if (playPromise && typeof playPromise.catch === 'function') {
+            playPromise.catch(() => {
+                document.addEventListener('click', () => titleMusic.play(), { once: true });
+            });
+        }
+        fadeInAudio(titleMusic, 3000, musicVolume);
     }
 }
 
@@ -197,6 +198,26 @@ function stopTitleMusic() {
     if (titleMusic && !titleMusic.paused) {
         titleMusic.pause();
         titleMusic.currentTime = 0;
+    }
+}
+
+function playTitleMusic2() {
+    if (titleMusic2 && !musicMuted) {
+        titleMusic2.currentTime = 0;
+        const playPromise = titleMusic2.play();
+        if (playPromise && typeof playPromise.catch === 'function') {
+            playPromise.catch(() => {
+                document.addEventListener('click', () => titleMusic2.play(), { once: true });
+            });
+        }
+        fadeInAudio(titleMusic2, 3000, musicVolume);
+    }
+}
+
+function stopTitleMusic2() {
+    if (titleMusic2 && !titleMusic2.paused) {
+        titleMusic2.pause();
+        titleMusic2.currentTime = 0;
     }
 }
 
@@ -300,12 +321,15 @@ function hideScreen(el) {
 
 startBtn.addEventListener('click', () => {
     initAudio();
+    stopTitleMusic();
     hideScreen(titleScreen);
+    playTitleMusic2();
     showScreen(episodeScreen);
 });
 if (returnTitleBtn) {
     returnTitleBtn.addEventListener('click', () => {
         hideScreen(episodeScreen);
+        stopTitleMusic2();
         playTitleMusic();
         showScreen(titleScreen);
     });
@@ -346,6 +370,7 @@ if (clearSaveBtn) {
 
 function startEpisode(ep) {
     stopTitleMusic();
+    stopTitleMusic2();
     hideScreen(introScreen);
     gameContainer.style.display = 'block';
     currentEpisode = ep;
@@ -356,6 +381,7 @@ function startEpisode(ep) {
 
 function playIntro(ep) {
     selectedEpisode = ep;
+    stopTitleMusic2();
     hideScreen(episodeScreen);
     showScreen(introScreen);
     introText.classList.remove('fade-out');
@@ -397,7 +423,7 @@ function restartGame() {
     if (screen) screen.innerHTML = '';
     updateBackButton();
     showScreen(episodeScreen);
-    playTitleMusic();
+    playTitleMusic2();
 }
     
 function showScene(scene) {
