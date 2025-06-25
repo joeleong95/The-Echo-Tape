@@ -8,6 +8,10 @@
     const gameContainer = document.querySelector('.container');
     const startBtn = document.getElementById('start-btn');
     const continueBtn = document.getElementById('continue-btn');
+    const devBtn = document.getElementById('dev-btn');
+    const devScreen = document.getElementById('dev-screen');
+    const clearSaveBtn = document.getElementById('clear-save-btn');
+    const closeDevBtn = document.getElementById('close-dev-btn');
     const recordLight = document.querySelector('.record-light');
     const episodeButtons = document.querySelectorAll('.episode-btn');
     const returnTitleBtn = document.getElementById('return-title-btn');
@@ -256,9 +260,30 @@ if (continueBtn) {
     continueBtn.addEventListener("click", () => {
         initAudio();
         hideScreen(titleScreen);
-        showScreen(episodeScreen);
         resumeScene = progress.scene;
         startEpisode(progress.episode || "1");
+    });
+}
+
+if (devBtn) {
+    devBtn.addEventListener('click', () => {
+        hideScreen(titleScreen);
+        showScreen(devScreen);
+    });
+}
+
+if (closeDevBtn) {
+    closeDevBtn.addEventListener('click', () => {
+        hideScreen(devScreen);
+        showScreen(titleScreen);
+    });
+}
+
+if (clearSaveBtn) {
+    clearSaveBtn.addEventListener('click', () => {
+        clearProgress();
+        resetState();
+        alert('Save data cleared');
     });
 }
 

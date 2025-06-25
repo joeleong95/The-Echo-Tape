@@ -48,6 +48,10 @@ body {
     background: #000;
 }
 
+#dev-screen {
+    background: #000;
+}
+
 .menu-btn {
     font-family: 'Orbitron', monospace;
     font-size: 1.5em;
