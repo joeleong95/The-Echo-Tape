@@ -97,10 +97,28 @@ async function loadEpisode(ep) {
         const resp = await fetch(`episodes/episode${ep}.json`);
         const data = await resp.json();
         const screen = document.getElementById('vhs-screen');
-        screen.innerHTML = data.html;
+        if (!screen) return;
+
+        // clear any previous scenes
+        screen.innerHTML = '';
+
+        // build scenes from the JSON data
+        data.scenes.forEach(scene => {
+            const div = document.createElement('div');
+            div.id = scene.id;
+            div.className = 'interactive-scene';
+            div.setAttribute('role', 'dialog');
+            div.setAttribute('aria-label', scene.id);
+            div.innerHTML = scene.html;
+            screen.appendChild(div);
+        });
+
         sceneHistory = [];
         updateBackButton();
-        goToScene('scene-start');
+        const startId = data.start || (data.scenes[0] && data.scenes[0].id);
+        if (startId) {
+            goToScene(startId);
+        }
     } catch (err) {
         console.error('Failed to load episode', err);
     }
