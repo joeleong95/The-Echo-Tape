@@ -87,6 +87,41 @@ body {
     box-shadow: 0 0 20px #667eea;
 }
 
+.intro-text {
+    font-size: 1.3em;
+    color: #ccc;
+    max-width: 700px;
+    margin: 50px auto;
+    line-height: 1.5;
+}
+
+.vhs-flicker {
+    animation: vhs-flicker 0.15s infinite;
+}
+
+@keyframes vhs-flicker {
+    0%, 100% { opacity: 0.9; }
+    50% { opacity: 1; }
+}
+
+.fade-out {
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.intro-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 4em;
+    color: #ff00ff;
+    opacity: 0;
+    transition: opacity 2s ease-in-out;
+    margin-top: 20px;
+}
+
+.intro-title.visible {
+    opacity: 1;
+}
+
 .container {
     max-width: 1200px;
     margin: 0 auto;
