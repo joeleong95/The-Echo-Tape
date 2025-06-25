@@ -59,20 +59,45 @@ let resumeScene = null;
 // Persistent state
 const defaultState = { awareOfLoop: false, hasTape: false };
 let gameState = { ...defaultState };
+let storageAvailable = true;
 
 function loadState() {
-    const saved = localStorage.getItem("echoTapeState");
-    if (saved) {
-        try {
-            gameState = { ...defaultState, ...JSON.parse(saved) };
-        } catch (e) {
-            console.error("Failed to load state", e);
+    if (!storageAvailable) {
+        return;
+    }
+    try {
+        const saved = localStorage.getItem("echoTapeState");
+        if (saved) {
+            try {
+                gameState = { ...defaultState, ...JSON.parse(saved) };
+            } catch (e) {
+                console.error("Failed to parse state", e);
+            }
+        }
+    } catch (e) {
+        if (e instanceof DOMException) {
+            console.warn("localStorage unavailable; using in-memory state");
+            storageAvailable = false;
+        } else {
+            throw e;
         }
     }
 }
 
 function saveState() {
-    localStorage.setItem("echoTapeState", JSON.stringify(gameState));
+    if (!storageAvailable) {
+        return;
+    }
+    try {
+        localStorage.setItem("echoTapeState", JSON.stringify(gameState));
+    } catch (e) {
+        if (e instanceof DOMException) {
+            console.warn("Unable to save state to localStorage");
+            storageAvailable = false;
+        } else {
+            throw e;
+        }
+    }
 }
 
 function setState(key, value) {
@@ -103,12 +128,24 @@ const progressKey = "echoTapeProgress";
 let progress = { episode: null, scene: null };
 
 function loadProgress() {
-    const saved = localStorage.getItem(progressKey);
-    if (saved) {
-        try {
-            progress = { episode: null, scene: null, ...JSON.parse(saved) };
-        } catch (e) {
-            console.error("Failed to load progress", e);
+    if (!storageAvailable) {
+        return;
+    }
+    try {
+        const saved = localStorage.getItem(progressKey);
+        if (saved) {
+            try {
+                progress = { episode: null, scene: null, ...JSON.parse(saved) };
+            } catch (e) {
+                console.error("Failed to parse progress", e);
+            }
+        }
+    } catch (e) {
+        if (e instanceof DOMException) {
+            console.warn("localStorage unavailable; using in-memory progress");
+            storageAvailable = false;
+        } else {
+            throw e;
         }
     }
     if (continueBtn) {
@@ -117,7 +154,19 @@ function loadProgress() {
 }
 
 function saveProgress() {
-    localStorage.setItem(progressKey, JSON.stringify(progress));
+    if (!storageAvailable) {
+        return;
+    }
+    try {
+        localStorage.setItem(progressKey, JSON.stringify(progress));
+    } catch (e) {
+        if (e instanceof DOMException) {
+            console.warn("Unable to save progress to localStorage");
+            storageAvailable = false;
+        } else {
+            throw e;
+        }
+    }
 }
 
 function setProgress(ep, scene) {
