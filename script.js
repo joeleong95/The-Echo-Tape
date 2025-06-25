@@ -54,6 +54,8 @@ let selectedEpisode = null;
 let introTimers = [];
 let currentEpisode = null;
 let resumeScene = null;
+// Tracks if localStorage is usable
+let storageAvailable = true;
     
 
 // Persistent state
@@ -61,18 +63,34 @@ const defaultState = { awareOfLoop: false, hasTape: false };
 let gameState = { ...defaultState };
 
 function loadState() {
-    const saved = localStorage.getItem("echoTapeState");
-    if (saved) {
-        try {
+    if (!storageAvailable) return;
+    try {
+        const saved = localStorage.getItem("echoTapeState");
+        if (saved) {
             gameState = { ...defaultState, ...JSON.parse(saved) };
-        } catch (e) {
+        }
+    } catch (e) {
+        if (e instanceof DOMException) {
+            console.warn("localStorage unavailable, using in-memory state");
+            storageAvailable = false;
+        } else {
             console.error("Failed to load state", e);
         }
     }
 }
 
 function saveState() {
-    localStorage.setItem("echoTapeState", JSON.stringify(gameState));
+    if (!storageAvailable) return;
+    try {
+        localStorage.setItem("echoTapeState", JSON.stringify(gameState));
+    } catch (e) {
+        if (e instanceof DOMException) {
+            console.warn("Failed to save state to localStorage", e);
+            storageAvailable = false;
+        } else {
+            console.error("Failed to save state", e);
+        }
+    }
 }
 
 function setState(key, value) {
@@ -103,11 +121,20 @@ const progressKey = "echoTapeProgress";
 let progress = { episode: null, scene: null };
 
 function loadProgress() {
-    const saved = localStorage.getItem(progressKey);
-    if (saved) {
-        try {
+    if (!storageAvailable) {
+        if (continueBtn) continueBtn.style.display = 'none';
+        return;
+    }
+    try {
+        const saved = localStorage.getItem(progressKey);
+        if (saved) {
             progress = { episode: null, scene: null, ...JSON.parse(saved) };
-        } catch (e) {
+        }
+    } catch (e) {
+        if (e instanceof DOMException) {
+            console.warn("localStorage unavailable, progress won't persist");
+            storageAvailable = false;
+        } else {
             console.error("Failed to load progress", e);
         }
     }
@@ -117,7 +144,17 @@ function loadProgress() {
 }
 
 function saveProgress() {
-    localStorage.setItem(progressKey, JSON.stringify(progress));
+    if (!storageAvailable) return;
+    try {
+        localStorage.setItem(progressKey, JSON.stringify(progress));
+    } catch (e) {
+        if (e instanceof DOMException) {
+            console.warn("Failed to save progress to localStorage", e);
+            storageAvailable = false;
+        } else {
+            console.error("Failed to save progress", e);
+        }
+    }
 }
 
 function setProgress(ep, scene) {
