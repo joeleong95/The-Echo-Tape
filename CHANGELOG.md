@@ -1,6 +1,11 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## [0.1.7] - 2025-07-06
+### Added
+- Background title music now plays on the start screen.
+### Changed
+- `titleMusic.wav` moved into the `audio` folder.
 ## [0.1.6] - 2025-07-05
 ### Added
 - Simple dev tools screen with a button to clear saved progress.
