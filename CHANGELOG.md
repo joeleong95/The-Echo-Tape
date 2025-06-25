@@ -1,6 +1,11 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## [0.1.5] - 2025-07-04
+### Added
+- Conditional `showIf` support for scenes and buttons.
+### Changed
+- `episodes/episode1` example demonstrates hidden choices.
 ## [0.1.4] - 2025-07-03
 ### Added
 - Button on the episode selection screen to return to the title.

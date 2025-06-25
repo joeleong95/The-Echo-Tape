@@ -29,6 +29,8 @@ and buttons the player will see.
   * **html** – the text and choices written in simple HTML. Use paragraphs
     (`<p>`), headings (`<h2>`), and buttons. A button should call
     `goToScene('target-id')` when clicked.
+  * **showIf** – optional state conditions. If provided, the scene only appears
+    when every key/value pair matches the current game state.
 
 ## Tips for Writing
 
@@ -49,5 +51,8 @@ and buttons the player will see.
    with clear choices.
 6. **Use the built‑in styles.** Wrap dialogue in `<div class="dialogue">` and
    apply the `choice-btn` class to your buttons so they match the game’s look.
+7. **Hide options based on state.** Inside your HTML you can add
+   `data-show-if='{ "stateKey": true }'` to a button. The button will only
+   appear when the specified state values match.
 
 See `episodes/episode1.json` for a complete example.
