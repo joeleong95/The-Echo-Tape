@@ -280,3 +280,13 @@ body {
     max-width: 90%;
     font-family: 'Courier Prime', monospace;
 }
+
+.audio-controls {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.audio-controls button {
+    margin: 0 5px;
+    padding: 5px 10px;
+}
