@@ -10,6 +10,8 @@
     const historyOverlay = document.getElementById('history-overlay');
     const historyList = document.getElementById('history-list');
     const closeHistoryBtn = document.getElementById('close-history-btn');
+    const sfxClick = document.getElementById('sfx-click');
+    const sfxStatic = document.getElementById('sfx-static');
 
     // Audio context will be created on the first user interaction
 let audioCtx;
@@ -68,34 +70,24 @@ function initAudio() {
 }
 
 function playVhsSound() {
-    if (!audioCtx) return;
-    const duration = 0.5;
-    const buffer = audioCtx.createBuffer(1, audioCtx.sampleRate * duration, audioCtx.sampleRate);
-    const data = buffer.getChannelData(0);
-    for (let i = 0; i < buffer.length; i++) {
-        data[i] = Math.random() * 2 - 1; // white noise
+    if (sfxStatic) {
+        sfxStatic.currentTime = 0;
+        sfxStatic.play();
     }
-    const noise = audioCtx.createBufferSource();
-    noise.buffer = buffer;
-    const gain = audioCtx.createGain();
-    gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
-    noise.connect(gain).connect(audioCtx.destination);
-    noise.start();
-    noise.stop(audioCtx.currentTime + duration);
 }
 
 function playSceneSound() {
-    if (!audioCtx) return;
-    const osc = audioCtx.createOscillator();
-    osc.type = 'square';
-    osc.frequency.value = 900;
-    const gain = audioCtx.createGain();
-    gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.2);
-    osc.connect(gain).connect(audioCtx.destination);
-    osc.start();
-    osc.stop(audioCtx.currentTime + 0.2);
+    if (sfxStatic) {
+        sfxStatic.currentTime = 0;
+        sfxStatic.play();
+    }
+}
+
+function playClickSound() {
+    if (sfxClick) {
+        sfxClick.currentTime = 0;
+        sfxClick.play();
+    }
 }
 
 loadState();
@@ -126,6 +118,7 @@ episodeButtons.forEach(btn => {
             hideScreen(episodeScreen);
             gameContainer.style.display = 'block';
             recordLight.style.display = 'block';
+            playClickSound();
             playVhsSound();
             goToScene('scene-start');
         }
@@ -135,6 +128,7 @@ episodeButtons.forEach(btn => {
 function restartGame() {
     gameContainer.style.display = 'none';
     recordLight.style.display = 'none';
+    playClickSound();
     resetState();
     sceneHistory = [];
     updateBackButton();
