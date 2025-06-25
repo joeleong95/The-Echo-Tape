@@ -7,6 +7,7 @@
     const skipIntroBtn = document.getElementById('skip-intro-btn');
     const gameContainer = document.querySelector('.container');
     const startBtn = document.getElementById('start-btn');
+    const continueBtn = document.getElementById('continue-btn');
     const recordLight = document.querySelector('.record-light');
     const episodeButtons = document.querySelectorAll('.episode-btn');
     const backBtn = document.getElementById('back-btn');
