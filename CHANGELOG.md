@@ -11,6 +11,10 @@ All notable changes to this project will be documented in this file.
 - Tip on using built-in CSS classes in the writing guide.
 ### Changed
 - README now explains how to run the test script.
+## [0.0.4.4] - 2025-06-29
+### Added
+- Tutorial episode accessible from the menu.
+
 
 ## [0.0.3.0] - 2025-06-24
 ### Added
