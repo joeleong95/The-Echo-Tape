@@ -1,6 +1,11 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## [0.1.3] - 2025-07-02
+### Added
+- Support for three separate save slots.
+### Fixed
+- Continue button now initializes correctly and progress saves reliably.
 ## [0.1.2] - 2025-07-01
 ### Added
 - Noted early development status in README and AGENTS.

@@ -4,7 +4,7 @@
 
 Episode 1 ultimately aims for about an hour of play time, but the project is still in its infancy—less than ten percent of the planned content exists so far.
 
-Episode 1 is playable and features sound effects and a scene history overlay. Progress is saved in your browser using local storage. Episode 2 is under construction.
+Episode 1 is playable and features sound effects and a scene history overlay. Progress can be stored in up to three save slots using your browser's local storage. Episode 2 is under construction.
 
 ## Writing Episodes
 
