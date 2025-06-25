@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.20] - 2025-07-19
+### Added
+- Audio mute and volume preferences are now saved in persistent game state.
+
 ## [0.1.19] - 2025-07-18
 ### Added
 - Test now checks for duplicate scene IDs and broken `goToScene` links.
