@@ -12,6 +12,9 @@
     const closeHistoryBtn = document.getElementById('close-history-btn');
     const sfxClick = document.getElementById('sfx-click');
     const sfxStatic = document.getElementById('sfx-static');
+    if (sfxStatic) {
+        sfxStatic.loop = true;
+    }
 
     // Audio context will be created on the first user interaction
 let audioCtx;
@@ -70,14 +73,14 @@ function initAudio() {
 }
 
 function playVhsSound() {
-    if (sfxStatic) {
+    if (sfxStatic && sfxStatic.paused) {
         sfxStatic.currentTime = 0;
         sfxStatic.play();
     }
 }
 
 function playSceneSound() {
-    if (sfxStatic) {
+    if (sfxStatic && sfxStatic.paused) {
         sfxStatic.currentTime = 0;
         sfxStatic.play();
     }
