@@ -1,6 +1,11 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## [0.1.10] - 2025-07-09
+### Added
+- Second title music track that plays on the episode selection screen.
+### Changed
+- Title music begins immediately on the title screen.
 ## [0.1.9] - 2025-07-08
 ### Added
 - Volume sliders for music and SFX with adjustable levels.
