@@ -2,7 +2,7 @@
 
 This repository uses an agent-assisted workflow. Please follow the guidelines below when making changes.
 
-**Project status**: The first episode is targeting roughly one hour of gameplay, but less than 10% of it has been produced so far.
+**Project status**: The first episode is targeting roughly one hour of gameplay, and about a quarter of that content is complete.
 
 ## Running Tests
 - Run `npm test` after any code change. This executes `test/check.js` to ensure required files exist and that `script.js` passes syntax checks.

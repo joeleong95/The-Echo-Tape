@@ -1,6 +1,9 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## [0.1.14] - 2025-07-13
+### Changed
+- Updated project status in AGENTS.md and README.md to reflect current progress.
 ## [0.1.13] - 2025-07-12
 ### Added
 - Test now validates episode JSON files and their generated JS counterparts.
