@@ -5,7 +5,8 @@
   "main": "script.js",
   "scripts": {
     "test": "node test/check.js",
-    "embed": "node tools/embedEpisodes.js"
+    "embed": "node tools/embedEpisodes.js",
+    "build-episodes": "node scripts/embedEpisodes.js"
   },
   "keywords": [],
   "author": "",
