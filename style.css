@@ -254,3 +254,29 @@ body {
 }
 
 @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+.nav-controls {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#history-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.9);
+    color: #fff;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 200;
+}
+
+#history-overlay.visible {
+    display: flex;
+}
+
+#history-overlay pre {
+    white-space: pre-wrap;
+    max-width: 90%;
+    font-family: 'Courier Prime', monospace;
+}

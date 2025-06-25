@@ -5,9 +5,17 @@
     const startBtn = document.getElementById('start-btn');
     const recordLight = document.querySelector('.record-light');
     const episodeButtons = document.querySelectorAll('.episode-btn');
+    const backBtn = document.getElementById('back-btn');
+    const historyBtn = document.getElementById('history-btn');
+    const historyOverlay = document.getElementById('history-overlay');
+    const historyList = document.getElementById('history-list');
+    const closeHistoryBtn = document.getElementById('close-history-btn');
 
     // Audio context will be created on the first user interaction
-    let audioCtx;
+let audioCtx;
+
+// Tracks the sequence of visited scenes
+let sceneHistory = [];
     
 
 // Persistent state
@@ -128,6 +136,8 @@ function restartGame() {
     gameContainer.style.display = 'none';
     recordLight.style.display = 'none';
     resetState();
+    sceneHistory = [];
+    updateBackButton();
     showScreen(episodeScreen);
 }
     
@@ -147,17 +157,21 @@ function hideScene(scene) {
     });
 }
 
-async function goToScene(sceneId) {
+async function goToScene(sceneId, fromBack = false) {
     const targetScene = document.getElementById(sceneId);
     if (!targetScene) return;
 
     const currentScene = document.querySelector('.interactive-scene.visible');
     if (currentScene && currentScene !== targetScene) {
+        if (!fromBack) {
+            sceneHistory.push(currentScene.id);
+        }
         await hideScene(currentScene);
     }
 
     showScene(targetScene);
     playSceneSound();
+    updateBackButton();
     targetScene.scrollIntoView({ behavior: 'smooth' });
     if (sceneId === 'scene-tobecontinued') {
         updateStateSummary();
@@ -166,3 +180,32 @@ async function goToScene(sceneId) {
 
 window.setState = setState;
 window.getState = getState;
+
+function updateBackButton() {
+    if (backBtn) {
+        backBtn.disabled = sceneHistory.length === 0;
+    }
+}
+
+function goBack() {
+    if (sceneHistory.length === 0) return;
+    const prev = sceneHistory.pop();
+    goToScene(prev, true);
+}
+
+function showHistory() {
+    if (!historyOverlay) return;
+    historyList.textContent = sceneHistory.join(' \u2192 ');
+    historyOverlay.classList.add('visible');
+}
+
+function closeHistory() {
+    if (!historyOverlay) return;
+    historyOverlay.classList.remove('visible');
+}
+
+if (backBtn) backBtn.addEventListener('click', goBack);
+if (historyBtn) historyBtn.addEventListener('click', showHistory);
+if (closeHistoryBtn) closeHistoryBtn.addEventListener('click', closeHistory);
+
+updateBackButton();
