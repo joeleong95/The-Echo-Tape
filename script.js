@@ -167,6 +167,7 @@ async function goToScene(sceneId, fromBack = false) {
     playSceneSound();
     updateBackButton();
     targetScene.scrollIntoView({ behavior: 'smooth' });
+    focusFirstChoice(targetScene);
     if (sceneId === 'scene-tobecontinued') {
         updateStateSummary();
     }
@@ -203,3 +204,40 @@ if (historyBtn) historyBtn.addEventListener('click', showHistory);
 if (closeHistoryBtn) closeHistoryBtn.addEventListener('click', closeHistory);
 
 updateBackButton();
+
+function focusFirstChoice(scene) {
+    const first = scene.querySelector('.choice-btn');
+    if (first) {
+        first.focus();
+    }
+}
+
+function handleKeydown(event) {
+    if (historyOverlay && historyOverlay.classList.contains('visible')) return;
+
+    const currentScene = document.querySelector('.interactive-scene.visible');
+    if (!currentScene) return;
+
+    const choices = Array.from(currentScene.querySelectorAll('.choice-btn'));
+    if (choices.length === 0) return;
+
+    let index = choices.indexOf(document.activeElement);
+
+    if (event.key === 'ArrowDown' || event.key === 'ArrowRight') {
+        index = (index + 1) % choices.length;
+        choices[index].focus();
+        event.preventDefault();
+    } else if (event.key === 'ArrowUp' || event.key === 'ArrowLeft') {
+        index = (index - 1 + choices.length) % choices.length;
+        choices[index].focus();
+        event.preventDefault();
+    } else if (/^[1-9]$/.test(event.key)) {
+        const num = parseInt(event.key, 10) - 1;
+        if (num >= 0 && num < choices.length) {
+            choices[num].focus();
+            choices[num].click();
+        }
+    }
+}
+
+document.addEventListener('keydown', handleKeydown);

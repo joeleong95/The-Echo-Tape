@@ -13,13 +13,13 @@
     <div id="title-screen" class="screen visible">
          <h1 class="glitch-title">🌀 THE ECHO TAPE 🌀</h1>
          <p style="font-size: 1.2em; color: #ccc;">An Interactive Experience</p>
-         <button id="start-btn" class="menu-btn">INSERT TAPE</button>
+         <button id="start-btn" class="menu-btn" aria-label="Start the game">INSERT TAPE</button>
     </div>
 
     <div id="episode-screen" class="screen">
          <h1 class="glitch-title">SELECT EPISODE</h1>
-         <button class="episode-btn" data-episode="1">Episode 1: The Tape & The Lane</button>
-         <button class="episode-btn" disabled>Episode 2 - Coming Soon</button>
+         <button class="episode-btn" data-episode="1" aria-label="Play Episode 1">Episode 1: The Tape & The Lane</button>
+         <button class="episode-btn" disabled aria-label="Episode 2 coming soon">Episode 2 - Coming Soon</button>
     </div>
 
     <div class="static-overlay"></div>
@@ -28,8 +28,8 @@
     <div class="container">
         <h1 class="glitch-title">🌀 THE ECHO TAPE 🌀</h1>
         <div class="nav-controls">
-            <button id="back-btn" class="choice-btn" disabled>&larr; Back</button>
-            <button id="history-btn" class="choice-btn">History</button>
+            <button id="back-btn" class="choice-btn" disabled aria-label="Go back">&larr; Back</button>
+            <button id="history-btn" class="choice-btn" aria-label="View history">History</button>
         </div>
         
         <div class="vhs-screen">
@@ -354,7 +354,7 @@
             <h2 style="text-align:center;">Scene History</h2>
             <pre id="history-list"></pre>
             <div style="text-align:center; margin-top:10px;">
-                <button id="close-history-btn" class="choice-btn">Close</button>
+                <button id="close-history-btn" class="choice-btn" aria-label="Close history overlay">Close</button>
             </div>
         </div>
     </div>
