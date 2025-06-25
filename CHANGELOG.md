@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.21] - 2025-07-20
+### Changed
+- Split `script.js` into `state.js`, `audio.js`, and `ui.js` modules.
+
 ## [0.1.20] - 2025-07-19
 ### Added
 - Audio mute and volume preferences are now saved in persistent game state.
