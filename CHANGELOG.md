@@ -1,6 +1,10 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## [0.1.17] - 2025-07-16
+### Changed
+- Gracefully handle missing `localStorage` when loading or saving state.
+
 ## [0.1.16] - 2025-07-15
 ### Changed
 - Updated HTML title and Open Graph title to remove episode number.
