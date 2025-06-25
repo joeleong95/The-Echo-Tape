@@ -169,27 +169,59 @@ async function loadEpisode(ep) {
         screen.innerHTML = '';
 
         // build scenes from the JSON data
+        const builtIds = [];
         data.scenes.forEach(scene => {
+            if (scene.showIf) {
+                let ok = true;
+                for (const key in scene.showIf) {
+                    if (getState(key) !== scene.showIf[key]) {
+                        ok = false;
+                        break;
+                    }
+                }
+                if (!ok) return;
+            }
             const div = document.createElement('div');
             div.id = scene.id;
             div.className = 'interactive-scene';
             div.setAttribute('role', 'dialog');
             div.setAttribute('aria-label', scene.id);
             div.innerHTML = scene.html;
+
+            div.querySelectorAll('[data-show-if]').forEach(el => {
+                const condStr = el.getAttribute('data-show-if');
+                if (!condStr) return;
+                try {
+                    const cond = JSON.parse(condStr);
+                    let match = true;
+                    for (const key in cond) {
+                        if (getState(key) !== cond[key]) {
+                            match = false;
+                            break;
+                        }
+                    }
+                    if (!match) el.remove();
+                } catch (e) {
+                    console.error('Invalid data-show-if', e);
+                }
+            });
+
             screen.appendChild(div);
+            builtIds.push(scene.id);
         });
 
         sceneHistory = [];
         updateBackButton();
-        let startId = data.start || (data.scenes[0] && data.scenes[0].id);
-        if (resumeScene && data.scenes.some(s => s.id === resumeScene)) {
+        let startId = data.start;
+        if (!startId || !builtIds.includes(startId)) {
+            startId = builtIds[0];
+        }
+        if (resumeScene && builtIds.includes(resumeScene)) {
             startId = resumeScene;
             resumeScene = null;
         }
-        if (progress.episode === ep && progress.scene) {
-            if (data.scenes.some(s => s.id === progress.scene)) {
-                startId = progress.scene;
-            }
+        if (progress.episode === ep && progress.scene && builtIds.includes(progress.scene)) {
+            startId = progress.scene;
         }
         if (startId) {
             goToScene(startId);

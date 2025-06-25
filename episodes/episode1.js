@@ -20,7 +20,7 @@ window.localEpisodes["episode1"] = {
     },
     {
       "id": "scene-watch-tape-high",
-      "html": "<div class=\"dialogue\">\n                    <span class=\"character system\">SYSTEM:</span> Through a haze of smoke, you press play. The tape becomes a portal. Not just showing reality—creating it. You watch yourselves get high, watching yourselves get high... The timestamp reads 10 YEARS AGO. The cats start speaking in unison: 'The loop tastes like time.'\n                </div>\n                <div class=\"choice-container\">\n                    <p>The loop is delicious. Do you...</p>\n                    <button class=\"choice-btn\" onclick=\"goToScene('scene-embrace-loop')\">Embrace the loop. Get even higher.</button>\n                    <button class=\"choice-btn\" onclick=\"goToScene('scene-hallucination-start')\">Fight it. Try to make sense of it.</button>\n                </div>"
+      "html": "<div class=\"dialogue\">\n                    <span class=\"character system\">SYSTEM:</span> Through a haze of smoke, you press play. The tape becomes a portal. Not just showing reality\u2014creating it. You watch yourselves get high, watching yourselves get high... The timestamp reads 10 YEARS AGO. The cats start speaking in unison: 'The loop tastes like time.'\n                </div>\n                <div class=\"choice-container\">\n                    <p>The loop is delicious. Do you...</p>\n                    <button class=\"choice-btn\" onclick=\"goToScene('scene-embrace-loop')\">Embrace the loop. Get even higher.</button>\n                    <button class=\"choice-btn\" onclick=\"goToScene('scene-hallucination-start')\">Fight it. Try to make sense of it.</button>\n                </div>"
     },
     {
       "id": "scene-higher-forget",
@@ -48,11 +48,14 @@ window.localEpisodes["episode1"] = {
     },
     {
       "id": "scene-heed-warning",
-      "html": "<div class=\"dialogue\">\n                    <span class=\"character system\">SYSTEM:</span> You decide against it. The risk is too great. You put the tape away in a drawer. But as you do, the TV turns on by itself. Static. Then, a clear image: the two of you, putting the tape away. Timestamped 10 years ago. A voice from the speakers whispers... 'The loop has already begun.'\n                </div>\n                <div class=\"choice-container\">\n                    <p>You're already in the loop. Panicking, you...</p>\n                    <button class=\"choice-btn\" onclick=\"goToScene('scene-smash-tv')\">Smash the TV.</button>\n                    <button class=\"choice-btn\" onclick=\"goToScene('scene-run-away')\">Get the hell out of the flat.</button>\n                     <button class=\"choice-btn\" onclick=\"setState('hasTape', true); goToScene('scene-burn-tape')\">Find the tape and burn it.</button>\n                </div>"
+      "html": "<div class=\"dialogue\">\n                    <span class=\"character system\">SYSTEM:</span> You decide against it. The risk is too great. You put the tape away in a drawer. But as you do, the TV turns on by itself. Static. Then, a clear image: the two of you, putting the tape away. Timestamped 10 years ago. A voice from the speakers whispers... 'The loop has already begun.'\n                </div>\n                <div class=\"choice-container\">\n                    <p>You're already in the loop. Panicking, you...</p>\n                    <button class=\"choice-btn\" onclick=\"goToScene('scene-smash-tv')\">Smash the TV.</button>\n                    <button class=\"choice-btn\" onclick=\"goToScene('scene-run-away')\">Get the hell out of the flat.</button>\n                     <button class=\"choice-btn\" data-show-if='{\"hasTape\":false}' onclick=\"setState('hasTape', true); goToScene('scene-burn-tape')\">Find the tape and burn it.</button>\n                </div>"
     },
     {
       "id": "scene-burn-tape",
-      "html": "<div class=\"dialogue\">\n                    <span class=\"character system\">SYSTEM:</span> You grab the tape and a lighter. As the flame touches the plastic, the tape doesn't melt. It glows. The room fills with the smell of ozone and burnt sugar. The tape begins to speak, its voice a chorus of every conversation you've ever had. It knows everything.\n                </div>\n                 <div class=\"choice-container\">\n                    <p>You can't destroy it. You've only made it aware of you. This is a <span class=\"trippy-text\">DEAD END</span>.</p>\n                    <button class=\"choice-btn\" onclick=\"goToScene('scene-start')\">Restart The Loop</button>\n                </div>"
+      "html": "<div class=\"dialogue\">\n                    <span class=\"character system\">SYSTEM:</span> You grab the tape and a lighter. As the flame touches the plastic, the tape doesn't melt. It glows. The room fills with the smell of ozone and burnt sugar. The tape begins to speak, its voice a chorus of every conversation you've ever had. It knows everything.\n                </div>\n                 <div class=\"choice-container\">\n                    <p>You can't destroy it. You've only made it aware of you. This is a <span class=\"trippy-text\">DEAD END</span>.</p>\n                    <button class=\"choice-btn\" onclick=\"goToScene('scene-start')\">Restart The Loop</button>\n                </div>",
+      "showIf": {
+        "hasTape": true
+      }
     },
     {
       "id": "scene-pull-plug",
@@ -99,5 +102,4 @@ window.localEpisodes["episode1"] = {
       "html": "<div class=\"dialogue\">\n                     <span class=\"character system\">SYSTEM:</span> The path forward is shrouded in smoke and static. The party awaits, and with it, a new set of choices that will either tighten the loop or shatter it entirely.\n                </div>\n                <div class=\"dialogue\" id=\"state-summary\"></div>\n                <h2 style=\"color: #ff00ff; text-align: center;\">END OF EPISODE 1</h2>\n                <div class=\"choice-container\">\n                     <button class=\"choice-btn\" onclick=\"restartGame()\">RESTART THE LOOP</button>\n                </div>"
     }
   ]
-}
-;
+};
