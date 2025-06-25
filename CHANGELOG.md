@@ -12,6 +12,17 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Smooth fade transitions when moving between screens and scenes.
 
+## [0.4.0] - 2025-06-25
+### Added
+- Basic sound effects when navigating scenes.
+- Scene navigation history overlay.
+- Package.json with a simple test script.
+- Dedicated folder for audio assets.
+### Changed
+- Tweaked animation speed and scene transition timing.
+### Fixed
+- Minor bugs discovered during playtesting.
+
 ## [0.2.0] - 2025-06-24
 ### Added
 - Episode selection screen that lets you choose which episode to play.
