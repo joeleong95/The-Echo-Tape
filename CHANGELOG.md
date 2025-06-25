@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.19] - 2025-07-18
+### Added
+- Test now checks for duplicate scene IDs and broken `goToScene` links.
+
 ## [0.1.18] - 2025-07-17
 ### Changed
 - Consolidated episode embedding scripts into `scripts/embedEpisodes.js`.
