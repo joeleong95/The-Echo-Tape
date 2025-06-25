@@ -1,6 +1,11 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## [0.1.4] - 2025-07-03
+### Added
+- Button on the episode selection screen to return to the title.
+### Fixed
+- Starting Episode 1 after completing the tutorial now works reliably.
 ## [0.1.3] - 2025-07-02
 ### Fixed
 - Missing `continueBtn` definition prevented the "Insert Tape" button from working.

@@ -10,6 +10,7 @@
     const continueBtn = document.getElementById('continue-btn');
     const recordLight = document.querySelector('.record-light');
     const episodeButtons = document.querySelectorAll('.episode-btn');
+    const returnTitleBtn = document.getElementById('return-title-btn');
     const backBtn = document.getElementById('back-btn');
     const historyBtn = document.getElementById('history-btn');
     const historyOverlay = document.getElementById('history-overlay');
@@ -213,6 +214,12 @@ startBtn.addEventListener('click', () => {
     hideScreen(titleScreen);
     showScreen(episodeScreen);
 });
+if (returnTitleBtn) {
+    returnTitleBtn.addEventListener('click', () => {
+        hideScreen(episodeScreen);
+        showScreen(titleScreen);
+    });
+}
 if (continueBtn) {
     continueBtn.addEventListener("click", () => {
         initAudio();
@@ -228,7 +235,6 @@ function startEpisode(ep) {
     gameContainer.style.display = 'block';
     currentEpisode = ep;
     recordLight.style.display = 'block';
-    currentEpisode = null;
     playVhsSound();
     loadEpisode(ep);
 }
@@ -266,6 +272,9 @@ function restartGame() {
     gameContainer.style.display = 'none';
     recordLight.style.display = 'none';
     currentEpisode = null;
+    selectedEpisode = null;
+    introTimers.forEach(clearTimeout);
+    hideScreen(introScreen);
     clearProgress();
     resetState();
     sceneHistory = [];
