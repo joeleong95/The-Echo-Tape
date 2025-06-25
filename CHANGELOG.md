@@ -1,6 +1,9 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## [0.1.3] - 2025-07-02
+### Fixed
+- Missing `continueBtn` definition prevented the "Insert Tape" button from working.
 ## [0.1.2] - 2025-07-01
 ### Added
 - Noted early development status in README and AGENTS.
