@@ -57,11 +57,11 @@ for (const jsonFile of episodeJsons) {
     missing = true;
   }
 
-  const goToRegex = /goToScene\(['"]([^'"]+)['"]\)/g;
+  const sceneRegex = /data-scene=["']([^"']+)["']/g;
   for (const scene of jsonData.scenes) {
     const html = scene.html || '';
     let m;
-    while ((m = goToRegex.exec(html))) {
+    while ((m = sceneRegex.exec(html))) {
       const target = m[1];
       if (!sceneIds.has(target)) {
         console.error(`${jsonFile} scene '${scene.id}' links to missing scene '${target}'`);
