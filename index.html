@@ -27,6 +27,10 @@
     
     <div class="container">
         <h1 class="glitch-title">🌀 THE ECHO TAPE 🌀</h1>
+        <div class="nav-controls">
+            <button id="back-btn" class="choice-btn" disabled>&larr; Back</button>
+            <button id="history-btn" class="choice-btn">History</button>
+        </div>
         
         <div class="vhs-screen">
             <!-- ########## START SCENE ########## -->
@@ -344,7 +348,17 @@
             </div>
         </div>
     </div>
-    
+
+    <div id="history-overlay">
+        <div>
+            <h2 style="text-align:center;">Scene History</h2>
+            <pre id="history-list"></pre>
+            <div style="text-align:center; margin-top:10px;">
+                <button id="close-history-btn" class="choice-btn">Close</button>
+            </div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
