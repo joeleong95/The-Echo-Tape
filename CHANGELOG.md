@@ -1,6 +1,11 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+
+## [0.1.18] - 2025-07-17
+### Changed
+- Consolidated episode embedding scripts into `scripts/embedEpisodes.js`.
+- `npm run embed` now runs the same script as `npm run build-episodes`.
 ## [0.1.17] - 2025-07-16
 ### Changed
 - Gracefully handle missing `localStorage` when loading or saving state.
