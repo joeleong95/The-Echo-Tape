@@ -152,15 +152,37 @@ function playClickSound() {
     }
 }
 
-function playTitleMusic() {
-    if (titleMusic && titleMusic.paused && !musicMuted) {
-        titleMusic.currentTime = 0;
-        const playPromise = titleMusic.play();
-        if (playPromise && typeof playPromise.catch === 'function') {
-            playPromise.catch(() => {
-                document.addEventListener('click', () => titleMusic.play(), { once: true });
-            });
+function fadeInAudio(el, duration) {
+    if (!el) return;
+    const start = performance.now();
+    el.volume = 0;
+    function step(now) {
+        const progress = Math.min((now - start) / duration, 1);
+        let volume;
+        if (progress < 0.5) {
+            volume = progress * 1.2; // 60% volume halfway
+        } else {
+            volume = 0.6 + (progress - 0.5) * 0.8;
         }
+        el.volume = Math.min(volume, 1);
+        if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+}
+
+function playTitleMusic() {
+    if (titleMusic && !musicMuted) {
+        const startPlayback = () => {
+            titleMusic.currentTime = 0;
+            const playPromise = titleMusic.play();
+            if (playPromise && typeof playPromise.catch === 'function') {
+                playPromise.catch(() => {
+                    document.addEventListener('click', () => titleMusic.play(), { once: true });
+                });
+            }
+            fadeInAudio(titleMusic, 3000);
+        };
+        setTimeout(startPlayback, 500);
     }
 }
 

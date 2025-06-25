@@ -1,6 +1,11 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## [0.1.8] - 2025-07-07
+### Added
+- Title music now fades in over three seconds after a short delay.
+### Changed
+- `playTitleMusic` logic updated to support volume fade.
 ## [0.1.7] - 2025-07-06
 ### Added
 - Background title music now plays on the start screen.
