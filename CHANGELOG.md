@@ -31,6 +31,13 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 - Episode selection now loads correctly without a web server.
 
+## [0.4.2] - 2025-06-27
+### Added
+- Mute controls for background static and button click sounds.
+- Global click sound plays when any button is pressed.
+### Changed
+- Static and click audio now respect the mute settings.
+
 ## [0.2.0] - 2025-06-24
 ### Added
 - Episode selection screen that lets you choose which episode to play.
