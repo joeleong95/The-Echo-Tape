@@ -57,7 +57,14 @@ let resumeScene = null;
     
 
 // Persistent state
-const defaultState = { awareOfLoop: false, hasTape: false };
+const defaultState = {
+    awareOfLoop: false,
+    hasTape: false,
+    musicMuted: false,
+    sfxMuted: false,
+    musicVolume: 1,
+    sfxVolume: 1
+};
 let gameState = { ...defaultState };
 let storageAvailable = true;
 
@@ -287,6 +294,39 @@ function stopTitleMusic2() {
 }
 
 loadState();
+// Apply persisted audio settings
+musicMuted = getState('musicMuted');
+sfxMuted = getState('sfxMuted');
+musicVolume = getState('musicVolume');
+sfxVolume = getState('sfxVolume');
+
+function applyAudioPrefs() {
+    if (muteMusicBtn) muteMusicBtn.textContent = musicMuted ? 'Unmute Music' : 'Mute Music';
+    if (muteSfxBtn) muteSfxBtn.textContent = sfxMuted ? 'Unmute SFX' : 'Mute SFX';
+    if (musicVolSlider) musicVolSlider.value = musicVolume;
+    if (sfxVolSlider) sfxVolSlider.value = sfxVolume;
+    if (titleMusic) {
+        titleMusic.muted = musicMuted;
+        titleMusic.volume = musicVolume;
+    }
+    if (titleMusic2) {
+        titleMusic2.muted = musicMuted;
+        titleMusic2.volume = musicVolume;
+    }
+    if (sfxStatic) {
+        sfxStatic.muted = musicMuted;
+        sfxStatic.volume = musicVolume;
+    }
+    if (sfxClick) {
+        sfxClick.muted = sfxMuted;
+        sfxClick.volume = sfxVolume;
+    }
+    if (tapeFx) {
+        tapeFx.volume = sfxVolume;
+    }
+}
+
+applyAudioPrefs();
 
 loadProgress();
 playTitleMusic();
@@ -565,32 +605,32 @@ if (closeHistoryBtn) closeHistoryBtn.addEventListener('click', closeHistory);
 if (muteMusicBtn) {
     muteMusicBtn.addEventListener('click', () => {
         musicMuted = !musicMuted;
-        if (sfxStatic) sfxStatic.muted = musicMuted;
-        if (titleMusic) titleMusic.muted = musicMuted;
-        muteMusicBtn.textContent = musicMuted ? 'Unmute Music' : 'Mute Music';
+        setState('musicMuted', musicMuted);
+        applyAudioPrefs();
     });
 }
 
 if (muteSfxBtn) {
     muteSfxBtn.addEventListener('click', () => {
         sfxMuted = !sfxMuted;
-        if (sfxClick) sfxClick.muted = sfxMuted;
-        muteSfxBtn.textContent = sfxMuted ? 'Unmute SFX' : 'Mute SFX';
+        setState('sfxMuted', sfxMuted);
+        applyAudioPrefs();
     });
 }
 
 if (musicVolSlider) {
     musicVolSlider.addEventListener('input', () => {
         musicVolume = parseFloat(musicVolSlider.value);
-        if (titleMusic) titleMusic.volume = musicVolume;
-        if (sfxStatic) sfxStatic.volume = musicVolume;
+        setState('musicVolume', musicVolume);
+        applyAudioPrefs();
     });
 }
 
 if (sfxVolSlider) {
     sfxVolSlider.addEventListener('input', () => {
         sfxVolume = parseFloat(sfxVolSlider.value);
-        if (sfxClick) sfxClick.volume = sfxVolume;
+        setState('sfxVolume', sfxVolume);
+        applyAudioPrefs();
     });
 }
 
