@@ -33,6 +33,8 @@ let sfxMuted = false;
 let sceneHistory = [];
 let selectedEpisode = null;
 let introTimers = [];
+let currentEpisode = null;
+let resumeScene = null;
     
 
 // Persistent state
@@ -77,6 +79,41 @@ function updateStateSummary() {
     }
 }
 
+// ------- Progress helpers -------
+const progressKey = "echoTapeProgress";
+let progress = { episode: null, scene: null };
+
+function loadProgress() {
+    const saved = localStorage.getItem(progressKey);
+    if (saved) {
+        try {
+            progress = { episode: null, scene: null, ...JSON.parse(saved) };
+        } catch (e) {
+            console.error("Failed to load progress", e);
+        }
+    }
+    if (continueBtn) {
+        continueBtn.style.display = progress.episode ? 'block' : 'none';
+    }
+}
+
+function saveProgress() {
+    localStorage.setItem(progressKey, JSON.stringify(progress));
+}
+
+function setProgress(ep, scene) {
+    progress.episode = ep;
+    progress.scene = scene;
+    saveProgress();
+}
+
+function clearProgress() {
+    progress = { episode: null, scene: null };
+    saveProgress();
+    if (continueBtn) {
+        continueBtn.style.display = 'none';
+    }
+}
 // ------- Audio helpers -------
 function initAudio() {
     if (!audioCtx) {
@@ -107,6 +144,7 @@ function playClickSound() {
 
 loadState();
 
+loadProgress();
 async function loadEpisode(ep) {
     let data;
     try {
@@ -141,7 +179,16 @@ async function loadEpisode(ep) {
 
         sceneHistory = [];
         updateBackButton();
-        const startId = data.start || (data.scenes[0] && data.scenes[0].id);
+        let startId = data.start || (data.scenes[0] && data.scenes[0].id);
+        if (resumeScene && data.scenes.some(s => s.id === resumeScene)) {
+            startId = resumeScene;
+            resumeScene = null;
+        }
+        if (progress.episode === ep && progress.scene) {
+            if (data.scenes.some(s => s.id === progress.scene)) {
+                startId = progress.scene;
+            }
+        }
         if (startId) {
             goToScene(startId);
         }
@@ -165,11 +212,22 @@ startBtn.addEventListener('click', () => {
     hideScreen(titleScreen);
     showScreen(episodeScreen);
 });
+if (continueBtn) {
+    continueBtn.addEventListener("click", () => {
+        initAudio();
+        hideScreen(titleScreen);
+        showScreen(episodeScreen);
+        resumeScene = progress.scene;
+        startEpisode(progress.episode || "1");
+    });
+}
 
 function startEpisode(ep) {
     hideScreen(introScreen);
     gameContainer.style.display = 'block';
+    currentEpisode = ep;
     recordLight.style.display = 'block';
+    currentEpisode = null;
     playVhsSound();
     loadEpisode(ep);
 }
@@ -206,6 +264,8 @@ episodeButtons.forEach(btn => {
 function restartGame() {
     gameContainer.style.display = 'none';
     recordLight.style.display = 'none';
+    currentEpisode = null;
+    clearProgress();
     resetState();
     sceneHistory = [];
     const screen = document.getElementById('vhs-screen');
@@ -247,6 +307,7 @@ async function goToScene(sceneId, fromBack = false) {
     updateBackButton();
     targetScene.scrollIntoView({ behavior: 'smooth' });
     focusFirstChoice(targetScene);
+    setProgress(currentEpisode, sceneId);
     if (sceneId === 'scene-tobecontinued') {
         updateStateSummary();
     }

@@ -1,6 +1,12 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## [0.1.1] - 2025-06-30
+### Added
+- Save progress across sessions with a Continue option.
+### Changed
+- Restarting the game now clears saved progress.
+
 
 ## [0.1] - 2025-06-25
 ### Changed
