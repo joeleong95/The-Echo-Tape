@@ -106,4 +106,5 @@ All notable changes to this project will be documented in this file.
 - Local ESLint setup with a `lint` script for checking code style.
 - Added `SCRIPT_GUIDELINES.md` with a narrative script reference.
 - Test now validates JSON in `data-set-state` and `data-show-if` attributes.
+- `embedEpisodes.js` now reports parse errors with the file name and exits with a non-zero status.
 Planned enhancements and updates will be listed here as they are decided.

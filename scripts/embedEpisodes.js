@@ -7,7 +7,14 @@ const files = fs.readdirSync(episodesDir).filter(f => f.endsWith('.json'));
 
 files.forEach(file => {
   const jsonPath = path.join(episodesDir, file);
-  const jsonData = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
+  let jsonData;
+  try {
+    jsonData = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
+  } catch (err) {
+    console.error(`Failed to parse ${file}:`, err.message);
+    process.exit(1);
+  }
+
   const name = path.basename(file, '.json');
   const jsPath = path.join(episodesDir, `${name}.js`);
   const jsContent =

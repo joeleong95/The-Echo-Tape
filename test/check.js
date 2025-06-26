@@ -149,6 +149,14 @@ try {
   missing = true;
 }
 
+// Ensure embedEpisodes.js handles invalid JSON
+try {
+  require('./embedScript.test.js');
+} catch (err) {
+  console.error(err);
+  missing = true;
+}
+
 // Run additional runtime tests
 try {
   require('./runtime.test.js');
