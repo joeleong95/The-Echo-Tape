@@ -409,6 +409,11 @@ body {
 .case-vhs-status.alert {
     color: #ff4444;
 }
+.case-evidence-image {
+    max-width: 100%;
+    border: 2px solid #00ffff;
+    margin: 10px 0;
+}
 
 .scene-image {
     max-width: 100%;

@@ -20,12 +20,15 @@ function setupTabs(scene) {
 }
 
 function setupAudio(scene) {
-    const playBtn = scene.querySelector('.case-play-audio');
-    const transcript = scene.querySelector('.case-audio-transcript');
-    if (!playBtn) return;
-    playBtn.addEventListener('click', () => {
-        AudioModule.playTapeFx();
-        if (transcript) transcript.style.display = 'block';
+    const buttons = scene.querySelectorAll('.case-play-audio');
+    buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            AudioModule.playTapeFx();
+            const transcript = btn.nextElementSibling;
+            if (transcript && transcript.classList.contains('case-audio-transcript')) {
+                transcript.style.display = 'block';
+            }
+        });
     });
 }
 
