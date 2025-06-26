@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.0.16] - 2025-08-05
+### Added
+- Import map for DOMPurify so the game works on static hosts.
+- Warning when running over `file:` protocol.
+### Fixed
+- Service worker caching now uses absolute URLs to avoid install failures.
+
 ## [0.0.0.15] - 2025-08-04
 ### Added
 - `npm start` script that launches a simple static server.

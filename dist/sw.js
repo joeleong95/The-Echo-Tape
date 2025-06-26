@@ -5,7 +5,7 @@ const CACHE_NAME = 'echo-tape-1.0.0';
 self.addEventListener('install', event => {
   event.waitUntil((async () => {
     const cache = await caches.open(CACHE_NAME);
-    await cache.addAll([
+    const assets = [
       // ASSETS_START
       '/',
       'index.html',
@@ -14,6 +14,7 @@ self.addEventListener('install', event => {
       'src/state.mjs',
       'src/audio.mjs',
       'src/ui.mjs',
+      'src/dompurify.mjs',
       'episodes/episode0.json',
       'episodes/episode1.json',
       'dist/episodes/episode0.js',
@@ -29,7 +30,8 @@ self.addEventListener('install', event => {
       'images/joeNewtTape3.png',
       'images/joeNewtTape4.png',
       // ASSETS_END
-    ]);
+    ].map(p => new URL(p, self.location.origin).toString());
+    await cache.addAll(assets);
     await self.skipWaiting();
   })());
 });

@@ -159,6 +159,7 @@ try {
     'src/state.mjs',
     'src/audio.mjs',
     'src/ui.mjs',
+    'src/dompurify.mjs',
     ...fs.readdirSync(episodesDir).filter(f => f.endsWith(".json")).map(f => `episodes/${f}`),
     ...fs.readdirSync(path.join(__dirname, "..", "dist", "episodes")).filter(f => f.endsWith(".js")).map(f => `dist/episodes/${f}`),
     'dist/episodes/manifest.json',

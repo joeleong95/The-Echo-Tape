@@ -62,7 +62,8 @@ try {
       'src/script.mjs',
       'src/state.mjs',
       'src/audio.mjs',
-      'src/ui.mjs'
+      'src/ui.mjs',
+      'src/dompurify.mjs'
     ];
 
     const episodeAssets = fs.readdirSync(episodesDir)
