@@ -55,6 +55,7 @@
         <div class="nav-controls">
             <button id="back-btn" class="choice-btn" disabled aria-label="Go back">&larr; Back</button>
             <button id="history-btn" class="choice-btn" aria-label="View history">History</button>
+            <button id="case-file-btn" class="choice-btn" aria-label="Open case file">Case File</button>
         </div>
         <div class="audio-controls">
             <button id="mute-music-btn" class="choice-btn" aria-label="Toggle static audio">Mute Music</button>
@@ -75,6 +76,46 @@
             <pre id="history-list"></pre>
             <div style="text-align:center; margin-top:10px;">
                 <button id="close-history-btn" class="choice-btn" aria-label="Close history overlay">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="case-file-overlay">
+        <div class="case-file">
+            <h2 class="case-header">&gt;&gt; LARKHILL LANE // CASE FILE C-42</h2>
+            <p class="case-status">&gt; STATUS: UNLISTED... NOT REAL... NOT ENTIRELY</p>
+            <div class="case-tabs">
+                <button class="choice-btn case-tab-button" data-target="#cf-main">&gt; CASE FILE</button>
+                <button class="choice-btn case-tab-button" data-target="#cf-persons">&gt; PERSONS OF INTEREST</button>
+                <button class="choice-btn case-tab-button" data-target="#cf-evidence">&gt; EVIDENCE</button>
+            </div>
+            <div id="cf-main" class="case-tab-content">
+                <p>&gt; <span class="case-query">QUERY:</span> PROPERTY VERIFICATION – NORTHWEST SECTOR C-42</p>
+                <p>&gt; <span class="case-response">ERROR - NO SUCH LISTING. FILE DOES NOT EXIST.</span></p>
+                <h3>&gt; INCOMING TRANSMISSION... SOURCE: GRANNY (REAL ONE?)</h3>
+                <button class="choice-btn case-play-audio">&gt; PLAY AUDIO FRAGMENT</button>
+                <p class="case-audio-transcript" style="display:none">"Tell Joe the property isn't listed anymore. Because it's not... real anymore. Not entirely... [STATIC]... Larkhill Lane."</p>
+            </div>
+            <div id="cf-persons" class="case-tab-content" style="display:none">
+                <h3>&gt; SUBJECT: JOE</h3>
+                <p>&gt; <strong>STATUS:</strong> NUMB... AWAKENING</p>
+                <p>&gt; <strong>AFFILIATION:</strong> HOME OFFICE (CIVIL SERVANT)</p>
+                <p>&gt; <strong>PROFILE:</strong> Stocky frame, buzzed hair. Carries the weary warmth of forced smiles. A circuit-etched tattoo suggests a history with systems, logical and otherwise. Currently drawn into a system that defies logic.</p>
+                <h3>&gt; SUBJECT: NEWT</h3>
+                <p>&gt; <strong>STATUS:</strong> GROGGY... RECEPTIVE</p>
+                <p>&gt; <strong>AFFILIATION:</strong> INDEPENDENT (SOUNDCLOUD ARTIST)</p>
+                <p>&gt; <strong>PROFILE:</strong> Long blonde hair, sharp grin. A sly mischief in his eyes. Wears a slim gold chain. First point of contact for the anomalous transmission. Seems uniquely tuned to the unfolding weirdness.</p>
+                <p>&gt; ASSOCIATES: DOOBIE &amp; GOOBY - Feline entities. Seemingly aware of the situation's gravity.</p>
+            </div>
+            <div id="cf-evidence" class="case-tab-content" style="display:none">
+                <div class="case-vhs"></div>
+                <p>&gt; ARTIFACT: VHS-C42</p>
+                <p>&gt; Unmarked cassette discovered in a secure government facility. No case number assigned.</p>
+                <p>&gt; Contents are... anomalous. Displays events that defy linear time.</p>
+                <p class="case-vhs-status">&gt; Artifact is dormant. Hover to detect energy signature.</p>
+            </div>
+            <div style="text-align:center; margin-top:10px;">
+                <button id="close-case-file-btn" class="choice-btn" aria-label="Close case file">Close</button>
             </div>
         </div>
     </div>
