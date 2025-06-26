@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.0.22] - 2025-06-30
+### Added
+- Initial party sequence and Episode 1 ending.
+- Case file close button now sets `reviewedCaseFile`.
+- Paranoia branch marks `trustBroken`.
+### Changed
+- Pre-party scene leads into the new party sequence.
+
 ## [0.0.0.21] - 2025-06-29
 ### Added
 - Game state now tracks `reviewedCaseFile`, `trustBroken`, and `visitedLarkhill` for future branching.
