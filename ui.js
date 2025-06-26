@@ -126,7 +126,7 @@
       }
   }
 
-  function startEpisode(ep) {
+  async function startEpisode(ep) {
       AudioModule.stopTitleMusic();
       AudioModule.stopTitleMusic2();
       hideScreen(introScreen);
@@ -134,7 +134,7 @@
       currentEpisode = ep;
       recordLight.style.display = 'block';
       AudioModule.playVhsSound();
-      loadEpisode(ep);
+      await loadEpisode(ep);
   }
 
   function playIntro(ep) {
@@ -150,8 +150,8 @@
           introText.classList.add('fade-out');
           introTitle.classList.add('visible');
       }, 8000));
-      introTimers.push(setTimeout(() => {
-          startEpisode(selectedEpisode);
+      introTimers.push(setTimeout(async () => {
+          await startEpisode(selectedEpisode);
       }, 14000));
   }
 
@@ -344,12 +344,12 @@
       }
 
       if (continueBtn) {
-          continueBtn.addEventListener('click', () => {
+          continueBtn.addEventListener('click', async () => {
               AudioModule.initAudio();
               AudioModule.stopTitleMusic();
               hideScreen(titleScreen);
               resumeScene = StateModule.getProgress().scene;
-              startEpisode(StateModule.getProgress().episode || '1');
+              await startEpisode(StateModule.getProgress().episode || '1');
           });
       }
 
@@ -379,13 +379,13 @@
       }
 
       episodeButtons.forEach(btn => {
-          btn.addEventListener('click', () => {
+          btn.addEventListener('click', async () => {
               const ep = btn.dataset.episode;
               if (ep === '1') {
                   playIntro(ep);
               } else {
                   hideScreen(episodeScreen);
-                  startEpisode(ep);
+                  await startEpisode(ep);
               }
           });
       });
@@ -450,9 +450,9 @@
       });
 
       if (skipIntroBtn) {
-          skipIntroBtn.addEventListener('click', () => {
+          skipIntroBtn.addEventListener('click', async () => {
               introTimers.forEach(clearTimeout);
-              startEpisode(selectedEpisode || '1');
+              await startEpisode(selectedEpisode || '1');
           });
       }
       updateBackButton();
