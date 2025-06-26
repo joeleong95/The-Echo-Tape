@@ -159,6 +159,7 @@ async function loadEpisode(ep) {
 async function startEpisode(ep) {
     AudioModule.stopTitleMusic();
     AudioModule.stopTitleMusic2();
+    AudioModule.stopIntroMusic();
     hideScreen(introScreen);
     gameContainer.style.display = 'block';
     currentEpisode = ep;
@@ -170,6 +171,7 @@ async function startEpisode(ep) {
 function playIntro(ep) {
     selectedEpisode = ep;
     AudioModule.stopTitleMusic2();
+    AudioModule.playIntroMusic();
     hideScreen(episodeScreen);
     showScreen(introScreen);
     introText.classList.remove('fade-out');
@@ -505,6 +507,7 @@ function init() {
     if (skipIntroBtn) {
         skipIntroBtn.addEventListener('click', async () => {
             introTimers.forEach(clearTimeout);
+            AudioModule.stopIntroMusic();
             await startEpisode(selectedEpisode || '1');
         });
     }

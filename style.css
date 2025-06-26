@@ -103,11 +103,14 @@ body {
     height: 60vh;
     overflow: hidden;
     perspective: 400px;
+    mask-image: linear-gradient(to top, transparent 0%, black 15%, black 85%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to top, transparent 0%, black 15%, black 85%, transparent 100%);
 }
 
 .intro-crawl .intro-text {
     transform-origin: 50% 100%;
     animation: star-crawl 18s linear forwards;
+    font-size: 1.8em;
 }
 
 @keyframes star-crawl {
@@ -405,4 +408,11 @@ body {
 }
 .case-vhs-status.alert {
     color: #ff4444;
+}
+
+.scene-image {
+    max-width: 100%;
+    height: auto;
+    border: 2px solid #ff00ff;
+    margin: 15px 0;
 }
