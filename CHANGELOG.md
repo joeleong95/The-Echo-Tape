@@ -101,4 +101,5 @@ All notable changes to this project will be documented in this file.
 - Branch point in Episode 1 allowing players to play, investigate, or destroy the tape.
 - Local ESLint setup with a `lint` script for checking code style.
 - Added `SCRIPT_GUIDELINES.md` with a narrative script reference.
+- Test now validates JSON in `data-set-state` and `data-show-if` attributes.
 Planned enhancements and updates will be listed here as they are decided.

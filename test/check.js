@@ -68,6 +68,27 @@ for (const jsonFile of episodeJsons) {
         missing = true;
       }
     }
+
+    const setStateRegex = /data-set-state=(['"])(.*?)\1/g;
+    const showIfRegex = /data-show-if=(['"])(.*?)\1/g;
+
+    while ((m = setStateRegex.exec(html))) {
+      try {
+        JSON.parse(m[2]);
+      } catch (err) {
+        console.error(`${jsonFile} scene '${scene.id}' has invalid data-set-state: ${err.message}`);
+        missing = true;
+      }
+    }
+
+    while ((m = showIfRegex.exec(html))) {
+      try {
+        JSON.parse(m[2]);
+      } catch (err) {
+        console.error(`${jsonFile} scene '${scene.id}' has invalid data-show-if: ${err.message}`);
+        missing = true;
+      }
+    }
   }
 
   const jsPath = path.join(episodesDir, jsonFile.replace(/\.json$/, '.js'));
