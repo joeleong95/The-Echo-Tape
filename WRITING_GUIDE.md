@@ -56,3 +56,19 @@ and buttons the player will see.
    appear when the specified state values match.
 
 See `episodes/episode1.json` for a complete example.
+
+## Building and Testing
+
+After saving changes to a JSON file, run:
+
+```
+npm run build-episodes
+```
+
+This converts every `.json` file in the `episodes` folder into a matching `.js` file that the game loads. Commit the generated `.js` alongside your JSON.
+
+Finally, run the tests to catch syntax errors or missing scenes:
+
+```
+npm test
+```
