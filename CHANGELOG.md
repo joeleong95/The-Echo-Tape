@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.26] - 2025-07-25
+### Changed
+- Updated README and writing guide with instructions on building episodes and running tests.
+
 ## [0.1.25] - 2025-07-24
 ### Added
 - Centralized image assets in new `images/` folder.
