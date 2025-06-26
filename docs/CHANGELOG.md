@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.0.18] - 2025-06-26
+### Added
+- Added case file module scene with tabbed interface and audio cues in Episode 1.
+
 ## [0.0.0.17] - 2025-06-26
 ### Added
 - Star Wars style crawl intro for Episode 1 that fades into the logo.
@@ -35,10 +39,12 @@ All notable changes to this project will be documented in this file.
 ## [0.0.0.11] - 2025-06-26
 ### Changed
 - Service worker now embeds the build number during `npm run build-episodes`.
+- `embedEpisodes.js` now reports parse errors with the file name and exits with a non-zero status.
 
 ## [0.0.0.10] - 2025-06-26
 ### Added
 - Service worker cache is now generated automatically when running `npm run build-episodes`.
+- Test now validates JSON in `data-set-state` and `data-show-if` attributes.
 
 ## [0.0.0.9] - 2025-06-26
 ### Changed
@@ -57,8 +63,12 @@ All notable changes to this project will be documented in this file.
 ## [0.0.0.6] - 2025-06-26
 ### Added
 - Continued Episode 1 with new party setup scenes.
+- Local ESLint setup with a `lint` script for checking code style.
+- Added `SCRIPT_GUIDELINES.md` with a narrative script reference.
 
 ## [0.0.0.5] - 2025-06-26
+### Added
+- Branch point in Episode 1 allowing players to play, investigate, or destroy the tape.
 ### Changed
 - Updated README and writing guide with instructions on building episodes and running tests.
 
@@ -135,12 +145,3 @@ All notable changes to this project will be documented in this file.
 - Externalized CSS and JavaScript files (`style.css` and `script.js`).
 - Episode selection screen that lets you choose which episode to play.
 
-## [Future]
-### Added
-- Branch point in Episode 1 allowing players to play, investigate, or destroy the tape.
-- Added case file module scene with tabbed interface and audio cues in Episode 1.
-- Local ESLint setup with a `lint` script for checking code style.
-- Added `SCRIPT_GUIDELINES.md` with a narrative script reference.
-- Test now validates JSON in `data-set-state` and `data-show-if` attributes.
-- `embedEpisodes.js` now reports parse errors with the file name and exits with a non-zero status.
-Planned enhancements and updates will be listed here as they are decided.
