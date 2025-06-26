@@ -2,6 +2,7 @@
 
 import * as StateModule from './state.mjs';
 import * as AudioModule from './audio.mjs';
+import * as CaseFileModule from './caseFile.mjs';
 import DOMPurifyLib from 'dompurify';
 
 const DOMPurify = typeof window !== 'undefined' && window.DOMPurify ? window.DOMPurify : DOMPurifyLib;
@@ -244,10 +245,16 @@ async function goToScene(sceneId, fromBack = false) {
         if (!fromBack) {
             sceneHistory.push(currentScene.id);
         }
+        if (currentScene.id === 'scene-case-file') {
+            CaseFileModule.stopGlitch();
+        }
         await hideSceneElement(currentScene);
     }
 
     showScene(targetScene);
+    if (sceneId === 'scene-case-file') {
+        CaseFileModule.init(targetScene);
+    }
     announceScene(targetScene);
     AudioModule.playSceneSound();
     updateBackButton();

@@ -357,3 +357,37 @@ body {
     clip: rect(1px, 1px, 1px, 1px);
     clip-path: inset(50%);
 }
+
+/* Case File module styles */
+.case-file {
+    border: 2px solid #00ffff;
+    padding: 20px;
+    background: rgba(0,0,0,0.8);
+    margin: 20px auto;
+}
+.case-header {
+    font-family: 'Orbitron', monospace;
+    color: #ffff00;
+    text-align: center;
+    margin-bottom: 10px;
+}
+.case-tab-button.active {
+    background: #00ffff;
+    color: #000;
+}
+.case-tab-content {
+    display: none;
+    margin-top: 10px;
+}
+.case-tab-content.active {
+    display: block;
+}
+.case-vhs {
+    width: 160px;
+    height: 90px;
+    background: #444;
+    margin-bottom: 10px;
+}
+.case-vhs-status.alert {
+    color: #ff4444;
+}
