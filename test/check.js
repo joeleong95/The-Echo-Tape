@@ -110,6 +110,14 @@ for (const jsonFile of episodeJsons) {
     }
   }
 }
+
+// Run additional runtime tests
+try {
+  require('./runtime.test.js');
+} catch (err) {
+  console.error(err);
+  missing = true;
+}
 if (missing) {
   console.error('Test failed');
   process.exit(1);
