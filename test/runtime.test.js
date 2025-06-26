@@ -120,8 +120,8 @@ async function runTests() {
   global.requestAnimationFrame = fn => fn(0);
   global.performance = { now: () => 0 };
 
-  require('../state.js');
-  require('../audio.js');
+  require('../src/state.js');
+  require('../src/audio.js');
 
   global.StateModule = global.window.StateModule;
   global.AudioModule = global.window.AudioModule;
@@ -168,7 +168,7 @@ async function runTests() {
   assert.strictEqual(elements['sfx-static'].currentTime, 0);
 
   // UI module tests
-  require('../ui.js');
+  require('../src/ui.js');
   const Ui = global.window.UiModule;
 
   // Minimal scene elements after loading ui.js

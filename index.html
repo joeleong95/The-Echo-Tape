@@ -84,16 +84,16 @@
     <audio id="tape-fx" src="audio/tape_fx.ogg" preload="auto"></audio>
 
     <!-- Embedded episode data for offline use -->
-    <script src="episodes/episode0.js"></script>
-    <script src="episodes/episode1.js"></script>
-    <script src="state.js"></script>
-    <script src="audio.js"></script>
-    <script src="ui.js"></script>
-    <script src="script.js"></script>
+    <script src="dist/episodes/episode0.js"></script>
+    <script src="dist/episodes/episode1.js"></script>
+    <script src="src/state.js"></script>
+    <script src="src/audio.js"></script>
+    <script src="src/ui.js"></script>
+    <script src="src/script.js"></script>
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js').catch(console.error);
+                navigator.serviceWorker.register('dist/sw.js').catch(console.error);
             });
         }
     </script>

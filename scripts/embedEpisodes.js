@@ -18,7 +18,7 @@ files.forEach(file => {
   }
 
   const name = path.basename(file, '.json');
-  const jsPath = path.join(episodesDir, `${name}.js`);
+  const jsPath = path.join(__dirname, '..', 'dist', 'episodes', `${name}.js`);
   const jsContent =
     'window.localEpisodes = window.localEpisodes || {};' +
     `\nwindow.localEpisodes[${JSON.stringify(name)}] = ` +
@@ -30,12 +30,12 @@ console.log('Embedded', files.length, 'episodes');
 
 // Update sw.js cache list with assets from episodes, audio, and images
 try {
-  const swPath = path.join(__dirname, '..', 'sw.js');
+  const swPath = path.join(__dirname, '..', 'dist', 'sw.js');
   const swLines = fs.readFileSync(swPath, 'utf8').split(/\r?\n/);
 
   // Update CACHE_NAME with current build number
   try {
-    const changelog = fs.readFileSync(path.join(__dirname, '..', 'CHANGELOG.md'), 'utf8');
+    const changelog = fs.readFileSync(path.join(__dirname, '..', 'docs/CHANGELOG.md'), 'utf8');
     const m = changelog.match(/\[(\d+\.\d+\.\d+\.\d+)\]/);
     if (m) {
       const idx = swLines.findIndex(l => l.includes('const CACHE_NAME'));
@@ -55,20 +55,24 @@ try {
       '/',
       'index.html',
       'style.css',
-      'script.js',
-      'state.js',
-      'audio.js',
-      'ui.js'
+      'src/script.js',
+      'src/state.js',
+      'src/audio.js',
+      'src/ui.js'
     ];
 
     const episodeAssets = fs.readdirSync(episodesDir)
-      .filter(f => f.endsWith('.json') || f.endsWith('.js'))
+      .filter(f => f.endsWith(".json"))
       .sort()
       .map(f => `episodes/${f}`);
+    const episodeJsAssets = fs.readdirSync(path.join(__dirname, "..", "dist", "episodes"))
+      .filter(f => f.endsWith(".js"))
+      .sort()
+      .map(f => `dist/episodes/${f}`);
     const audioAssets = fs.readdirSync(audioDir).sort().map(f => `audio/${f}`);
     const imageAssets = fs.readdirSync(imagesDir).sort().map(f => `images/${f}`);
 
-    const assets = [...rootAssets, ...episodeAssets, ...audioAssets, ...imageAssets];
+    const assets = [...rootAssets, ...episodeAssets, ...episodeJsAssets,  ...audioAssets, ...imageAssets];
     const newLines = assets.map(a => `      '${a}',`);
     swLines.splice(start + 1, end - start - 1, ...newLines);
     fs.writeFileSync(swPath, swLines.join('\n'));
