@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.1] - 2025-06-27
+### Changed
+- Development server now compresses responses and sets cache headers.
+
 ## [0.0.0.24] - 2025-06-26
 ### Added
 - Top-level README linking to docs.
