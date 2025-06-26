@@ -155,7 +155,19 @@ window.localEpisodes["episode1"] = {
     },
     {
       "id": "scene-pre-party",
-      "html": "<div class=\"dialogue\">\n                    <span class=\"character system\">SYSTEM:</span> Bass rumbles the walls. Friends chatter nervously. Somewhere outside, a siren wails like a warning.\n                </div>\n                <div class=\"choice-container\">\n                    <p>The party is about to begin.</p>\n                    <button class=\"choice-btn\" data-restart>End demo.</button>\n                </div>"
+      "html": "<div class=\"dialogue\">\n                    <span class=\"character system\">SYSTEM:</span> Bass rumbles the walls. Friends chatter nervously. Somewhere outside, a siren wails like a warning.\n                </div>\n                <div class=\"choice-container\">\n                    <p>The party is about to begin.</p>\n                    <button class=\"choice-btn\" data-scene='scene-party-start'>Let the music play</button>\n                    <button class=\"choice-btn\" data-restart>End demo.</button>\n                </div>"
+    },
+    {
+      "id": "scene-party-start",
+      "html": "<div class=\"dialogue\"><span class=\"character system\">SYSTEM:</span> The speakers throb as more guests pile in, clutching warm cans and wide grins.</div><div class=\"choice-container\"><p>The tape sits on the coffee table, almost humming.</p><button class=\"choice-btn\" data-scene='scene-party-vibe'>Keep dancing</button><button class=\"choice-btn\" data-scene='scene-case-file'>Check the case file again</button></div>"
+    },
+    {
+      "id": "scene-party-vibe",
+      "html": "<div class=\"dialogue\"><span class=\"character newt\">NEWT:</span> This is mental! Feel that energy?</div><div class=\"dialogue\"><span class=\"character joe\">JOE:</span> The tape... it's pulsing with the beat.</div><div class=\"choice-container\"><p>A shimmer forms around the VHS.</p><button class=\"choice-btn\" data-scene='scene-party-door'>Stare into the shimmer</button></div>"
+    },
+    {
+      "id": "scene-party-door",
+      "html": "<div class=\"dialogue\"><span class=\"character system\">SYSTEM:</span> The wall splits open like melted wax, revealing a crooked door marked \"Larkhill Lane\".</div><div class=\"choice-container\"><p>The door beckons you.</p><button class=\"choice-btn\" data-scene='scene-tobecontinued'>Step through</button><button class=\"choice-btn\" data-scene='scene-pre-party'>Back away</button></div>"
     },
     {
       "id": "scene-case-file",
