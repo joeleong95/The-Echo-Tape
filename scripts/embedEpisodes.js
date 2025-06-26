@@ -30,6 +30,19 @@ console.log('Embedded', files.length, 'episodes');
 try {
   const swPath = path.join(__dirname, '..', 'sw.js');
   const swLines = fs.readFileSync(swPath, 'utf8').split(/\r?\n/);
+  // Update CACHE_NAME with current build number
+  try {
+    const changelog = fs.readFileSync(path.join(__dirname, '..', 'CHANGELOG.md'), 'utf8');
+    const m = changelog.match(/\[(\d+\.\d+\.\d+\.\d+)\]/);
+    if (m) {
+      const idx = swLines.findIndex(l => l.includes('const CACHE_NAME'));
+      if (idx !== -1) {
+        swLines[idx] = `const CACHE_NAME = 'echo-tape-${m[1]}';`;
+      }
+    }
+  } catch (err) {
+    console.error('Failed to read build number:', err.message);
+  }
   const start = swLines.findIndex(l => l.includes("'episodes/"));
   if (start !== -1) {
     let end = start;
