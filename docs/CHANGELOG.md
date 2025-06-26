@@ -156,4 +156,5 @@ All notable changes to this project will be documented in this file.
 - ARIA roles for interactive scenes.
 - Externalized CSS and JavaScript files (`style.css` and `script.js`).
 - Episode selection screen that lets you choose which episode to play.
+- Expanded case file with additional evidence and audio.
 
