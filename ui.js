@@ -26,6 +26,7 @@
   const muteSfxBtn = document.getElementById('mute-sfx-btn');
   const musicVolSlider = document.getElementById('music-volume');
   const sfxVolSlider = document.getElementById('sfx-volume');
+  const sceneAnnouncer = document.getElementById('scene-announcer');
 
   let sceneHistory = [];
   let selectedEpisode = null;
@@ -203,6 +204,7 @@
       }
 
       showScene(targetScene);
+      announceScene(targetScene);
       AudioModule.playSceneSound();
       updateBackButton();
       targetScene.scrollIntoView({ behavior: 'smooth' });
@@ -247,6 +249,12 @@
       const first = scene.querySelector('.choice-btn');
       if (first) {
           first.focus();
+      }
+  }
+
+  function announceScene(scene) {
+      if (sceneAnnouncer) {
+          sceneAnnouncer.textContent = scene.innerText || scene.textContent || '';
       }
   }
 

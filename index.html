@@ -48,7 +48,7 @@
     <div class="static-overlay"></div>
     <div class="record-light"></div>
     
-    <div class="container">
+    <div class="container" role="main">
         <h1 class="glitch-title">🌀 THE ECHO TAPE 🌀</h1>
         <div class="nav-controls">
             <button id="back-btn" class="choice-btn" disabled aria-label="Go back">&larr; Back</button>
@@ -63,6 +63,7 @@
             <input type="range" id="sfx-volume" min="0" max="1" step="0.01" value="1" aria-label="SFX volume">
         </div>
         <div id="vhs-screen" class="vhs-screen"></div>
+        <div id="scene-announcer" class="visually-hidden" aria-live="polite" aria-atomic="true"></div>
         
     </div>
 
