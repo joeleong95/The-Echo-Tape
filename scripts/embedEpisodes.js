@@ -2,6 +2,8 @@ const fs = require('fs');
 const path = require('path');
 
 const episodesDir = path.join(__dirname, '..', 'episodes');
+const audioDir = path.join(__dirname, '..', 'audio');
+const imagesDir = path.join(__dirname, '..', 'images');
 
 const files = fs.readdirSync(episodesDir).filter(f => f.endsWith('.json'));
 
@@ -26,10 +28,11 @@ files.forEach(file => {
 
 console.log('Embedded', files.length, 'episodes');
 
-// Update sw.js cache list with all episode files
+// Update sw.js cache list with assets from episodes, audio, and images
 try {
   const swPath = path.join(__dirname, '..', 'sw.js');
   const swLines = fs.readFileSync(swPath, 'utf8').split(/\r?\n/);
+
   // Update CACHE_NAME with current build number
   try {
     const changelog = fs.readFileSync(path.join(__dirname, '..', 'CHANGELOG.md'), 'utf8');
@@ -43,19 +46,35 @@ try {
   } catch (err) {
     console.error('Failed to read build number:', err.message);
   }
-  const start = swLines.findIndex(l => l.includes("'episodes/"));
-  if (start !== -1) {
-    let end = start;
-    while (end < swLines.length && /'episodes\//.test(swLines[end])) end++;
-    const episodeFiles = fs.readdirSync(episodesDir)
+
+  const start = swLines.findIndex(l => l.includes('ASSETS_START'));
+  const end = swLines.findIndex(l => l.includes('ASSETS_END'));
+
+  if (start !== -1 && end !== -1 && end > start) {
+    const rootAssets = [
+      '/',
+      'index.html',
+      'style.css',
+      'script.js',
+      'state.js',
+      'audio.js',
+      'ui.js'
+    ];
+
+    const episodeAssets = fs.readdirSync(episodesDir)
       .filter(f => f.endsWith('.json') || f.endsWith('.js'))
-      .sort();
-    const newLines = episodeFiles.map(f => `      'episodes/${f}',`);
-    swLines.splice(start, end - start, ...newLines);
+      .sort()
+      .map(f => `episodes/${f}`);
+    const audioAssets = fs.readdirSync(audioDir).sort().map(f => `audio/${f}`);
+    const imageAssets = fs.readdirSync(imagesDir).sort().map(f => `images/${f}`);
+
+    const assets = [...rootAssets, ...episodeAssets, ...audioAssets, ...imageAssets];
+    const newLines = assets.map(a => `      '${a}',`);
+    swLines.splice(start + 1, end - start - 1, ...newLines);
     fs.writeFileSync(swPath, swLines.join('\n'));
-    console.log('Updated sw.js with', episodeFiles.length, 'episode files');
+    console.log('Updated sw.js with', assets.length, 'assets');
   } else {
-    console.error('Could not find episode block in sw.js');
+    console.error('Could not find asset block in sw.js');
   }
 } catch (err) {
   console.error('Failed to update sw.js:', err);
