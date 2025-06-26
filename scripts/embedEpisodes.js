@@ -26,6 +26,12 @@ files.forEach(file => {
   fs.writeFileSync(jsPath, jsContent);
 });
 
+// Write episode manifest for dynamic loading
+const manifest = files.map(f => path.basename(f, '.json')).sort();
+const manifestPath = path.join(__dirname, '..', 'dist', 'episodes', 'manifest.json');
+fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
+console.log('Wrote manifest with', manifest.length, 'episodes');
+
 console.log('Embedded', files.length, 'episodes');
 
 // Update sw.js cache list with assets from episodes, audio, and images
@@ -65,14 +71,16 @@ try {
       .filter(f => f.endsWith(".json"))
       .sort()
       .map(f => `episodes/${f}`);
-    const episodeJsAssets = fs.readdirSync(path.join(__dirname, "..", "dist", "episodes"))
-      .filter(f => f.endsWith(".js"))
+    const distEpisodesDir = path.join(__dirname, '..', 'dist', 'episodes');
+    const episodeJsAssets = fs.readdirSync(distEpisodesDir)
+      .filter(f => f.endsWith('.js'))
       .sort()
       .map(f => `dist/episodes/${f}`);
+    const manifestAsset = ['dist/episodes/manifest.json'];
     const audioAssets = fs.readdirSync(audioDir).sort().map(f => `audio/${f}`);
     const imageAssets = fs.readdirSync(imagesDir).sort().map(f => `images/${f}`);
 
-    const assets = [...rootAssets, ...episodeAssets, ...episodeJsAssets,  ...audioAssets, ...imageAssets];
+    const assets = [...rootAssets, ...episodeAssets, ...episodeJsAssets, ...manifestAsset, ...audioAssets, ...imageAssets];
     const newLines = assets.map(a => `      '${a}',`);
     swLines.splice(start + 1, end - start - 1, ...newLines);
     fs.writeFileSync(swPath, swLines.join('\n'));

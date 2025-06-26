@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.0.13] - 2025-08-02
+### Added
+- Build script now outputs `dist/episodes/manifest.json` listing episodes.
+- UI loads episode scripts dynamically based on this manifest.
+- Removed hardcoded episode `<script>` tags from `index.html`.
+
 ## [0.0.0.12] - 2025-08-01
 ### Changed
 - Converted core JavaScript files to ES modules and updated tests accordingly.
