@@ -183,10 +183,10 @@ function playIntro(ep) {
     introTimers = [];
     introTimers.push(setTimeout(() => {
         introTitle.classList.add('visible');
-    }, 18000));
+    }, 25000));
     introTimers.push(setTimeout(async () => {
         await startEpisode(selectedEpisode);
-    }, 22000));
+    }, 30000));
 }
 
 function restartGame() {

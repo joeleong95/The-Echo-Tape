@@ -109,7 +109,7 @@ body {
 
 .intro-crawl .intro-text {
     transform-origin: 50% 100%;
-    animation: star-crawl 18s linear forwards;
+    animation: star-crawl 25s linear forwards;
     font-size: 1.8em;
 }
 
@@ -413,6 +413,7 @@ body {
 .scene-image {
     max-width: 100%;
     height: auto;
+    max-height: 50vh;
     border: 2px solid #ff00ff;
     margin: 15px 0;
 }
