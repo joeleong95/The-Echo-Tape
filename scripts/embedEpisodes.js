@@ -39,18 +39,16 @@ try {
   const swPath = path.join(__dirname, '..', 'dist', 'sw.js');
   const swLines = fs.readFileSync(swPath, 'utf8').split(/\r?\n/);
 
-  // Update CACHE_NAME with current build number
+  // Update CACHE_NAME with version from package.json
   try {
-    const changelog = fs.readFileSync(path.join(__dirname, '..', 'docs/CHANGELOG.md'), 'utf8');
-    const m = changelog.match(/\[(\d+\.\d+\.\d+\.\d+)\]/);
-    if (m) {
-      const idx = swLines.findIndex(l => l.includes('const CACHE_NAME'));
-      if (idx !== -1) {
-        swLines[idx] = `const CACHE_NAME = 'echo-tape-${m[1]}';`;
-      }
+    const pkg = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'package.json'), 'utf8'));
+    const version = pkg.version || 'dev';
+    const idx = swLines.findIndex(l => l.includes('const CACHE_NAME'));
+    if (idx !== -1) {
+      swLines[idx] = `const CACHE_NAME = 'echo-tape-${version}';`;
     }
   } catch (err) {
-    console.error('Failed to read build number:', err.message);
+    console.error('Failed to read package.json version:', err.message);
   }
 
   const start = swLines.findIndex(l => l.includes('ASSETS_START'));

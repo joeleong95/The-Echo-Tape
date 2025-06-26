@@ -143,6 +143,12 @@ try {
   }
 
   const swContent = fs.readFileSync(swPath, 'utf8');
+  const pkg = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'package.json'), 'utf8'));
+  const expectedCacheLine = `const CACHE_NAME = 'echo-tape-${pkg.version}'`;
+  if (!swContent.includes(expectedCacheLine)) {
+    console.error(`CACHE_NAME not updated to ${pkg.version}`);
+    missing = true;
+  }
   const audioDir = path.join(__dirname, '..', 'audio');
   const imagesDir = path.join(__dirname, '..', 'images');
   const assets = [
