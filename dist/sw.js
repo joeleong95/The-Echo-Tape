@@ -10,11 +10,23 @@ self.addEventListener('install', event => {
       '/',
       'index.html',
       'style.css',
-      'script.js',
-      'state.js',
-      'audio.js',
-      'ui.js',
-      // Asset list generated during build
+      'src/script.js',
+      'src/state.js',
+      'src/audio.js',
+      'src/ui.js',
+      'episodes/episode0.json',
+      'episodes/episode1.json',
+      'dist/episodes/episode0.js',
+      'dist/episodes/episode1.js',
+      'audio/click.ogg',
+      'audio/static.ogg',
+      'audio/tape_fx.ogg',
+      'audio/titleMusic.ogg',
+      'audio/titleMusic2.ogg',
+      'images/joeNewtTape.png',
+      'images/joeNewtTape2.png',
+      'images/joeNewtTape3.png',
+      'images/joeNewtTape4.png',
       // ASSETS_END
     ]);
     await self.skipWaiting();

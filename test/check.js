@@ -2,7 +2,7 @@ const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
-const requiredFiles = ['index.html', 'script.js', 'style.css'];
+const requiredFiles = ['index.html', 'src/script.js', 'style.css'];
 let missing = false;
 for (const file of requiredFiles) {
   if (!fs.existsSync(file)) {
@@ -11,9 +11,9 @@ for (const file of requiredFiles) {
   }
 }
 try {
-  execSync('node -c script.js', { stdio: 'inherit' });
+  execSync('node -c src/script.js', { stdio: 'inherit' });
 } catch (err) {
-  console.error('Syntax error in script.js');
+  console.error('Syntax error in src/script.js');
   missing = true;
 }
 
@@ -91,7 +91,7 @@ for (const jsonFile of episodeJsons) {
     }
   }
 
-  const jsPath = path.join(episodesDir, jsonFile.replace(/\.json$/, '.js'));
+  const jsPath = path.join(__dirname, "..", "dist", "episodes", jsonFile.replace(/.json$/, ".js"));
   const name = path.basename(jsonFile, '.json');
   if (!fs.existsSync(jsPath)) {
     console.error(`Missing generated JS for ${jsonFile}`);
@@ -134,7 +134,7 @@ for (const jsonFile of episodeJsons) {
 
 // Ensure service worker caches all assets
 const { spawnSync } = require('child_process');
-const swPath = path.join(__dirname, '..', 'sw.js');
+const swPath = path.join(__dirname, '..', 'dist', 'sw.js');
 try {
   const result = spawnSync('node', [path.join(__dirname, '..', 'scripts', 'embedEpisodes.js')], { stdio: 'inherit' });
   if (result.status !== 0) {
@@ -149,11 +149,12 @@ try {
     '/',
     'index.html',
     'style.css',
-    'script.js',
-    'state.js',
-    'audio.js',
-    'ui.js',
-    ...fs.readdirSync(episodesDir).filter(f => f.endsWith('.json') || f.endsWith('.js')).map(f => `episodes/${f}`),
+    'src/script.js',
+    'src/state.js',
+    'src/audio.js',
+    'src/ui.js',
+    ...fs.readdirSync(episodesDir).filter(f => f.endsWith(".json")).map(f => `episodes/${f}`),
+    ...fs.readdirSync(path.join(__dirname, "..", "dist", "episodes")).filter(f => f.endsWith(".js")).map(f => `dist/episodes/${f}`),
     ...fs.readdirSync(audioDir).map(f => `audio/${f}`),
     ...fs.readdirSync(imagesDir).map(f => `images/${f}`)
   ];
