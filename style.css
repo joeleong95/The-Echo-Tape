@@ -99,6 +99,22 @@ body {
     line-height: 1.5;
 }
 
+.intro-crawl {
+    height: 60vh;
+    overflow: hidden;
+    perspective: 400px;
+}
+
+.intro-crawl .intro-text {
+    transform-origin: 50% 100%;
+    animation: star-crawl 18s linear forwards;
+}
+
+@keyframes star-crawl {
+    0% { transform: rotateX(20deg) translateZ(0) translateY(100%); opacity: 1; }
+    100% { transform: rotateX(25deg) translateZ(-600px) translateY(-250%); opacity: 0; }
+}
+
 .vhs-flicker {
     animation: vhs-flicker 0.15s infinite;
 }

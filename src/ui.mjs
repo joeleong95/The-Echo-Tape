@@ -169,16 +169,18 @@ function playIntro(ep) {
     hideScreen(episodeScreen);
     showScreen(introScreen);
     introText.classList.remove('fade-out');
+    introText.style.animation = 'none';
+    void introText.offsetHeight;
+    introText.style.animation = '';
     introTitle.classList.remove('visible');
     introTimers.forEach(clearTimeout);
     introTimers = [];
     introTimers.push(setTimeout(() => {
-        introText.classList.add('fade-out');
         introTitle.classList.add('visible');
-    }, 8000));
+    }, 18000));
     introTimers.push(setTimeout(async () => {
         await startEpisode(selectedEpisode);
-    }, 14000));
+    }, 22000));
 }
 
 function restartGame() {

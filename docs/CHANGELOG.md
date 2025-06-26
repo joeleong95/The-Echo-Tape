@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.0.17] - 2025-08-06
+### Added
+- Star Wars style crawl intro for Episode 1 that fades into the logo.
+
 ## [0.0.0.16] - 2025-08-05
 ### Added
 - Import map for DOMPurify so the game works on static hosts.
