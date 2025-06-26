@@ -132,14 +132,33 @@ for (const jsonFile of episodeJsons) {
   }
 }
 
-// Ensure service worker caches all episode files
+// Ensure service worker caches all assets
+const { spawnSync } = require('child_process');
 const swPath = path.join(__dirname, '..', 'sw.js');
 try {
+  const result = spawnSync('node', [path.join(__dirname, '..', 'scripts', 'embedEpisodes.js')], { stdio: 'inherit' });
+  if (result.status !== 0) {
+    console.error('embedEpisodes.js failed');
+    missing = true;
+  }
+
   const swContent = fs.readFileSync(swPath, 'utf8');
-  const episodeFiles = fs.readdirSync(episodesDir)
-    .filter(f => f.endsWith('.json') || f.endsWith('.js'));
-  for (const file of episodeFiles) {
-    if (!swContent.includes(`'episodes/${file}'`)) {
+  const audioDir = path.join(__dirname, '..', 'audio');
+  const imagesDir = path.join(__dirname, '..', 'images');
+  const assets = [
+    '/',
+    'index.html',
+    'style.css',
+    'script.js',
+    'state.js',
+    'audio.js',
+    'ui.js',
+    ...fs.readdirSync(episodesDir).filter(f => f.endsWith('.json') || f.endsWith('.js')).map(f => `episodes/${f}`),
+    ...fs.readdirSync(audioDir).map(f => `audio/${f}`),
+    ...fs.readdirSync(imagesDir).map(f => `images/${f}`)
+  ];
+  for (const file of assets) {
+    if (!swContent.includes(`'${file}'`)) {
       console.error(`sw.js missing ${file} in cache list`);
       missing = true;
     }

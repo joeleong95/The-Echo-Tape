@@ -6,6 +6,7 @@ self.addEventListener('install', event => {
   event.waitUntil((async () => {
     const cache = await caches.open(CACHE_NAME);
     await cache.addAll([
+      // ASSETS_START
       '/',
       'index.html',
       'style.css',
@@ -13,19 +14,8 @@ self.addEventListener('install', event => {
       'state.js',
       'audio.js',
       'ui.js',
-      'episodes/episode0.js',
-      'episodes/episode0.json',
-      'episodes/episode1.js',
-      'episodes/episode1.json',
-      'audio/click.ogg',
-      'audio/static.ogg',
-      'audio/tape_fx.ogg',
-      'audio/titleMusic.ogg',
-      'audio/titleMusic2.ogg',
-      'images/joeNewtTape.png',
-      'images/joeNewtTape2.png',
-      'images/joeNewtTape3.png',
-      'images/joeNewtTape4.png'
+      // Asset list generated during build
+      // ASSETS_END
     ]);
     await self.skipWaiting();
   })());
