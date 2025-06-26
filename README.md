@@ -9,6 +9,7 @@ Episode 1 is playable and features sound effects and a scene history overlay. P
 ## Writing Episodes
 
 All episode data resides in the `episodes` folder. Each file is a JSON document describing a list of scenes. Writers can follow the structure documented in [WRITING_GUIDE.md](WRITING_GUIDE.md) to create new episodes. After editing a `.json` file, run `npm run build-episodes` to regenerate the embedded `.js` and commit both files.
+For a broader sense of tone and structure, see [SCRIPT_GUIDELINES.md](SCRIPT_GUIDELINES.md), which contains an example script and style notes.
 Image assets are stored in the `images` folder. Sound effects and music live in the `audio` folder.
 
 ## Getting Started
