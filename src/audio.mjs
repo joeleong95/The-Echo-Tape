@@ -10,6 +10,7 @@ const introMusic = document.getElementById('intro-music');
 if (sfxStatic) sfxStatic.loop = true;
 if (titleMusic) titleMusic.loop = true;
 if (titleMusic2) titleMusic2.loop = true;
+if (introMusic) introMusic.loop = true;
 
 let audioCtx;
 let musicMuted = false;

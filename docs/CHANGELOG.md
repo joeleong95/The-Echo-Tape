@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.0.20] - 2025-06-28
+### Changed
+- Intro music loops during Episode 1 crawl.
+- Wider text area for the Episode 1 intro crawl.
+
 ## [0.0.0.19] - 2025-06-27
 ### Added
 - Intro music for Episode 1 crawl using `introEP1.ogg`.
