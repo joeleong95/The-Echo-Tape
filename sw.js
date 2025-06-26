@@ -1,21 +1,9 @@
 // Service worker for The Echo Tape
 const CACHE_PREFIX = 'echo-tape-';
-let CACHE_NAME = 'echo-tape-dev';
-
-async function getBuildNumber() {
-  try {
-    const text = await fetch('CHANGELOG.md', {cache: 'no-store'}).then(r => r.text());
-    const match = text.match(/\[(\d+\.\d+\.\d+\.\d+)\]/);
-    return match ? match[1] : 'dev';
-  } catch (err) {
-    return 'dev';
-  }
-}
+const CACHE_NAME = 'echo-tape-0.0.0.11';
 
 self.addEventListener('install', event => {
   event.waitUntil((async () => {
-    const build = await getBuildNumber();
-    CACHE_NAME = CACHE_PREFIX + build;
     const cache = await caches.open(CACHE_NAME);
     await cache.addAll([
       '/',
@@ -45,8 +33,6 @@ self.addEventListener('install', event => {
 
 self.addEventListener('activate', event => {
   event.waitUntil((async () => {
-    const build = await getBuildNumber();
-    CACHE_NAME = CACHE_PREFIX + build;
     const keys = await caches.keys();
     await Promise.all(keys.map(key => {
       if (key.startsWith(CACHE_PREFIX) && key !== CACHE_NAME) {
