@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.0.15] - 2025-08-04
+### Added
+- `npm start` script that launches a simple static server.
+- README updated to recommend serving the game over HTTP.
+
 ## [0.0.0.14] - 2025-08-03
 ### Added
 - In-game message with retry option when an episode fails to load.
