@@ -16,8 +16,9 @@ Image assets are stored in the `images` folder. Sound effects and music live in 
 1. Clone or download this repository.
 2. Either open `index.html` directly or serve the folder with a simple HTTP server (`npx http-server` works nicely). Episode data is embedded so it works offline.
 3. Run `npm install` (if needed) and `npm test` to verify required files and script syntax.
-4. After editing an episode's `.json`, run `npm run build-episodes` to regenerate the `.js` version and then run `npm test` to catch any issues.
-5. Use the **Dev Tools** button on the title screen if you need to clear saved progress.
+4. Run `npm run lint` to check code style and catch common mistakes.
+5. After editing an episode's `.json`, run `npm run build-episodes` to regenerate the `.js` version and then run `npm test` to catch any issues.
+6. Use the **Dev Tools** button on the title screen if you need to clear saved progress.
 
 ## Versioning
 
