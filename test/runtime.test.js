@@ -1,4 +1,5 @@
 const assert = require('assert');
+const path = require('path');
 
 function createStubStorage(initial = {}) {
   const store = { ...initial };
@@ -120,14 +121,9 @@ async function runTests() {
   global.requestAnimationFrame = fn => fn(0);
   global.performance = { now: () => 0 };
 
-  require('../src/state.js');
-  require('../src/audio.js');
-
-  global.StateModule = global.window.StateModule;
-  global.AudioModule = global.window.AudioModule;
-
-  const State = global.window.StateModule;
-  const Audio = global.window.AudioModule;
+  const { pathToFileURL } = require('url');
+  const State = await import(pathToFileURL(path.join(__dirname, '../src/state.mjs')));
+  const Audio = await import(pathToFileURL(path.join(__dirname, '../src/audio.mjs')));
 
   // State module tests
   State.loadState();
@@ -168,8 +164,7 @@ async function runTests() {
   assert.strictEqual(elements['sfx-static'].currentTime, 0);
 
   // UI module tests
-  require('../src/ui.js');
-  const Ui = global.window.UiModule;
+  const Ui = await import(pathToFileURL(path.join(__dirname, '../src/ui.mjs')));
 
   // Minimal scene elements after loading ui.js
   const screen = elements['vhs-screen'];
@@ -204,7 +199,7 @@ async function runTests() {
   await Ui.goToScene('scene2');
   assert.strictEqual(document.querySelector('.interactive-scene.visible').id, 'scene2');
   assert.strictEqual(elements['back-btn'].textContent, '\u2190 Back');
-  assert.strictEqual(global.window.StateModule.getProgress().scene, 'scene2');
+  assert.strictEqual(State.getProgress().scene, 'scene2');
 
   await Ui.goToScene('scene1', true);
   assert.strictEqual(document.querySelector('.interactive-scene.visible').id, 'scene1');

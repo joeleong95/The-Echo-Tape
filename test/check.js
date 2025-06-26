@@ -2,7 +2,7 @@ const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
-const requiredFiles = ['index.html', 'src/script.js', 'style.css'];
+const requiredFiles = ['index.html', 'src/script.mjs', 'style.css'];
 let missing = false;
 for (const file of requiredFiles) {
   if (!fs.existsSync(file)) {
@@ -11,9 +11,9 @@ for (const file of requiredFiles) {
   }
 }
 try {
-  execSync('node -c src/script.js', { stdio: 'inherit' });
+  execSync('node --check src/script.mjs', { stdio: 'inherit' });
 } catch (err) {
-  console.error('Syntax error in src/script.js');
+  console.error('Syntax error in src/script.mjs');
   missing = true;
 }
 
@@ -149,10 +149,10 @@ try {
     '/',
     'index.html',
     'style.css',
-    'src/script.js',
-    'src/state.js',
-    'src/audio.js',
-    'src/ui.js',
+    'src/script.mjs',
+    'src/state.mjs',
+    'src/audio.mjs',
+    'src/ui.mjs',
     ...fs.readdirSync(episodesDir).filter(f => f.endsWith(".json")).map(f => `episodes/${f}`),
     ...fs.readdirSync(path.join(__dirname, "..", "dist", "episodes")).filter(f => f.endsWith(".js")).map(f => `dist/episodes/${f}`),
     ...fs.readdirSync(audioDir).map(f => `audio/${f}`),
