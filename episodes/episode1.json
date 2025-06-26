@@ -19,7 +19,7 @@
     },
     {
       "id": "scene-watch-tape-high",
-      "html": "<div class=\"dialogue\">\n                    <span class=\"character system\">SYSTEM:</span> Through a haze of smoke, you press play. The tape becomes a portal. Not just showing reality—creating it. You watch yourselves get high, watching yourselves get high... The timestamp reads 10 YEARS AGO. The cats start speaking in unison: 'The loop tastes like time.'\n                </div>\n                <div class=\"choice-container\">\n                    <p>The loop is delicious. Do you...</p>\n                    <button class=\"choice-btn\" data-scene='scene-embrace-loop'>Embrace the loop. Get even higher.</button>\n                    <button class=\"choice-btn\" data-scene='scene-hallucination-start'>Fight it. Try to make sense of it.</button>\n                </div>"
+      "html": "<div class=\"dialogue\">\n                    <span class=\"character system\">SYSTEM:</span> Through a haze of smoke, you press play. The tape becomes a portal. Not just showing reality\u2014creating it. You watch yourselves get high, watching yourselves get high... The timestamp reads 10 YEARS AGO. The cats start speaking in unison: 'The loop tastes like time.'\n                </div>\n                <div class=\"choice-container\">\n                    <p>The loop is delicious. Do you...</p>\n                    <button class=\"choice-btn\" data-scene='scene-embrace-loop'>Embrace the loop. Get even higher.</button>\n                    <button class=\"choice-btn\" data-scene='scene-hallucination-start'>Fight it. Try to make sense of it.</button>\n                </div>"
     },
     {
       "id": "scene-higher-forget",
@@ -98,7 +98,7 @@
     },
     {
       "id": "scene-tobecontinued",
-      "html": "<div class=\"dialogue\">\n                     <span class=\"character system\">SYSTEM:</span> The path forward is shrouded in smoke and static. The party awaits, and with it, a new set of choices that will either tighten the loop or shatter it entirely.\n                </div>\n                <div class=\"dialogue\" id=\"state-summary\"></div>\n                <h2 style=\"color: #ff00ff; text-align: center;\">END OF EPISODE 1</h2>\n                <div class=\"choice-container\">\n                     <button class=\"choice-btn\" data-restart>RESTART THE LOOP</button>\n                </div>"
+      "html": "<div class=\"dialogue\">\n                     <span class=\"character system\">SYSTEM:</span> The path forward is shrouded in smoke and static. The party awaits, and with it, a new set of choices that will either tighten the loop or shatter it entirely.\n                </div>\n                <div class=\"dialogue\" id=\"state-summary\"></div>\n                <h2 style=\"color: #ff00ff; text-align: center;\">END OF EPISODE 1</h2>\n                <div class=\"choice-container\">\n                     <button class=\"choice-btn\" data-restart>RESTART THE LOOP</button>\n                     <button class='choice-btn' data-scene='scene-party-setup'>Continue...</button>\n                </div>"
     },
     {
       "id": "scene-play-tape",
@@ -131,6 +131,30 @@
     {
       "id": "scene-hide-tape",
       "html": "<div class=\"dialogue\">\n                    <span class=\"character system\">SYSTEM:</span> Joe shoves the tape into a drawer of old bills. Out of sight, out of mind. Or so you hope.\n                </div>\n                <div class=\"choice-container\">\n                    <p>A silence grows between you.</p>\n                    <button class=\"choice-btn\" data-scene='scene-tobecontinued'>TO BE CONTINUED...</button>\n                </div>"
+    },
+    {
+      "id": "scene-party-setup",
+      "html": "<div class=\"dialogue\">\n                    <span class=\"character joe\">JOE:</span> Right, so we're really throwing a party to break reality?\n                </div>\n                <div class=\"dialogue\">\n                    <span class=\"character newt\">NEWT:</span> Mate, it's the only move. Bend the vibes until the loop snaps.\n                </div>\n                <div class=\"choice-container\">\n                    <p>First step?</p>\n                    <button class=\"choice-btn\" data-scene='scene-call-friends'>Call everyone we trust.</button>\n                    <button class=\"choice-btn\" data-scene='scene-stock-up'>Forget calls, gather supplies.</button>\n                </div>"
+    },
+    {
+      "id": "scene-call-friends",
+      "html": "<div class=\"dialogue\">\n                    <span class=\"character system\">SYSTEM:</span> Your phones light up with confusion and excitement. Most think it's just another smoke session.\n                </div>\n                <div class=\"choice-container\">\n                    <p>Where will you host?</p>\n                    <button class=\"choice-btn\" data-scene='scene-party-at-joes'>Joe's flat</button>\n                    <button class=\"choice-btn\" data-scene='scene-party-at-newts'>Newt's house-share</button>\n                </div>"
+    },
+    {
+      "id": "scene-stock-up",
+      "html": "<div class=\"dialogue\">\n                    <span class=\"character system\">SYSTEM:</span> You raid the corner shops for snacks and cheap cider. The cashier swears the tape in your pocket whispers.\n                </div>\n                <div class=\"choice-container\">\n                    <p>Supplies sorted. Who else should come?</p>\n                    <button class=\"choice-btn\" data-scene='scene-call-friends'>Spread the word.</button>\n                    <button class=\"choice-btn\" data-scene='scene-party-at-joes'>Keep it small at Joe's.</button>\n                </div>"
+    },
+    {
+      "id": "scene-party-at-joes",
+      "html": "<div class=\"dialogue\">\n                    <span class=\"character joe\">JOE:</span> My place then. Just keep the cats away from the tape.\n                </div>\n                <div class=\"dialogue\">\n                    <span class=\"character newt\">NEWT:</span> Gooby and Doobie go where they want, bro.\n                </div>\n                <div class=\"choice-container\">\n                    <p>The night creeps closer as people arrive.</p>\n                    <button class=\"choice-btn\" data-scene='scene-pre-party'>Wait for the first drop.</button>\n                </div>"
+    },
+    {
+      "id": "scene-party-at-newts",
+      "html": "<div class=\"dialogue\">\n                    <span class=\"character newt\">NEWT:</span> House-share's a mess, but it's got the vibe.\n                </div>\n                <div class=\"dialogue\">\n                    <span class=\"character joe\">JOE:</span> Fine, but hide the tape somewhere safe.\n                </div>\n                <div class=\"choice-container\">\n                    <p>The night creeps closer as people arrive.</p>\n                    <button class=\"choice-btn\" data-scene='scene-pre-party'>Wait for the first drop.</button>\n                </div>"
+    },
+    {
+      "id": "scene-pre-party",
+      "html": "<div class=\"dialogue\">\n                    <span class=\"character system\">SYSTEM:</span> Bass rumbles the walls. Friends chatter nervously. Somewhere outside, a siren wails like a warning.\n                </div>\n                <div class=\"choice-container\">\n                    <p>The party is about to begin.</p>\n                    <button class=\"choice-btn\" data-restart>End demo.</button>\n                </div>"
     }
   ]
 }
