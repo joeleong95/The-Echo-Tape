@@ -55,10 +55,10 @@ try {
       '/',
       'index.html',
       'style.css',
-      'src/script.js',
-      'src/state.js',
-      'src/audio.js',
-      'src/ui.js'
+      'src/script.mjs',
+      'src/state.mjs',
+      'src/audio.mjs',
+      'src/ui.mjs'
     ];
 
     const episodeAssets = fs.readdirSync(episodesDir)

@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.0.12] - 2025-08-01
+### Changed
+- Converted core JavaScript files to ES modules and updated tests accordingly.
+
 ## [0.0.0.11] - 2025-07-31
 ### Changed
 - Service worker now embeds the build number during `npm run build-episodes`.

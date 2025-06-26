@@ -1,4 +1,7 @@
 // Main entry point orchestrating modules
+import * as StateModule from './state.mjs';
+import * as AudioModule from './audio.mjs';
+import * as UiModule from './ui.mjs';
 
 StateModule.loadState();
 StateModule.loadProgress();
