@@ -84,9 +84,18 @@
     <audio id="tape-fx" src="audio/tape_fx.ogg" preload="auto"></audio>
 
     <!-- Episode data will be loaded dynamically -->
+    <script type="importmap">
+        {
+            "imports": {
+                "dompurify": "./src/dompurify.mjs"
+            }
+        }
+    </script>
     <script type="module" src="src/script.mjs"></script>
     <script>
-        if ('serviceWorker' in navigator) {
+        if (window.location.protocol === 'file:') {
+            console.warn('Please run The Echo Tape using a local HTTP server.');
+        } else if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('dist/sw.js').catch(console.error);
             });
