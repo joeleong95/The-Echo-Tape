@@ -18,5 +18,8 @@
   },
   "devDependencies": {
     "eslint": "8.57.1"
+  },
+  "dependencies": {
+    "dompurify": "^3.2.6"
   }
 }
