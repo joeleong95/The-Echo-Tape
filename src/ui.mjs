@@ -69,6 +69,8 @@ function hideScreen(el) {
 }
 
 async function loadEpisode(ep) {
+    const screen = document.getElementById('vhs-screen');
+    if (!screen) return;
     let data;
     try {
         const resp = await fetch(`episodes/episode${ep}.json`);
@@ -80,11 +82,15 @@ async function loadEpisode(ep) {
             data = window.localEpisodes[`episode${ep}`];
         } else {
             console.error('Episode data not found');
+            screen.innerHTML =
+                '<div class="dialogue">Failed to load episode. ' +
+                'Please check your connection and try again.</div>' +
+                '<button id="retry-load-btn" class="choice-btn">Retry</button>';
+            const retryBtn = document.getElementById('retry-load-btn');
+            if (retryBtn) retryBtn.addEventListener('click', () => loadEpisode(ep));
             return;
         }
     }
-    const screen = document.getElementById('vhs-screen');
-    if (!screen) return;
 
     screen.innerHTML = '';
 
