@@ -33,6 +33,7 @@
   let introTimers = [];
   let currentEpisode = null;
   let resumeScene = null;
+  let firstSceneId = null;
 
   function showScreen(el) {
       el.style.display = 'flex';
@@ -110,10 +111,8 @@
 
       sceneHistory = [];
       updateBackButton();
-      let startId = data.start;
-      if (!startId || !builtIds.includes(startId)) {
-          startId = builtIds[0];
-      }
+      firstSceneId = data.start && builtIds.includes(data.start) ? data.start : builtIds[0];
+      let startId = firstSceneId;
       if (resumeScene && builtIds.includes(resumeScene)) {
           startId = resumeScene;
           resumeScene = null;
@@ -175,6 +174,23 @@
       AudioModule.playTitleMusic2();
   }
 
+  function returnToTitle() {
+      gameContainer.style.display = 'none';
+      recordLight.style.display = 'none';
+      currentEpisode = null;
+      introTimers.forEach(clearTimeout);
+      hideScreen(introScreen);
+      AudioModule.stopVhsSound();
+      const screen = document.getElementById('vhs-screen');
+      if (screen) screen.innerHTML = '';
+      sceneHistory = [];
+      updateBackButton();
+      updateContinueButton();
+      AudioModule.stopTitleMusic2();
+      showScreen(titleScreen);
+      AudioModule.playTitleMusic();
+  }
+
   function showScene(scene) {
       scene.style.display = 'block';
       requestAnimationFrame(() => scene.classList.add('visible'));
@@ -216,7 +232,16 @@
   }
 
   function updateBackButton() {
-      if (backBtn) {
+      if (!backBtn) return;
+      const currentScene = document.querySelector('.interactive-scene.visible');
+      const atFirst = currentScene && currentScene.id === firstSceneId;
+      if (atFirst) {
+          backBtn.disabled = false;
+          backBtn.textContent = 'Home';
+          backBtn.setAttribute('aria-label', 'Return to title');
+      } else {
+          backBtn.textContent = '\u2190 Back';
+          backBtn.setAttribute('aria-label', 'Go back');
           backBtn.disabled = sceneHistory.length === 0;
       }
   }
@@ -232,6 +257,16 @@
       if (sceneHistory.length === 0) return;
       const prev = sceneHistory.pop();
       goToScene(prev, true);
+  }
+
+  function handleBackBtn() {
+      const currentScene = document.querySelector('.interactive-scene.visible');
+      const atFirst = currentScene && currentScene.id === firstSceneId;
+      if (atFirst) {
+          returnToTitle();
+      } else {
+          goBack();
+      }
   }
 
   function showHistory() {
@@ -355,7 +390,7 @@
           });
       });
 
-      if (backBtn) backBtn.addEventListener('click', goBack);
+      if (backBtn) backBtn.addEventListener('click', handleBackBtn);
       if (historyBtn) historyBtn.addEventListener('click', showHistory);
       if (closeHistoryBtn) closeHistoryBtn.addEventListener('click', closeHistory);
 
