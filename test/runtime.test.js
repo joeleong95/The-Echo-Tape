@@ -117,6 +117,8 @@ async function runTests() {
   global.window = {};
   global.localStorage = storage;
   global.DOMException = global.DOMException || class extends Error {};
+  global.DOMPurify = { sanitize: html => html.replace(/<script[^>]*>.*?<\/script>/gi, '') };
+  global.window.DOMPurify = global.DOMPurify;
   setupDOM();
   global.requestAnimationFrame = fn => fn(0);
   global.performance = { now: () => 0 };
@@ -187,13 +189,14 @@ async function runTests() {
   global.fetch = () => Promise.reject(new Error('offline'));
   global.window.localEpisodes = {
     episode1: { start: 'scene1', scenes: [
-      { id: 'scene1', html: '<button class="choice-btn" data-scene="scene2">Next</button>' },
+      { id: 'scene1', html: '<button class="choice-btn" data-scene="scene2">Next</button><script>alert("x")</script>' },
       { id: 'scene2', html: '<p>End</p>' }
     ] }
   };
 
   await Ui.loadEpisode('1');
   assert.strictEqual(document.querySelector('.interactive-scene.visible').id, 'scene1');
+  assert.ok(!document.getElementById('scene1').innerHTML.includes('<script>'));
   assert.strictEqual(elements['back-btn'].textContent, 'Home');
 
   await Ui.goToScene('scene2');

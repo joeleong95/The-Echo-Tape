@@ -2,6 +2,9 @@
 
 import * as StateModule from './state.mjs';
 import * as AudioModule from './audio.mjs';
+import DOMPurifyLib from 'dompurify';
+
+const DOMPurify = typeof window !== 'undefined' && window.DOMPurify ? window.DOMPurify : DOMPurifyLib;
 
 const titleScreen = document.getElementById('title-screen');
 const episodeScreen = document.getElementById('episode-screen');
@@ -102,7 +105,7 @@ async function loadEpisode(ep) {
         div.className = 'interactive-scene';
         div.setAttribute('role', 'dialog');
         div.setAttribute('aria-label', scene.id);
-        div.innerHTML = scene.html;
+        div.innerHTML = DOMPurify.sanitize(scene.html || '');
 
         div.querySelectorAll('[data-show-if]').forEach(el => {
             const condStr = el.getAttribute('data-show-if');
