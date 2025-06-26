@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.23] - 2025-07-22
+### Added
+- Runtime tests for state persistence and audio controls.
+
 ## [0.1.22] - 2025-07-21
 ### Changed
 - Replaced inline `onclick` attributes in episode files with `data` attributes and event delegation.
