@@ -81,4 +81,5 @@ All notable changes to this project will be documented in this file.
 ## [Future]
 ### Added
 - Branch point in Episode 1 allowing players to play, investigate, or destroy the tape.
+- Local ESLint setup with a `lint` script for checking code style.
 Planned enhancements and updates will be listed here as they are decided.
