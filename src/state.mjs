@@ -3,6 +3,9 @@
 const defaultState = {
     awareOfLoop: false,
     hasTape: false,
+    reviewedCaseFile: false,
+    trustBroken: false,
+    visitedLarkhill: false,
     musicMuted: false,
     sfxMuted: false,
     musicVolume: 1,
@@ -79,7 +82,10 @@ function updateStateSummary() {
     if (summary) {
         const awareText = gameState.awareOfLoop ? 'You know the loop is real.' : 'You remain unaware of the loop.';
         const itemText = gameState.hasTape ? 'The tape is in your possession.' : 'The tape is nowhere to be found.';
-        summary.textContent = awareText + ' ' + itemText;
+        const caseFileText = gameState.reviewedCaseFile ? 'You studied the case file.' : 'You have yet to read the case file.';
+        const trustText = gameState.trustBroken ? 'Distrust festers between you.' : 'Trust remains intact.';
+        const laneText = gameState.visitedLarkhill ? 'Larkhill Lane has been explored.' : 'Larkhill Lane is still a mystery.';
+        summary.textContent = [awareText, itemText, caseFileText, trustText, laneText].join(' ');
     }
 }
 
