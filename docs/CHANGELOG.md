@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.0.19] - 2025-06-27
+### Added
+- Intro music for Episode 1 crawl using `introEP1.ogg`.
+- Support for images within Episode 1 scenes.
+### Changed
+- Star Wars style crawl text now larger with fade effects.
+
 ## [0.0.0.18] - 2025-06-26
 ### Added
 - Added case file module scene with tabbed interface and audio cues in Episode 1.

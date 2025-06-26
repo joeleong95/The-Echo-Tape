@@ -5,6 +5,7 @@ const sfxStatic = document.getElementById('sfx-static');
 const tapeFx = document.getElementById('tape-fx');
 const titleMusic = document.getElementById('title-music');
 const titleMusic2 = document.getElementById('title-music2');
+const introMusic = document.getElementById('intro-music');
 
 if (sfxStatic) sfxStatic.loop = true;
 if (titleMusic) titleMusic.loop = true;
@@ -116,6 +117,20 @@ function stopTitleMusic2() {
     }
 }
 
+function playIntroMusic() {
+    playAudioElement(introMusic, musicVolume, musicMuted);
+    if (introMusic && !musicMuted) {
+        fadeInAudio(introMusic, 1000, musicVolume);
+    }
+}
+
+function stopIntroMusic() {
+    if (introMusic && !introMusic.paused) {
+        introMusic.pause();
+        introMusic.currentTime = 0;
+    }
+}
+
 function applyAudioPrefs() {
     const muteMusicBtn = document.getElementById('mute-music-btn');
     const muteSfxBtn = document.getElementById('mute-sfx-btn');
@@ -132,6 +147,10 @@ function applyAudioPrefs() {
     if (titleMusic2) {
         titleMusic2.muted = musicMuted;
         titleMusic2.volume = musicVolume;
+    }
+    if (introMusic) {
+        introMusic.muted = musicMuted;
+        introMusic.volume = musicVolume;
     }
     if (sfxStatic) {
         sfxStatic.muted = musicMuted;
@@ -182,6 +201,8 @@ export {
     stopTitleMusic,
     playTitleMusic2,
     stopTitleMusic2,
+    playIntroMusic,
+    stopIntroMusic,
     applyAudioPrefs,
     setMusicMuted,
     setSfxMuted,

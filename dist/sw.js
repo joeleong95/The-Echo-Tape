@@ -21,14 +21,15 @@ self.addEventListener('install', event => {
       'dist/episodes/episode1.js',
       'dist/episodes/manifest.json',
       'audio/click.ogg',
+      'audio/introEP1.ogg',
       'audio/static.ogg',
       'audio/tape_fx.ogg',
       'audio/titleMusic.ogg',
       'audio/titleMusic2.ogg',
-      'images/joeNewtTape.png',
-      'images/joeNewtTape2.png',
-      'images/joeNewtTape3.png',
-      'images/joeNewtTape4.png',
+      'images/joeNewtTape.jpg',
+      'images/joeNewtTape2.jpg',
+      'images/joeNewtTape3.jpg',
+      'images/joeNewtTape4.jpg',
       // ASSETS_END
     ].map(p => new URL(p, self.location.origin).toString());
     await cache.addAll(assets);
