@@ -336,6 +336,21 @@ body {
     font-family: 'Courier Prime', monospace;
 }
 
+#case-file-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.95);
+    color: #fff;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 210;
+}
+
+#case-file-overlay.visible {
+    display: flex;
+}
+
 .audio-controls {
     text-align: center;
     margin-bottom: 10px;

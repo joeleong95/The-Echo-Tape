@@ -28,6 +28,9 @@ const historyBtn = document.getElementById('history-btn');
 const historyOverlay = document.getElementById('history-overlay');
 const historyList = document.getElementById('history-list');
 const closeHistoryBtn = document.getElementById('close-history-btn');
+const caseFileBtn = document.getElementById('case-file-btn');
+const caseFileOverlay = document.getElementById('case-file-overlay');
+const closeCaseFileBtn = document.getElementById('close-case-file-btn');
 const muteMusicBtn = document.getElementById('mute-music-btn');
 const muteSfxBtn = document.getElementById('mute-sfx-btn');
 const musicVolSlider = document.getElementById('music-volume');
@@ -315,6 +318,18 @@ function closeHistory() {
     historyOverlay.classList.remove('visible');
 }
 
+function showCaseFile() {
+    if (!caseFileOverlay) return;
+    CaseFileModule.init(caseFileOverlay);
+    caseFileOverlay.classList.add('visible');
+}
+
+function closeCaseFile() {
+    if (!caseFileOverlay) return;
+    CaseFileModule.stopGlitch();
+    caseFileOverlay.classList.remove('visible');
+}
+
 function focusFirstChoice(scene) {
     const first = scene.querySelector('.choice-btn');
     if (first) {
@@ -429,6 +444,8 @@ function init() {
     if (backBtn) backBtn.addEventListener('click', handleBackBtn);
     if (historyBtn) historyBtn.addEventListener('click', showHistory);
     if (closeHistoryBtn) closeHistoryBtn.addEventListener('click', closeHistory);
+    if (caseFileBtn) caseFileBtn.addEventListener('click', showCaseFile);
+    if (closeCaseFileBtn) closeCaseFileBtn.addEventListener('click', closeCaseFile);
 
     if (muteMusicBtn) {
         muteMusicBtn.addEventListener('click', () => {
