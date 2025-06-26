@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.25] - 2025-07-24
+### Added
+- Centralized image assets in new `images/` folder.
+
 ## [0.1.24] - 2025-07-23
 ### Added
 - "Home" button on the first scene of each episode now returns to the title screen.
