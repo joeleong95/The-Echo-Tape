@@ -19,6 +19,12 @@ Image assets are stored in the `images` folder. Sound effects and music live in 
 4. After editing an episode's `.json`, run `npm run build-episodes` to regenerate the `.js` version and then run `npm test` to catch any issues.
 5. Use the **Dev Tools** button on the title screen if you need to clear saved progress.
 
+## Versioning
+
+The project uses simple incremental build numbers in the form
+`MAJOR.MODERATE.MINOR.HOTFIX`. Only the last digit increases for each
+release. See [VERSIONING.md](VERSIONING.md) for more details.
+
 ## License
 
 This project is licensed under the **Creative Commons Attribution-NonCommercial 4.0 International License**. See the [LICENSE](LICENSE) file for details.
