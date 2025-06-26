@@ -91,11 +91,11 @@
             }
         }
     </script>
+    <script src="dist/episodes/episode0.js"></script>
+    <script src="dist/episodes/episode1.js"></script>
     <script type="module" src="src/script.mjs"></script>
     <script>
-        if (window.location.protocol === 'file:') {
-            console.warn('Please run The Echo Tape using a local HTTP server.');
-        } else if ('serviceWorker' in navigator) {
+        if (window.location.protocol !== 'file:' && 'serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('dist/sw.js').catch(console.error);
             });
