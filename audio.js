@@ -29,20 +29,26 @@
       }
   }
 
-  function playVhsSound() {
-      if (sfxStatic && sfxStatic.paused && !musicMuted) {
-          sfxStatic.volume = musicVolume;
-          sfxStatic.currentTime = 0;
-          sfxStatic.play();
+  function playAudioElement(el, volume, muted, onlyIfPaused = false) {
+      if (!el || muted) return;
+      if (!onlyIfPaused || el.paused) {
+          el.volume = volume;
+          el.currentTime = 0;
+          const playPromise = el.play();
+          if (playPromise && typeof playPromise.catch === 'function') {
+              playPromise.catch(() => {
+                  document.addEventListener('click', () => el.play(), { once: true });
+              });
+          }
       }
   }
 
+  function playVhsSound() {
+      playAudioElement(sfxStatic, musicVolume, musicMuted, true);
+  }
+
   function playSceneSound() {
-      if (sfxStatic && sfxStatic.paused && !musicMuted) {
-          sfxStatic.volume = musicVolume;
-          sfxStatic.currentTime = 0;
-          sfxStatic.play();
-      }
+      playAudioElement(sfxStatic, musicVolume, musicMuted, true);
   }
 
   function playClickSound() {
@@ -87,14 +93,8 @@
   }
 
   function playTitleMusic() {
+      playAudioElement(titleMusic, musicVolume, musicMuted);
       if (titleMusic && !musicMuted) {
-          titleMusic.currentTime = 0;
-          const playPromise = titleMusic.play();
-          if (playPromise && typeof playPromise.catch === 'function') {
-              playPromise.catch(() => {
-                  document.addEventListener('click', () => titleMusic.play(), { once: true });
-              });
-          }
           fadeInAudio(titleMusic, 3000, musicVolume);
       }
   }
@@ -107,14 +107,8 @@
   }
 
   function playTitleMusic2() {
+      playAudioElement(titleMusic2, musicVolume, musicMuted);
       if (titleMusic2 && !musicMuted) {
-          titleMusic2.currentTime = 0;
-          const playPromise = titleMusic2.play();
-          if (playPromise && typeof playPromise.catch === 'function') {
-              playPromise.catch(() => {
-                  document.addEventListener('click', () => titleMusic2.play(), { once: true });
-              });
-          }
           fadeInAudio(titleMusic2, 3000, musicVolume);
       }
   }

@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.0.8] - 2025-07-28
+### Added
+- Utility function `playAudioElement` to handle volume-aware playback.
+- `playVhsSound`, `playSceneSound`, `playTitleMusic`, and `playTitleMusic2` now use the new helper.
+
 ## [0.0.0.7] - 2025-07-27
 ### Added
 - `ACT1_DRAFT.md` containing the full first act script.
