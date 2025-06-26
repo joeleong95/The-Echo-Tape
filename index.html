@@ -83,9 +83,7 @@
     <audio id="sfx-static" src="audio/static.ogg" preload="auto" loop></audio>
     <audio id="tape-fx" src="audio/tape_fx.ogg" preload="auto"></audio>
 
-    <!-- Embedded episode data for offline use -->
-    <script src="dist/episodes/episode0.js"></script>
-    <script src="dist/episodes/episode1.js"></script>
+    <!-- Episode data will be loaded dynamically -->
     <script type="module" src="src/script.mjs"></script>
     <script>
         if ('serviceWorker' in navigator) {

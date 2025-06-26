@@ -37,6 +37,21 @@ let currentEpisode = null;
 let resumeScene = null;
 let firstSceneId = null;
 
+async function loadEpisodeScripts() {
+    try {
+        const resp = await fetch('dist/episodes/manifest.json');
+        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+        const names = await resp.json();
+        names.forEach(name => {
+            const script = document.createElement('script');
+            script.src = `dist/episodes/${name}.js`;
+            document.body.appendChild(script);
+        });
+    } catch (err) {
+        console.error('Failed to load episode scripts', err);
+    }
+}
+
 function showScreen(el) {
     el.style.display = 'flex';
     requestAnimationFrame(() => el.classList.add('visible'));
@@ -325,6 +340,7 @@ function handleKeydown(event) {
 
 function init() {
     document.addEventListener('keydown', handleKeydown);
+    loadEpisodeScripts();
 
     startBtn.addEventListener('click', () => {
         AudioModule.initAudio();

@@ -155,6 +155,7 @@ try {
     'src/ui.mjs',
     ...fs.readdirSync(episodesDir).filter(f => f.endsWith(".json")).map(f => `episodes/${f}`),
     ...fs.readdirSync(path.join(__dirname, "..", "dist", "episodes")).filter(f => f.endsWith(".js")).map(f => `dist/episodes/${f}`),
+    'dist/episodes/manifest.json',
     ...fs.readdirSync(audioDir).map(f => `audio/${f}`),
     ...fs.readdirSync(imagesDir).map(f => `images/${f}`)
   ];
