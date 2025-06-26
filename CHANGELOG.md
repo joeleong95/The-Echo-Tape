@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.0.6] - 2025-06-26
+### Added
+- Continued Episode 1 with new party setup scenes.
+
 ## [0.0.0.5] - 2025-07-25
 ### Changed
 - Updated README and writing guide with instructions on building episodes and running tests.
