@@ -138,6 +138,7 @@ All notable changes to this project will be documented in this file.
 ## [Future]
 ### Added
 - Branch point in Episode 1 allowing players to play, investigate, or destroy the tape.
+- Added case file module scene with tabbed interface and audio cues in Episode 1.
 - Local ESLint setup with a `lint` script for checking code style.
 - Added `SCRIPT_GUIDELINES.md` with a narrative script reference.
 - Test now validates JSON in `data-set-state` and `data-show-if` attributes.
