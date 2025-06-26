@@ -8,7 +8,7 @@ Episode 1 is playable and features sound effects and a scene history overlay. P
 
 ## Writing Episodes
 
-All episode data resides in the `episodes` folder. Each file is a JSON document describing a list of scenes. Writers can follow the structure documented in [WRITING_GUIDE.md](WRITING_GUIDE.md) to create new episodes. After editing a `.json` file, run `npm run build-episodes` to regenerate the embedded `.js` and commit both files.
+All episode data resides in the `episodes` folder. Each file is a JSON document describing a list of scenes. Writers can follow the structure documented in [WRITING_GUIDE.md](WRITING_GUIDE.md) to create new episodes. After editing a `.json` file, run `npm run build-episodes` to regenerate the embedded `.js`, update `sw.js` with the correct cache list, and commit both files.
 For a broader sense of tone and structure, see [SCRIPT_GUIDELINES.md](SCRIPT_GUIDELINES.md), which contains an example script and style notes. A full draft of Act&nbsp;1 lives in [ACT1_DRAFT.md](ACT1_DRAFT.md).
 Image assets are stored in the `images` folder. Sound effects and music live in the `audio` folder.
 
@@ -18,7 +18,7 @@ Image assets are stored in the `images` folder. Sound effects and music live in 
 2. Either open `index.html` directly or serve the folder with a simple HTTP server (`npx http-server` works nicely). Episode data is embedded so it works offline.
 3. Run `npm install` (if needed) and `npm test` to verify required files and script syntax.
 4. Run `npm run lint` to check code style and catch common mistakes.
-5. After editing an episode's `.json`, run `npm run build-episodes` to regenerate the `.js` version and then run `npm test` to catch any issues.
+5. After editing an episode's `.json`, run `npm run build-episodes` to regenerate the `.js` files and update `sw.js`, then run `npm test` to catch any issues.
 6. Use the **Dev Tools** button on the title screen if you need to clear saved progress.
 
 ## Versioning

@@ -132,6 +132,23 @@ for (const jsonFile of episodeJsons) {
   }
 }
 
+// Ensure service worker caches all episode files
+const swPath = path.join(__dirname, '..', 'sw.js');
+try {
+  const swContent = fs.readFileSync(swPath, 'utf8');
+  const episodeFiles = fs.readdirSync(episodesDir)
+    .filter(f => f.endsWith('.json') || f.endsWith('.js'));
+  for (const file of episodeFiles) {
+    if (!swContent.includes(`'episodes/${file}'`)) {
+      console.error(`sw.js missing ${file} in cache list`);
+      missing = true;
+    }
+  }
+} catch (err) {
+  console.error('Unable to verify sw.js:', err.message);
+  missing = true;
+}
+
 // Run additional runtime tests
 try {
   require('./runtime.test.js');

@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.0.10] - 2025-07-30
+### Added
+- Service worker cache is now generated automatically when running `npm run build-episodes`.
+
 ## [0.0.0.9] - 2025-07-29
 ### Changed
 - `initAudio` now resumes the audio context when suspended.
