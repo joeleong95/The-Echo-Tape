@@ -12,22 +12,39 @@
   let gameState = { ...defaultState };
   let storageAvailable = true;
 
-  function loadState() {
+  function tryLoad(key, fallbackObj) {
       if (!storageAvailable) {
-          return;
+          return { ...fallbackObj };
       }
       try {
-          const saved = localStorage.getItem('echoTapeState');
+          const saved = localStorage.getItem(key);
           if (saved) {
               try {
-                  gameState = { ...defaultState, ...JSON.parse(saved) };
+                  return { ...fallbackObj, ...JSON.parse(saved) };
               } catch (e) {
-                  console.error('Failed to parse state', e);
+                  console.error(`Failed to parse ${key}`, e);
               }
           }
       } catch (e) {
           if (e instanceof DOMException) {
-              console.warn('localStorage unavailable; using in-memory state');
+              console.warn('localStorage unavailable; using in-memory data');
+              storageAvailable = false;
+          } else {
+              throw e;
+          }
+      }
+      return { ...fallbackObj };
+  }
+
+  function trySave(key, data) {
+      if (!storageAvailable) {
+          return;
+      }
+      try {
+          localStorage.setItem(key, JSON.stringify(data));
+      } catch (e) {
+          if (e instanceof DOMException) {
+              console.warn(`Unable to save ${key} to localStorage`);
               storageAvailable = false;
           } else {
               throw e;
@@ -35,20 +52,12 @@
       }
   }
 
+  function loadState() {
+      gameState = tryLoad('echoTapeState', defaultState);
+  }
+
   function saveState() {
-      if (!storageAvailable) {
-          return;
-      }
-      try {
-          localStorage.setItem('echoTapeState', JSON.stringify(gameState));
-      } catch (e) {
-          if (e instanceof DOMException) {
-              console.warn('Unable to save state to localStorage');
-              storageAvailable = false;
-          } else {
-              throw e;
-          }
-      }
+      trySave('echoTapeState', gameState);
   }
 
   function setState(key, value) {
@@ -78,42 +87,11 @@
   let progress = { episode: null, scene: null };
 
   function loadProgress() {
-      if (!storageAvailable) {
-          return;
-      }
-      try {
-          const saved = localStorage.getItem(progressKey);
-          if (saved) {
-              try {
-                  progress = { episode: null, scene: null, ...JSON.parse(saved) };
-              } catch (e) {
-                  console.error('Failed to parse progress', e);
-              }
-          }
-      } catch (e) {
-          if (e instanceof DOMException) {
-              console.warn('localStorage unavailable; using in-memory progress');
-              storageAvailable = false;
-          } else {
-              throw e;
-          }
-      }
+      progress = tryLoad(progressKey, { episode: null, scene: null });
   }
 
   function saveProgress() {
-      if (!storageAvailable) {
-          return;
-      }
-      try {
-          localStorage.setItem(progressKey, JSON.stringify(progress));
-      } catch (e) {
-          if (e instanceof DOMException) {
-              console.warn('Unable to save progress to localStorage');
-              storageAvailable = false;
-          } else {
-              throw e;
-          }
-      }
+      trySave(progressKey, progress);
   }
 
   function setProgress(ep, scene) {
