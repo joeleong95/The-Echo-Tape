@@ -2,54 +2,54 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.0.0.17] - 2025-08-06
+## [0.0.0.17] - 2025-06-26
 ### Added
 - Star Wars style crawl intro for Episode 1 that fades into the logo.
 
-## [0.0.0.16] - 2025-08-05
+## [0.0.0.16] - 2025-06-26
 ### Added
 - Import map for DOMPurify so the game works on static hosts.
 - Warning when running over `file:` protocol.
 ### Fixed
 - Service worker caching now uses absolute URLs to avoid install failures.
 
-## [0.0.0.15] - 2025-08-04
+## [0.0.0.15] - 2025-06-26
 ### Added
 - `npm start` script that launches a simple static server.
 - README updated to recommend serving the game over HTTP.
 
-## [0.0.0.14] - 2025-08-03
+## [0.0.0.14] - 2025-06-26
 ### Added
 - In-game message with retry option when an episode fails to load.
 
-## [0.0.0.13] - 2025-08-02
+## [0.0.0.13] - 2025-06-26
 ### Added
 - Build script now outputs `dist/episodes/manifest.json` listing episodes.
 - UI loads episode scripts dynamically based on this manifest.
 - Removed hardcoded episode `<script>` tags from `index.html`.
 
-## [0.0.0.12] - 2025-08-01
+## [0.0.0.12] - 2025-06-26
 ### Changed
 - Converted core JavaScript files to ES modules and updated tests accordingly.
 
-## [0.0.0.11] - 2025-07-31
+## [0.0.0.11] - 2025-06-26
 ### Changed
 - Service worker now embeds the build number during `npm run build-episodes`.
 
-## [0.0.0.10] - 2025-07-30
+## [0.0.0.10] - 2025-06-26
 ### Added
 - Service worker cache is now generated automatically when running `npm run build-episodes`.
 
-## [0.0.0.9] - 2025-07-29
+## [0.0.0.9] - 2025-06-26
 ### Changed
 - `initAudio` now resumes the audio context when suspended.
 
-## [0.0.0.8] - 2025-07-28
+## [0.0.0.8] - 2025-06-26
 ### Added
 - Utility function `playAudioElement` to handle volume-aware playback.
 - `playVhsSound`, `playSceneSound`, `playTitleMusic`, and `playTitleMusic2` now use the new helper.
 
-## [0.0.0.7] - 2025-07-27
+## [0.0.0.7] - 2025-06-26
 ### Added
 - `ACT1_DRAFT.md` containing the full first act script.
 - README link to the new draft.
@@ -58,17 +58,17 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Continued Episode 1 with new party setup scenes.
 
-## [0.0.0.5] - 2025-07-25
+## [0.0.0.5] - 2025-06-26
 ### Changed
 - Updated README and writing guide with instructions on building episodes and running tests.
 
-## [0.0.0.4] - 2025-07-24
+## [0.0.0.4] - 2025-06-25
 ### Added
 - Centralized image assets in new `images/` folder.
 - "Home" button on the first scene of each episode now returns to the title screen.
 - Runtime tests for state persistence and audio controls.
 
-## [0.0.0.3] - 2025-07-21
+## [0.0.0.3] - 2025-06-25
 ### Added
 - Replaced inline `onclick` attributes in episode files with `data` attributes and event delegation.
 - Updated writing guide and tests accordingly.
@@ -83,9 +83,10 @@ All notable changes to this project will be documented in this file.
 - Build script `scripts/embedEpisodes.js` for embedding episodes.
 - Test now validates episode JSON files and their generated JS counterparts.
 - Script `tools/embedEpisodes.js` to embed JSON episodes into JavaScript.
+- Switched to the 0.0.x versioning scheme and renumbered earlier drafts.
 - Contributor guide now notes running `npm run embed` after editing episodes.
 
-## [0.0.0.2] - 2025-07-10
+## [0.0.0.2] - 2025-06-25
 ### Added
 - Audio files now use .ogg format and .wav files removed.
 - Static audio stops when returning to menus.
@@ -108,8 +109,9 @@ All notable changes to this project will be documented in this file.
 - Noted early development status in README and AGENTS.
 - CHANGELOG now lists releases in reverse chronological order.
 
-## [0.0.0.1] - 2025-06-30
+## [0.0.0.1] - 2025-06-24
 ### Added
+- Initial code imported from offline development on June 26.
 - Save progress across sessions with a Continue option.
 - Restarting the game now clears saved progress.
 - Tutorial episode accessible from the menu.
@@ -121,7 +123,6 @@ All notable changes to this project will be documented in this file.
 - Embedded episode data so the game works when opened directly from the file system.
 - Improved README with clearer instructions.
 - Episode selection now loads correctly without a web server.
-- Renumbered previous releases under the 0.0.x scheme.
 - Basic sound effects when navigating scenes.
 - Scene navigation history overlay.
 - Package.json with a simple test script.
