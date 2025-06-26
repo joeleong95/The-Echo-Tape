@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.0.7] - 2025-07-27
+### Added
+- `ACT1_DRAFT.md` containing the full first act script.
+- README link to the new draft.
+
 ## [0.0.0.6] - 2025-06-26
 ### Added
 - Continued Episode 1 with new party setup scenes.
