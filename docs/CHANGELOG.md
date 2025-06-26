@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.0.23] - 2025-07-01
+### Added
+- Continuous integration workflow to automatically run tests and lint on pull requests.
+
 ## [0.0.0.22] - 2025-06-30
 ### Added
 - Initial party scenes extending Episode 1.
