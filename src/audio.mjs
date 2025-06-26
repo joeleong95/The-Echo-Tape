@@ -42,11 +42,11 @@ function playAudioElement(el, volume, muted, onlyIfPaused = false) {
 }
 
 function playVhsSound() {
-    playAudioElement(sfxStatic, musicVolume, musicMuted, true);
+    playAudioElement(sfxStatic, sfxVolume, sfxMuted, true);
 }
 
 function playSceneSound() {
-    playAudioElement(sfxStatic, musicVolume, musicMuted, true);
+    playAudioElement(sfxStatic, sfxVolume, sfxMuted, true);
 }
 
 function playClickSound() {
@@ -154,8 +154,8 @@ function applyAudioPrefs() {
         introMusic.volume = musicVolume;
     }
     if (sfxStatic) {
-        sfxStatic.muted = musicMuted;
-        sfxStatic.volume = musicVolume;
+        sfxStatic.muted = sfxMuted;
+        sfxStatic.volume = sfxVolume;
     }
     if (sfxClick) {
         sfxClick.muted = sfxMuted;

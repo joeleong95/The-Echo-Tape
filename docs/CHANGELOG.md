@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.0.21] - 2025-06-29
+### Fixed
+- Static background sound now respects the SFX volume and mute settings.
+
 ## [0.0.0.20] - 2025-06-28
 ### Changed
 - Intro music loops during Episode 1 crawl.
