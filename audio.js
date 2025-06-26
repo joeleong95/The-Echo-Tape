@@ -27,6 +27,9 @@
       if (!audioCtx) {
           audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       }
+      if (audioCtx.state === 'suspended') {
+          audioCtx.resume().catch(() => {});
+      }
   }
 
   function playAudioElement(el, volume, muted, onlyIfPaused = false) {

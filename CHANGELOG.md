@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.0.9] - 2025-07-29
+### Changed
+- `initAudio` now resumes the audio context when suspended.
+
 ## [0.0.0.8] - 2025-07-28
 ### Added
 - Utility function `playAudioElement` to handle volume-aware playback.
