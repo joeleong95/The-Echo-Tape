@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.0.14] - 2025-08-03
+### Added
+- In-game message with retry option when an episode fails to load.
+
 ## [0.0.0.13] - 2025-08-02
 ### Added
 - Build script now outputs `dist/episodes/manifest.json` listing episodes.

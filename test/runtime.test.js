@@ -207,6 +207,12 @@ async function runTests() {
   await Ui.goToScene('scene1', true);
   assert.strictEqual(document.querySelector('.interactive-scene.visible').id, 'scene1');
   assert.strictEqual(elements['back-btn'].textContent, 'Home');
+
+  delete global.window.localEpisodes;
+  await Ui.loadEpisode('99');
+  const errHtml = document.getElementById('vhs-screen').innerHTML;
+  assert.ok(/Failed to load episode/i.test(errHtml));
+  assert.ok(errHtml.includes('retry-load-btn'));
 }
 
 runTests();
