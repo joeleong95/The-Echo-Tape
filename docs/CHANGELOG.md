@@ -1,6 +1,10 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## [0.0.0.33] - 2025-06-28
+### Added
+- Focus styles for interactive buttons.
+- ARIA roles and keyboard navigation for overlays.
 ## [0.0.0.32] - 2025-06-28
 ### Added
 - Optional save export/import for cross-device progress.

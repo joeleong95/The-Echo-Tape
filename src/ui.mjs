@@ -143,6 +143,17 @@ function returnToTitle() {
 
 function init() {
     document.addEventListener('keydown', Navigation.handleKeydown);
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') {
+            const hist = document.getElementById('history-overlay');
+            const caseFile = document.getElementById('case-file-overlay');
+            if (hist && hist.classList.contains('visible')) {
+                Navigation.closeHistory();
+            } else if (caseFile && caseFile.classList.contains('visible')) {
+                Navigation.closeCaseFile();
+            }
+        }
+    });
     loadEpisodeScripts();
 
     startBtn.addEventListener('click', () => {
