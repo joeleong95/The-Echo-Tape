@@ -1,5 +1,10 @@
 'use strict';
 
+/**
+ * Utilities for loading, saving and querying persistent game state.
+ * @module state
+ */
+
 const defaultState = {
     awareOfLoop: false,
     hasTape: false,
@@ -14,6 +19,13 @@ const defaultState = {
 
 let gameState = { ...defaultState };
 let storageAvailable = true;
+
+/**
+ * Attempt to load an object from localStorage.
+ * @param {string} key - Storage key.
+ * @param {Object} fallbackObj - Default values if not found.
+ * @returns {Object} Loaded data merged with the fallback.
+ */
 
 function tryLoad(key, fallbackObj) {
     if (!storageAvailable) {
@@ -39,6 +51,12 @@ function tryLoad(key, fallbackObj) {
     return { ...fallbackObj };
 }
 
+/**
+ * Persist data to localStorage.
+ * @param {string} key - Storage key.
+ * @param {Object} data - Object to serialize and store.
+ * @returns {void}
+ */
 function trySave(key, data) {
     if (!storageAvailable) {
         return;
@@ -55,28 +73,55 @@ function trySave(key, data) {
     }
 }
 
+/**
+ * Load persistent state from storage.
+ * @returns {void}
+ */
 function loadState() {
     gameState = tryLoad('echoTapeState', defaultState);
 }
 
+/**
+ * Save current game state to storage.
+ * @returns {void}
+ */
 function saveState() {
     trySave('echoTapeState', gameState);
 }
 
+/**
+ * Update a key in the game state and persist the change.
+ * @param {string} key
+ * @param {*} value
+ * @returns {void}
+ */
 function setState(key, value) {
     gameState[key] = value;
     saveState();
 }
 
+/**
+ * Retrieve a value from the current game state.
+ * @param {string} key
+ * @returns {*}
+ */
 function getState(key) {
     return gameState[key];
 }
 
+/**
+ * Reset the game state back to defaults.
+ * @returns {void}
+ */
 function resetState() {
     gameState = { ...defaultState };
     saveState();
 }
 
+/**
+ * Update the on-screen summary of key state values.
+ * @returns {void}
+ */
 function updateStateSummary() {
     const summary = document.getElementById('state-summary');
     if (summary) {
@@ -92,25 +137,47 @@ function updateStateSummary() {
 const progressKey = 'echoTapeProgress';
 let progress = { episode: null, scene: null };
 
+/**
+ * Load episode progress from storage.
+ * @returns {void}
+ */
 function loadProgress() {
     progress = tryLoad(progressKey, { episode: null, scene: null });
 }
 
+/**
+ * Persist current progress state.
+ * @returns {void}
+ */
 function saveProgress() {
     trySave(progressKey, progress);
 }
 
+/**
+ * Update the saved episode and scene.
+ * @param {string|null} ep
+ * @param {string|null} scene
+ * @returns {void}
+ */
 function setProgress(ep, scene) {
     progress.episode = ep;
     progress.scene = scene;
     saveProgress();
 }
 
+/**
+ * Reset stored progress information.
+ * @returns {void}
+ */
 function clearProgress() {
     progress = { episode: null, scene: null };
     saveProgress();
 }
 
+/**
+ * Get the stored progress value.
+ * @returns {{episode: (string|null), scene: (string|null)}}
+ */
 function getProgress() {
     return progress;
 }

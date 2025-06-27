@@ -2,9 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.0.0.28] - 2025-06-27
+## [0.0.0.29] - 2025-06-27
 ### Changed
 - CI workflow now runs on pushes in addition to pull requests.
+
+## 0.0.0.28] - 2025-06-37
+### Added
+- JSDoc comments across core modules for improved type hints.
 
 ## [0.0.0.27] - 2025-06-27
 ### Fixed

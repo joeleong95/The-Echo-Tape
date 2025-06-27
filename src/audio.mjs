@@ -1,5 +1,10 @@
 'use strict';
 
+/**
+ * Handles playback of music and sound effects for the game.
+ * @module audio
+ */
+
 const sfxClick = document.getElementById('sfx-click');
 const sfxStatic = document.getElementById('sfx-static');
 const tapeFx = document.getElementById('tape-fx');
@@ -18,6 +23,10 @@ let sfxMuted = false;
 let musicVolume = 1;
 let sfxVolume = 1;
 
+/**
+ * Ensure an AudioContext exists and resume it if suspended.
+ * @returns {void}
+ */
 function initAudio() {
     if (!audioCtx) {
         audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -27,6 +36,14 @@ function initAudio() {
     }
 }
 
+/**
+ * Play an HTMLAudioElement with volume and mute handling.
+ * @param {HTMLMediaElement|null} el - Element to play.
+ * @param {number} volume - Target volume 0-1.
+ * @param {boolean} muted - Whether playback is muted.
+ * @param {boolean} [onlyIfPaused=false] - Only play if the element is paused.
+ * @returns {void}
+ */
 function playAudioElement(el, volume, muted, onlyIfPaused = false) {
     if (!el || muted) return;
     if (!onlyIfPaused || el.paused) {
@@ -41,14 +58,26 @@ function playAudioElement(el, volume, muted, onlyIfPaused = false) {
     }
 }
 
+/**
+ * Play the looping static sound used for scene transitions.
+ * @returns {void}
+ */
 function playVhsSound() {
     playAudioElement(sfxStatic, sfxVolume, sfxMuted, true);
 }
 
+/**
+ * Play static when entering a scene.
+ * @returns {void}
+ */
 function playSceneSound() {
     playAudioElement(sfxStatic, sfxVolume, sfxMuted, true);
 }
 
+/**
+ * Play the UI button click sound effect.
+ * @returns {void}
+ */
 function playClickSound() {
     if (sfxClick && !sfxMuted) {
         sfxClick.volume = sfxVolume;
@@ -57,6 +86,10 @@ function playClickSound() {
     }
 }
 
+/**
+ * Play the short tape insert/remove effect.
+ * @returns {void}
+ */
 function playTapeFx() {
     if (tapeFx && !sfxMuted) {
         tapeFx.volume = sfxVolume;
@@ -65,6 +98,10 @@ function playTapeFx() {
     }
 }
 
+/**
+ * Stop the static loop.
+ * @returns {void}
+ */
 function stopVhsSound() {
     if (sfxStatic && !sfxStatic.paused) {
         sfxStatic.pause();
@@ -72,6 +109,13 @@ function stopVhsSound() {
     }
 }
 
+/**
+ * Gradually increase volume of an element over a duration.
+ * @param {HTMLMediaElement} el
+ * @param {number} duration - Fade time in ms.
+ * @param {number} [targetVol=1] - Final volume multiplier.
+ * @returns {void}
+ */
 function fadeInAudio(el, duration, targetVol = 1) {
     if (!el) return;
     const start = performance.now();
@@ -90,6 +134,10 @@ function fadeInAudio(el, duration, targetVol = 1) {
     requestAnimationFrame(step);
 }
 
+/**
+ * Play the main title music with a fade in.
+ * @returns {void}
+ */
 function playTitleMusic() {
     playAudioElement(titleMusic, musicVolume, musicMuted);
     if (titleMusic && !musicMuted) {
@@ -97,6 +145,10 @@ function playTitleMusic() {
     }
 }
 
+/**
+ * Stop the title music if playing.
+ * @returns {void}
+ */
 function stopTitleMusic() {
     if (titleMusic && !titleMusic.paused) {
         titleMusic.pause();
@@ -104,6 +156,10 @@ function stopTitleMusic() {
     }
 }
 
+/**
+ * Play the second title track used on the episode screen.
+ * @returns {void}
+ */
 function playTitleMusic2() {
     playAudioElement(titleMusic2, musicVolume, musicMuted);
     if (titleMusic2 && !musicMuted) {
@@ -111,6 +167,10 @@ function playTitleMusic2() {
     }
 }
 
+/**
+ * Stop the second title track.
+ * @returns {void}
+ */
 function stopTitleMusic2() {
     if (titleMusic2 && !titleMusic2.paused) {
         titleMusic2.pause();
@@ -118,6 +178,10 @@ function stopTitleMusic2() {
     }
 }
 
+/**
+ * Play the introduction crawl music.
+ * @returns {void}
+ */
 function playIntroMusic() {
     playAudioElement(introMusic, musicVolume, musicMuted);
     if (introMusic && !musicMuted) {
@@ -125,6 +189,10 @@ function playIntroMusic() {
     }
 }
 
+/**
+ * Stop the intro music.
+ * @returns {void}
+ */
 function stopIntroMusic() {
     if (introMusic && !introMusic.paused) {
         introMusic.pause();
@@ -132,6 +200,10 @@ function stopIntroMusic() {
     }
 }
 
+/**
+ * Update DOM elements to match current audio settings.
+ * @returns {void}
+ */
 function applyAudioPrefs() {
     const muteMusicBtn = document.getElementById('mute-music-btn');
     const muteSfxBtn = document.getElementById('mute-sfx-btn');
@@ -166,29 +238,53 @@ function applyAudioPrefs() {
     }
 }
 
+/**
+ * Toggle whether background music is muted.
+ * @param {boolean} val
+ * @returns {void}
+ */
 function setMusicMuted(val) {
     musicMuted = val;
     applyAudioPrefs();
 }
 
+/**
+ * Toggle whether sound effects are muted.
+ * @param {boolean} val
+ * @returns {void}
+ */
 function setSfxMuted(val) {
     sfxMuted = val;
     applyAudioPrefs();
 }
 
+/**
+ * Set the background music volume.
+ * @param {number} val - Volume from 0 to 1.
+ * @returns {void}
+ */
 function setMusicVolume(val) {
     musicVolume = val;
     applyAudioPrefs();
 }
 
+/**
+ * Set the sound effects volume.
+ * @param {number} val - Volume from 0 to 1.
+ * @returns {void}
+ */
 function setSfxVolume(val) {
     sfxVolume = val;
     applyAudioPrefs();
 }
 
+/** @returns {boolean} */
 function getMusicMuted() { return musicMuted; }
+/** @returns {boolean} */
 function getSfxMuted() { return sfxMuted; }
+/** @returns {number} */
 function getMusicVolume() { return musicVolume; }
+/** @returns {number} */
 function getSfxVolume() { return sfxVolume; }
 
 export {
