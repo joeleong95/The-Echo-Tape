@@ -8,7 +8,8 @@
     "embed": "node scripts/embedEpisodes.js",
     "build-episodes": "node scripts/embedEpisodes.js",
     "lint": "eslint -c .eslintrc.json .",
-    "start": "node server.js"
+    "start": "node server.js",
+    "preview-episode": "node scripts/previewEpisode.js"
   },
   "keywords": [],
   "author": "",

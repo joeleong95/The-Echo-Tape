@@ -72,3 +72,13 @@ Finally, run the tests to catch syntax errors or missing scenes:
 ```
 npm test
 ```
+
+## Previewing Episode Flow
+
+To visualize how scenes connect, run:
+
+```
+npm run preview-episode -- episodes/episode1.json
+```
+
+Replace the path with your episode file. The command prints each scene and the IDs it links to. Add `--dot` to output Graphviz format for drawing a flow chart.
