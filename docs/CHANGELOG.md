@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.2] - 2025-06-27
+### Added
+- Linting step documented in `AGENTS.md`.
+- CI workflow now explicitly runs tests and lint on pull requests.
+
 ## [1.0.1] - 2025-06-27
 ### Changed
 - Development server now compresses responses and sets cache headers.
