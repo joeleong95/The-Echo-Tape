@@ -9,7 +9,9 @@
     "build-episodes": "node scripts/embedEpisodes.js",
     "lint": "eslint -c .eslintrc.json .",
     "start": "node server.js",
-    "preview-episode": "node scripts/previewEpisode.js"
+    "preview-episode": "node scripts/previewEpisode.js",
+    "build": "vite build",
+    "dev": "vite"
   },
   "keywords": [],
   "author": "",
@@ -19,7 +21,8 @@
     "node": ">=18"
   },
   "devDependencies": {
-    "eslint": "8.57.1"
+    "eslint": "8.57.1",
+    "vite": "^7.0.0"
   },
   "dependencies": {
     "dompurify": "^3.2.6"
