@@ -182,6 +182,36 @@ function getProgress() {
     return progress;
 }
 
+/**
+ * Export current game state and progress for cross-device saves.
+ * @returns {{state: Object, progress: Object}}
+ */
+function exportSaveData() {
+    return {
+        state: { ...gameState },
+        progress: { ...progress }
+    };
+}
+
+/**
+ * Import previously exported save data.
+ * @param {{state:Object, progress:Object}} data
+ * @returns {void}
+ */
+function importSaveData(data) {
+    if (!data || typeof data !== 'object') {
+        return;
+    }
+    if (data.state && typeof data.state === 'object') {
+        gameState = { ...defaultState, ...data.state };
+        saveState();
+    }
+    if (data.progress && typeof data.progress === 'object') {
+        progress = { episode: null, scene: null, ...data.progress };
+        saveProgress();
+    }
+}
+
 export {
     loadState,
     saveState,
@@ -193,5 +223,7 @@ export {
     saveProgress,
     setProgress,
     clearProgress,
-    getProgress
+    getProgress,
+    exportSaveData,
+    importSaveData
 };

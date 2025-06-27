@@ -21,6 +21,9 @@ const continueBtn = document.getElementById('continue-btn');
 const devBtn = document.getElementById('dev-btn');
 const devScreen = document.getElementById('dev-screen');
 const clearSaveBtn = document.getElementById('clear-save-btn');
+const exportSaveBtn = document.getElementById('export-save-btn');
+const importSaveBtn = document.getElementById('import-save-btn');
+const importSaveInput = document.getElementById('import-save-input');
 const closeDevBtn = document.getElementById('close-dev-btn');
 const recordLight = document.querySelector('.record-light');
 const episodeButtons = document.querySelectorAll('.episode-btn');
@@ -193,6 +196,42 @@ function init() {
             StateModule.resetState();
             Navigation.updateContinueButton();
             alert('Save data cleared');
+        });
+    }
+
+    if (exportSaveBtn) {
+        exportSaveBtn.addEventListener('click', () => {
+            const data = StateModule.exportSaveData();
+            const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'echo-tape-save.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
+    }
+
+    if (importSaveBtn && importSaveInput) {
+        importSaveBtn.addEventListener('click', () => importSaveInput.click());
+        importSaveInput.addEventListener('change', () => {
+            const file = importSaveInput.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = () => {
+                try {
+                    const data = JSON.parse(reader.result);
+                    StateModule.importSaveData(data);
+                    Navigation.updateContinueButton();
+                    alert('Save data imported');
+                } catch (err) {
+                    alert('Invalid save file');
+                }
+            };
+            reader.readAsText(file);
+            importSaveInput.value = '';
         });
     }
 

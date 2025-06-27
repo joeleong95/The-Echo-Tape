@@ -12,7 +12,7 @@ for (const file of requiredFiles) {
 }
 try {
   execSync('node --check src/script.mjs', { stdio: 'inherit' });
-} catch (err) {
+} catch {
   console.error('Syntax error in src/script.mjs');
   missing = true;
 }
@@ -25,8 +25,8 @@ for (const jsonFile of episodeJsons) {
   let jsonData;
   try {
     jsonData = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
-  } catch (err) {
-    console.error(`Invalid JSON in ${jsonFile}: ${err.message}`);
+  } catch (_err) {
+    console.error(`Invalid JSON in ${jsonFile}: ${_err.message}`);
     missing = true;
     continue;
   }
@@ -75,8 +75,8 @@ for (const jsonFile of episodeJsons) {
     while ((m = setStateRegex.exec(html))) {
       try {
         JSON.parse(m[2]);
-      } catch (err) {
-        console.error(`${jsonFile} scene '${scene.id}' has invalid data-set-state: ${err.message}`);
+      } catch (_err) {
+        console.error(`${jsonFile} scene '${scene.id}' has invalid data-set-state: ${_err.message}`);
         missing = true;
       }
     }
@@ -84,8 +84,8 @@ for (const jsonFile of episodeJsons) {
     while ((m = showIfRegex.exec(html))) {
       try {
         JSON.parse(m[2]);
-      } catch (err) {
-        console.error(`${jsonFile} scene '${scene.id}' has invalid data-show-if: ${err.message}`);
+      } catch (_err) {
+        console.error(`${jsonFile} scene '${scene.id}' has invalid data-show-if: ${_err.message}`);
         missing = true;
       }
     }
@@ -101,7 +101,7 @@ for (const jsonFile of episodeJsons) {
     try {
       execSync(`node -c "${jsPath}"`, { stdio: 'inherit' });
       jsContent = fs.readFileSync(jsPath, 'utf8');
-    } catch (err) {
+    } catch {
       console.error(`Syntax error in ${jsPath}`);
       missing = true;
       continue;
@@ -119,8 +119,8 @@ for (const jsonFile of episodeJsons) {
     let jsObj;
     try {
       jsObj = JSON.parse(match[2]);
-    } catch (err) {
-      console.error(`Invalid JSON object in ${jsPath}: ${err.message}`);
+    } catch (_err) {
+      console.error(`Invalid JSON object in ${jsPath}: ${_err.message}`);
       missing = true;
       continue;
     }
@@ -172,24 +172,24 @@ try {
       missing = true;
     }
   }
-} catch (err) {
-  console.error('Unable to verify sw.js:', err.message);
+} catch (_err) {
+  console.error('Unable to verify sw.js:', _err.message);
   missing = true;
 }
 
 // Ensure embedEpisodes.js handles invalid JSON
 try {
   require('./embedScript.test.js');
-} catch (err) {
-  console.error(err);
+} catch (_err) {
+  console.error(_err);
   missing = true;
 }
 
 // Run additional runtime tests
 try {
   require('./runtime.test.js');
-} catch (err) {
-  console.error(err);
+} catch (_err) {
+  console.error(_err);
   missing = true;
 }
 if (missing) {

@@ -145,6 +145,13 @@ async function runTests() {
   });
 
   State.setProgress('1', 'start');
+  const exported = State.exportSaveData();
+  assert.deepStrictEqual(exported.progress, { episode: '1', scene: 'start' });
+  assert.strictEqual(exported.state.hasTape, true);
+  State.setState('hasTape', false);
+  State.clearProgress();
+  State.importSaveData(exported);
+  assert.strictEqual(State.getState('hasTape'), true);
   assert.deepStrictEqual(State.getProgress(), { episode: '1', scene: 'start' });
   State.clearProgress();
   assert.deepStrictEqual(State.getProgress(), { episode: null, scene: null });
