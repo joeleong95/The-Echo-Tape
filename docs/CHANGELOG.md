@@ -1,6 +1,9 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## [0.0.0.35] - 2025-06-28
+### Changed
+- Removed leftover hardcoded episode `<script>` tags from `index.html`. Episode scripts now load exclusively via `manifest.json`.
 ## [0.0.0.34] - 2025-06-28
 ### Changed
 - Service worker cache name now includes a fingerprint of all assets for automatic invalidation.
