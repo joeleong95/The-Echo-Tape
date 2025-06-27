@@ -27,6 +27,10 @@ Image assets are stored in the `images` folder. Sound effects and music live in 
 The project uses simple incremental build numbers in the form
 `MAJOR.MODERATE.MINOR.HOTFIX`. Only the last digit increases for each
 release. See [VERSIONING.md](VERSIONING.md) for more details.
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for workflow tips and example commands.
+
 
 ## License
 
