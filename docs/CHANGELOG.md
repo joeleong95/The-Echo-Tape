@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.0.38] - 2025-06-27
+### Fixed
+- Updated `sceneNavigation` to import the bundled DOMPurify directly so Node tests run without build tooling.
+- Converted ESLint configuration to `.cjs` format and updated the lint script for compatibility with Node 22.
+
 ## [0.0.0.37] - 2025-06-27
 ### Added
 - Tests for keyboard navigation and case file behaviour.

@@ -8,7 +8,9 @@
 import * as StateModule from './state.mjs';
 import * as AudioModule from './audio.mjs';
 import * as CaseFileModule from './caseFile.mjs';
-import DOMPurifyLib from 'dompurify';
+// Use the local DOMPurify copy rather than relying on a build alias so tests
+// run without a custom resolver.
+import DOMPurifyLib from './dompurify.mjs';
 
 const DOMPurify = typeof window !== 'undefined' && window.DOMPurify ? window.DOMPurify : DOMPurifyLib;
 
