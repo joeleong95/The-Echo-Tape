@@ -7,10 +7,7 @@
 
 import * as StateModule from './state.mjs';
 import * as AudioModule from './audio.mjs';
-import * as CaseFileModule from './caseFile.mjs';
-import DOMPurifyLib from 'dompurify';
-
-const DOMPurify = typeof window !== 'undefined' && window.DOMPurify ? window.DOMPurify : DOMPurifyLib;
+import * as Navigation from './sceneNavigation.mjs';
 
 const titleScreen = document.getElementById('title-screen');
 const episodeScreen = document.getElementById('episode-screen');
@@ -28,26 +25,15 @@ const closeDevBtn = document.getElementById('close-dev-btn');
 const recordLight = document.querySelector('.record-light');
 const episodeButtons = document.querySelectorAll('.episode-btn');
 const returnTitleBtn = document.getElementById('return-title-btn');
-const backBtn = document.getElementById('back-btn');
-const historyBtn = document.getElementById('history-btn');
-const historyOverlay = document.getElementById('history-overlay');
-const historyList = document.getElementById('history-list');
-const closeHistoryBtn = document.getElementById('close-history-btn');
-const caseFileBtn = document.getElementById('case-file-btn');
-const caseFileOverlay = document.getElementById('case-file-overlay');
-const closeCaseFileBtn = document.getElementById('close-case-file-btn');
 const muteMusicBtn = document.getElementById('mute-music-btn');
 const muteSfxBtn = document.getElementById('mute-sfx-btn');
 const musicVolSlider = document.getElementById('music-volume');
 const sfxVolSlider = document.getElementById('sfx-volume');
-const sceneAnnouncer = document.getElementById('scene-announcer');
 
-let sceneHistory = [];
 let selectedEpisode = null;
 let introTimers = [];
 let currentEpisode = null;
 let resumeScene = null;
-let firstSceneId = null;
 
 /**
  * Dynamically load all episode JavaScript bundles.
@@ -68,21 +54,11 @@ async function loadEpisodeScripts() {
     }
 }
 
-/**
- * Display a screen element with a fade in.
- * @param {HTMLElement} el
- * @returns {void}
- */
 function showScreen(el) {
     el.style.display = 'flex';
     requestAnimationFrame(() => el.classList.add('visible'));
 }
 
-/**
- * Hide a screen element with a fade out.
- * @param {HTMLElement} el
- * @returns {void}
- */
 function hideScreen(el) {
     el.classList.remove('visible');
     el.addEventListener('transitionend', function handler() {
@@ -91,100 +67,6 @@ function hideScreen(el) {
     }, { once: true });
 }
 
-/**
- * Fetch and display an episode's scenes.
- * @param {string} ep - Episode identifier.
- * @returns {Promise<void>}
- */
-async function loadEpisode(ep) {
-    const screen = document.getElementById('vhs-screen');
-    if (!screen) return;
-    let data;
-    try {
-        const resp = await fetch(`episodes/episode${ep}.json`);
-        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-        data = await resp.json();
-    } catch (err) {
-        console.warn('Fetch failed, trying embedded episode data', err);
-        if (window.localEpisodes && window.localEpisodes[`episode${ep}`]) {
-            data = window.localEpisodes[`episode${ep}`];
-        } else {
-            console.error('Episode data not found');
-            screen.innerHTML =
-                '<div class="dialogue">Failed to load episode. ' +
-                'Please check your connection and try again.</div>' +
-                '<button id="retry-load-btn" class="choice-btn">Retry</button>';
-            const retryBtn = document.getElementById('retry-load-btn');
-            if (retryBtn) retryBtn.addEventListener('click', () => loadEpisode(ep));
-            return;
-        }
-    }
-
-    screen.innerHTML = '';
-
-    const builtIds = [];
-    data.scenes.forEach(scene => {
-        if (scene.showIf) {
-            let ok = true;
-            for (const key in scene.showIf) {
-                if (StateModule.getState(key) !== scene.showIf[key]) {
-                    ok = false;
-                    break;
-                }
-            }
-            if (!ok) return;
-        }
-        const div = document.createElement('div');
-        div.id = scene.id;
-        div.className = 'interactive-scene';
-        div.setAttribute('role', 'dialog');
-        div.setAttribute('aria-label', scene.id);
-        div.innerHTML = DOMPurify.sanitize(scene.html || '');
-
-        div.querySelectorAll('[data-show-if]').forEach(el => {
-            const condStr = el.getAttribute('data-show-if');
-            if (!condStr) return;
-            try {
-                const cond = JSON.parse(condStr);
-                let match = true;
-                for (const key in cond) {
-                    if (StateModule.getState(key) !== cond[key]) {
-                        match = false;
-                        break;
-                    }
-                }
-                if (!match) el.remove();
-            } catch (e) {
-                console.error('Invalid data-show-if', e);
-            }
-        });
-
-        screen.appendChild(div);
-        builtIds.push(scene.id);
-    });
-
-    sceneHistory = [];
-    updateBackButton();
-    firstSceneId = data.start && builtIds.includes(data.start) ? data.start : builtIds[0];
-    let startId = firstSceneId;
-    if (resumeScene && builtIds.includes(resumeScene)) {
-        startId = resumeScene;
-        resumeScene = null;
-    }
-    const progress = StateModule.getProgress();
-    if (progress.episode === ep && progress.scene && builtIds.includes(progress.scene)) {
-        startId = progress.scene;
-    }
-    if (startId) {
-        goToScene(startId);
-    }
-}
-
-/**
- * Begin playback of the selected episode.
- * @param {string} ep
- * @returns {Promise<void>}
- */
 async function startEpisode(ep) {
     AudioModule.stopTitleMusic();
     AudioModule.stopTitleMusic2();
@@ -192,16 +74,13 @@ async function startEpisode(ep) {
     hideScreen(introScreen);
     gameContainer.style.display = 'block';
     currentEpisode = ep;
+    Navigation.setCurrentEpisode(ep);
     recordLight.style.display = 'block';
     AudioModule.playVhsSound();
-    await loadEpisode(ep);
+    await Navigation.loadEpisode(ep, resumeScene);
+    resumeScene = null;
 }
 
-/**
- * Show the introductory crawl before an episode.
- * @param {string} ep
- * @returns {void}
- */
 function playIntro(ep) {
     selectedEpisode = ep;
     AudioModule.stopTitleMusic2();
@@ -223,10 +102,6 @@ function playIntro(ep) {
     }, 30000));
 }
 
-/**
- * Reset all state and return to the episode selection screen.
- * @returns {void}
- */
 function restartGame() {
     gameContainer.style.display = 'none';
     recordLight.style.display = 'none';
@@ -237,19 +112,15 @@ function restartGame() {
     AudioModule.stopVhsSound();
     StateModule.clearProgress();
     StateModule.resetState();
-    sceneHistory = [];
+    Navigation.clearHistory();
     const screen = document.getElementById('vhs-screen');
     if (screen) screen.innerHTML = '';
-    updateBackButton();
-    updateContinueButton();
+    Navigation.updateBackButton();
+    Navigation.updateContinueButton();
     showScreen(episodeScreen);
     AudioModule.playTitleMusic2();
 }
 
-/**
- * Return to the main title screen without clearing progress.
- * @returns {void}
- */
 function returnToTitle() {
     gameContainer.style.display = 'none';
     recordLight.style.display = 'none';
@@ -259,231 +130,16 @@ function returnToTitle() {
     AudioModule.stopVhsSound();
     const screen = document.getElementById('vhs-screen');
     if (screen) screen.innerHTML = '';
-    sceneHistory = [];
-    updateBackButton();
-    updateContinueButton();
+    Navigation.clearHistory();
+    Navigation.updateBackButton();
+    Navigation.updateContinueButton();
     AudioModule.stopTitleMusic2();
     showScreen(titleScreen);
     AudioModule.playTitleMusic();
 }
 
-/**
- * Make a scene element visible.
- * @param {HTMLElement} scene
- * @returns {void}
- */
-function showScene(scene) {
-    scene.style.display = 'block';
-    requestAnimationFrame(() => scene.classList.add('visible'));
-}
-
-/**
- * Fade out a scene and remove it from view.
- * @param {HTMLElement} scene
- * @returns {Promise<void>}
- */
-function hideSceneElement(scene) {
-    return new Promise(resolve => {
-        scene.classList.remove('visible');
-        scene.addEventListener('transitionend', function handler() {
-            scene.style.display = 'none';
-            scene.removeEventListener('transitionend', handler);
-            resolve();
-        }, { once: true });
-    });
-}
-
-/**
- * Navigate to a new scene element by id.
- * @param {string} sceneId
- * @param {boolean} [fromBack=false] - Whether navigation came from the back button.
- * @returns {Promise<void>}
- */
-async function goToScene(sceneId, fromBack = false) {
-    const targetScene = document.getElementById(sceneId);
-    if (!targetScene) return;
-
-    const currentScene = document.querySelector('.interactive-scene.visible');
-    if (currentScene && currentScene !== targetScene) {
-        if (!fromBack) {
-            sceneHistory.push(currentScene.id);
-        }
-        if (currentScene.id === 'scene-case-file') {
-            CaseFileModule.stopGlitch();
-        }
-        await hideSceneElement(currentScene);
-    }
-
-    showScene(targetScene);
-    if (sceneId === 'scene-case-file') {
-        CaseFileModule.init(targetScene);
-    }
-    announceScene(targetScene);
-    AudioModule.playSceneSound();
-    updateBackButton();
-    targetScene.scrollIntoView({ behavior: 'smooth' });
-    focusFirstChoice(targetScene);
-    StateModule.setProgress(currentEpisode, sceneId);
-    if (sceneId === 'scene-tobecontinued') {
-        StateModule.updateStateSummary();
-    }
-}
-
-/**
- * Enable or disable the back button based on history.
- * @returns {void}
- */
-function updateBackButton() {
-    if (!backBtn) return;
-    const currentScene = document.querySelector('.interactive-scene.visible');
-    const atFirst = currentScene && currentScene.id === firstSceneId;
-    if (atFirst) {
-        backBtn.disabled = false;
-        backBtn.textContent = 'Home';
-        backBtn.setAttribute('aria-label', 'Return to title');
-    } else {
-        backBtn.textContent = '\u2190 Back';
-        backBtn.setAttribute('aria-label', 'Go back');
-        backBtn.disabled = sceneHistory.length === 0;
-    }
-}
-
-/**
- * Toggle visibility of the continue button based on saved progress.
- * @returns {void}
- */
-function updateContinueButton() {
-    if (continueBtn) {
-        const prog = StateModule.getProgress();
-        continueBtn.style.display = prog.episode ? 'block' : 'none';
-    }
-}
-
-/**
- * Navigate back to the previous scene in history.
- * @returns {void}
- */
-function goBack() {
-    if (sceneHistory.length === 0) return;
-    const prev = sceneHistory.pop();
-    goToScene(prev, true);
-}
-
-/**
- * Back button click handler deciding between goBack and return to title.
- * @returns {void}
- */
-function handleBackBtn() {
-    const currentScene = document.querySelector('.interactive-scene.visible');
-    const atFirst = currentScene && currentScene.id === firstSceneId;
-    if (atFirst) {
-        returnToTitle();
-    } else {
-        goBack();
-    }
-}
-
-/**
- * Display the navigation history overlay.
- * @returns {void}
- */
-function showHistory() {
-    if (!historyOverlay) return;
-    historyList.textContent = sceneHistory.join(' \u2192 ');
-    historyOverlay.classList.add('visible');
-}
-
-/**
- * Hide the navigation history overlay.
- * @returns {void}
- */
-function closeHistory() {
-    if (!historyOverlay) return;
-    historyOverlay.classList.remove('visible');
-}
-
-/**
- * Open the case file overlay.
- * @returns {void}
- */
-function showCaseFile() {
-    if (!caseFileOverlay) return;
-    CaseFileModule.init(caseFileOverlay);
-    caseFileOverlay.classList.add('visible');
-}
-
-/**
- * Close the case file overlay.
- * @returns {void}
- */
-function closeCaseFile() {
-    if (!caseFileOverlay) return;
-    CaseFileModule.stopGlitch();
-    caseFileOverlay.classList.remove('visible');
-}
-
-/**
- * Focus the first choice button within a scene for accessibility.
- * @param {HTMLElement} scene
- * @returns {void}
- */
-function focusFirstChoice(scene) {
-    const first = scene.querySelector('.choice-btn');
-    if (first) {
-        first.focus();
-    }
-}
-
-/**
- * Update off-screen announcer text for screen readers.
- * @param {HTMLElement} scene
- * @returns {void}
- */
-function announceScene(scene) {
-    if (sceneAnnouncer) {
-        sceneAnnouncer.textContent = scene.innerText || scene.textContent || '';
-    }
-}
-
-/**
- * Handle arrow key navigation within choice buttons.
- * @param {KeyboardEvent} event
- * @returns {void}
- */
-function handleKeydown(event) {
-    if (historyOverlay && historyOverlay.classList.contains('visible')) return;
-
-    const currentScene = document.querySelector('.interactive-scene.visible');
-    if (!currentScene) return;
-
-    const choices = Array.from(currentScene.querySelectorAll('.choice-btn'));
-    if (choices.length === 0) return;
-
-    let index = choices.indexOf(document.activeElement);
-
-    if (event.key === 'ArrowDown' || event.key === 'ArrowRight') {
-        index = (index + 1) % choices.length;
-        choices[index].focus();
-        event.preventDefault();
-    } else if (event.key === 'ArrowUp' || event.key === 'ArrowLeft') {
-        index = (index - 1 + choices.length) % choices.length;
-        choices[index].focus();
-        event.preventDefault();
-    } else if (/^[1-9]$/.test(event.key)) {
-        const num = parseInt(event.key, 10) - 1;
-        if (num >= 0 && num < choices.length) {
-            choices[num].focus();
-            choices[num].click();
-        }
-    }
-}
-
-/**
- * Initialize all UI event listeners.
- * @returns {void}
- */
 function init() {
-    document.addEventListener('keydown', handleKeydown);
+    document.addEventListener('keydown', Navigation.handleKeydown);
     loadEpisodeScripts();
 
     startBtn.addEventListener('click', () => {
@@ -535,7 +191,7 @@ function init() {
         clearSaveBtn.addEventListener('click', () => {
             StateModule.clearProgress();
             StateModule.resetState();
-            updateContinueButton();
+            Navigation.updateContinueButton();
             alert('Save data cleared');
         });
     }
@@ -552,11 +208,17 @@ function init() {
         });
     });
 
-    if (backBtn) backBtn.addEventListener('click', handleBackBtn);
-    if (historyBtn) historyBtn.addEventListener('click', showHistory);
-    if (closeHistoryBtn) closeHistoryBtn.addEventListener('click', closeHistory);
-    if (caseFileBtn) caseFileBtn.addEventListener('click', showCaseFile);
-    if (closeCaseFileBtn) closeCaseFileBtn.addEventListener('click', closeCaseFile);
+    const backBtn = document.getElementById('back-btn');
+    const historyBtn = document.getElementById('history-btn');
+    const closeHistoryBtn = document.getElementById('close-history-btn');
+    const caseFileBtn = document.getElementById('case-file-btn');
+    const closeCaseFileBtn = document.getElementById('close-case-file-btn');
+
+    if (backBtn) backBtn.addEventListener('click', () => Navigation.handleBackBtn(returnToTitle));
+    if (historyBtn) historyBtn.addEventListener('click', Navigation.showHistory);
+    if (closeHistoryBtn) closeHistoryBtn.addEventListener('click', Navigation.closeHistory);
+    if (caseFileBtn) caseFileBtn.addEventListener('click', Navigation.showCaseFile);
+    if (closeCaseFileBtn) closeCaseFileBtn.addEventListener('click', Navigation.closeCaseFile);
 
     if (muteMusicBtn) {
         muteMusicBtn.addEventListener('click', () => {
@@ -594,7 +256,6 @@ function init() {
         const btn = e.target.closest('button');
         if (!btn) return;
         AudioModule.playClickSound();
-
         if (btn.dataset.setState) {
             try {
                 const obj = JSON.parse(btn.dataset.setState);
@@ -605,9 +266,8 @@ function init() {
                 console.error('Invalid data-set-state', err);
             }
         }
-
         if (btn.dataset.scene) {
-            goToScene(btn.dataset.scene);
+            Navigation.goToScene(btn.dataset.scene);
         } else if (btn.dataset.restart !== undefined) {
             restartGame();
         }
@@ -620,8 +280,17 @@ function init() {
             await startEpisode(selectedEpisode || '1');
         });
     }
-    updateBackButton();
+    Navigation.updateBackButton();
 }
 
-export { init, loadEpisode, goToScene, restartGame, updateContinueButton };
+const { loadEpisode, goToScene, updateContinueButton } = Navigation;
 
+export {
+    init,
+    startEpisode,
+    restartGame,
+    Navigation as navigation,
+    loadEpisode,
+    goToScene,
+    updateContinueButton
+};

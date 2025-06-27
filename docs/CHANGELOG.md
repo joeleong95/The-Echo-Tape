@@ -1,6 +1,10 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## [0.0.0.31] - 2025-06-27
+### Changed
+- UI logic split into a new `sceneNavigation` module for easier maintenance.
+
 ## [0.0.0.30] - 2025-06-27
 ### Added
 - Command-line script `preview-episode` for visualizing scene flow.

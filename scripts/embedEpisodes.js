@@ -63,6 +63,7 @@ try {
       'src/state.mjs',
       'src/audio.mjs',
       'src/ui.mjs',
+      'src/sceneNavigation.mjs',
       'src/dompurify.mjs'
     ];
 
