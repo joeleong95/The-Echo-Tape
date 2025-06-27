@@ -246,6 +246,8 @@ function showHistory() {
     if (!historyOverlay) return;
     historyList.textContent = sceneHistory.join(' \u2192 ');
     historyOverlay.classList.add('visible');
+    historyOverlay.setAttribute('aria-hidden', 'false');
+    if (closeHistoryBtn) closeHistoryBtn.focus();
 }
 
 /**
@@ -255,6 +257,8 @@ function showHistory() {
 function closeHistory() {
     if (!historyOverlay) return;
     historyOverlay.classList.remove('visible');
+    historyOverlay.setAttribute('aria-hidden', 'true');
+    if (historyBtn) historyBtn.focus();
 }
 
 /**
@@ -265,6 +269,8 @@ function showCaseFile() {
     if (!caseFileOverlay) return;
     CaseFileModule.init(caseFileOverlay);
     caseFileOverlay.classList.add('visible');
+    caseFileOverlay.setAttribute('aria-hidden', 'false');
+    if (closeCaseFileBtn) closeCaseFileBtn.focus();
 }
 
 /**
@@ -275,6 +281,8 @@ function closeCaseFile() {
     if (!caseFileOverlay) return;
     CaseFileModule.stopGlitch();
     caseFileOverlay.classList.remove('visible');
+    caseFileOverlay.setAttribute('aria-hidden', 'true');
+    if (caseFileBtn) caseFileBtn.focus();
 }
 
 /**

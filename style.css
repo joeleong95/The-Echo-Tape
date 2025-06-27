@@ -72,6 +72,14 @@ body {
     box-shadow: 0 0 30px #ff00ff, 0 0 30px #00ffff;
 }
 
+.menu-btn:focus,
+.choice-btn:focus,
+.episode-btn:focus,
+.case-tab-button:focus {
+    outline: 3px solid #ff00ff;
+    outline-offset: 2px;
+}
+
 .episode-btn {
     font-family: 'Orbitron', monospace;
     font-size: 1.2em;
@@ -388,6 +396,17 @@ body {
     color: #ffff00;
     text-align: center;
     margin-bottom: 10px;
+}
+.case-tab-button {
+    font-family: 'Orbitron', monospace;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 .case-tab-button.active {
     background: #00ffff;

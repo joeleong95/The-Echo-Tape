@@ -73,9 +73,9 @@
         
     </div>
 
-    <div id="history-overlay">
+    <div id="history-overlay" role="dialog" aria-modal="true" aria-labelledby="history-title" tabindex="-1">
         <div>
-            <h2 style="text-align:center;">Scene History</h2>
+            <h2 id="history-title" style="text-align:center;">Scene History</h2>
             <pre id="history-list"></pre>
             <div style="text-align:center; margin-top:10px;">
                 <button id="close-history-btn" class="choice-btn" aria-label="Close history overlay">Close</button>
@@ -83,9 +83,9 @@
         </div>
     </div>
 
-    <div id="case-file-overlay">
+    <div id="case-file-overlay" role="dialog" aria-modal="true" aria-labelledby="case-file-title" tabindex="-1">
         <div class="case-file">
-            <h2 class="case-header">&gt;&gt; LARKHILL LANE // CASE FILE C-42</h2>
+            <h2 id="case-file-title" class="case-header">&gt;&gt; LARKHILL LANE // CASE FILE C-42</h2>
             <p class="case-status">&gt; STATUS: UNLISTED... NOT REAL... NOT ENTIRELY</p>
             <div class="case-tabs">
                 <button class="choice-btn case-tab-button" data-target="#cf-main">&gt; CASE FILE</button>
