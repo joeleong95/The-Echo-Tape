@@ -5,6 +5,7 @@ const { createGzip, createBrotliCompress } = require('zlib');
 
 const port = process.env.PORT || 8080;
 const root = path.join(__dirname);
+const distRoot = path.join(__dirname, 'dist');
 
 const mimeTypes = {
   '.html': 'text/html',
@@ -21,7 +22,9 @@ const mimeTypes = {
 
 const server = http.createServer((req, res) => {
   let reqPath = req.url.split('?')[0];
-  let filePath = path.join(root, reqPath);
+  let filePath = reqPath.startsWith('/dist/') ?
+    path.join(distRoot, reqPath.slice('/dist/'.length)) :
+    path.join(root, reqPath);
   if (reqPath === '/' || reqPath === '') {
     filePath = path.join(root, 'index.html');
   }
