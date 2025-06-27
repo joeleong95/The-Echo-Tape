@@ -1,6 +1,9 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## [0.0.0.32] - 2025-06-28
+### Added
+- Optional save export/import for cross-device progress.
 ## [0.0.0.31] - 2025-06-27
 ### Changed
 - UI logic split into a new `sceneNavigation` module for easier maintenance.

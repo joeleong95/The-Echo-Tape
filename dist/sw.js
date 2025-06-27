@@ -62,7 +62,8 @@ self.addEventListener('fetch', event => {
         cache.put(event.request, response.clone());
       }
       return response;
-    } catch (err) {
+    // Ignore network errors when offline
+    } catch {
       return cached;
     }
   })());
