@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 
 const episodesDir = path.join(__dirname, '..', 'episodes');
 const audioDir = path.join(__dirname, '..', 'audio');
@@ -39,14 +40,11 @@ try {
   const swPath = path.join(__dirname, '..', 'dist', 'sw.js');
   const swLines = fs.readFileSync(swPath, 'utf8').split(/\r?\n/);
 
-  // Update CACHE_NAME with version from package.json
+  // Update CACHE_NAME with version and asset hash from package.json
+  let version = 'dev';
   try {
     const pkg = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'package.json'), 'utf8'));
-    const version = pkg.version || 'dev';
-    const idx = swLines.findIndex(l => l.includes('const CACHE_NAME'));
-    if (idx !== -1) {
-      swLines[idx] = `const CACHE_NAME = 'echo-tape-${version}';`;
-    }
+    version = pkg.version || 'dev';
   } catch (err) {
     console.error('Failed to read package.json version:', err.message);
   }
@@ -83,6 +81,24 @@ try {
     const assets = [...rootAssets, ...episodeAssets, ...episodeJsAssets, ...manifestAsset, ...audioAssets, ...imageAssets];
     const newLines = assets.map(a => `      '${a}',`);
     swLines.splice(start + 1, end - start - 1, ...newLines);
+
+    // Compute a fingerprint of asset paths and modification times
+    const assetData = assets.map(a => {
+      const fp = path.join(__dirname, '..', a);
+      try {
+        const stat = fs.statSync(fp);
+        return `${a}:${stat.mtimeMs}`;
+      } catch {
+        return a;
+      }
+    });
+    const hash = crypto.createHash('sha256').update(assetData.join('|')).digest('hex').slice(0, 8);
+
+    const cacheIdx = swLines.findIndex(l => l.includes('const CACHE_NAME'));
+    if (cacheIdx !== -1) {
+      swLines[cacheIdx] = `const CACHE_NAME = 'echo-tape-${version}-${hash}';`;
+    }
+
     fs.writeFileSync(swPath, swLines.join('\n'));
     console.log('Updated sw.js with', assets.length, 'assets');
   } else {
