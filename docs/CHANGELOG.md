@@ -1,6 +1,9 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## [0.0.0.36] - 2025-06-28
+### Changed
+- Updated `package.json` `main` field to reference `src/script.mjs`.
 ## [0.0.0.35] - 2025-06-28
 ### Changed
 - Removed leftover hardcoded episode `<script>` tags from `index.html`. Episode scripts now load exclusively via `manifest.json`.
