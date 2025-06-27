@@ -135,6 +135,9 @@ async function runTests() {
   assert.deepStrictEqual(JSON.parse(storage.store.echoTapeState), {
     awareOfLoop: false,
     hasTape: true,
+    reviewedCaseFile: false,
+    trustBroken: false,
+    visitedLarkhill: false,
     musicMuted: false,
     sfxMuted: false,
     musicVolume: 1,

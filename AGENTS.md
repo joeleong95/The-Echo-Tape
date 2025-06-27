@@ -6,7 +6,9 @@ This repository uses an agent-assisted workflow. Please follow the guidelines be
 
 ## Running Tests
 - Run `npm test` after any code change. This executes `test/check.js` to ensure required files exist and that `script.js` passes syntax checks.
+- Run `npm run lint` to check style and catch common issues.
 - If you edit any episode JSON, run `npm run build-episodes` first to regenerate the `.js` files before testing.
+- GitHub Actions automatically runs `npm test` and `npm run lint` on every pull request.
 
 ## Writing Episodes
 - Episode files live under the `episodes/` directory.

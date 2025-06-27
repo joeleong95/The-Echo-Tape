@@ -2,9 +2,37 @@
 
 All notable changes to this project will be documented in this file.
 
+
 ## [0.0.0.21] - 2025-06-29
 ### Fixed
 - Static background sound now respects the SFX volume and mute settings.
+
+
+## [1.0.2] - 2025-06-27
+### Added
+- Linting step documented in `AGENTS.md`.
+- CI workflow now explicitly runs tests and lint on pull requests.
+
+## [1.0.1] - 2025-06-27
+### Changed
+- Development server now compresses responses and sets cache headers.
+
+## [0.0.0.24] - 2025-06-26
+### Added
+- Top-level README linking to docs.
+
+## [0.0.0.23] - 2025-06-27
+### Added
+- Continuous integration workflow to automatically run tests and lint on pull requests.
+
+## [0.0.0.22] - 2025-06-30
+### Added
+- Initial party scenes extending Episode 1.
+
+## [0.0.0.21] - 2025-06-29
+### Added
+- Game state now tracks `reviewedCaseFile`, `trustBroken`, and `visitedLarkhill` for future branching.
+
 
 ## [0.0.0.20] - 2025-06-28
 ### Changed
@@ -160,4 +188,5 @@ All notable changes to this project will be documented in this file.
 - ARIA roles for interactive scenes.
 - Externalized CSS and JavaScript files (`style.css` and `script.js`).
 - Episode selection screen that lets you choose which episode to play.
+- Expanded case file with additional evidence and audio.
 
