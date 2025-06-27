@@ -144,8 +144,8 @@ try {
 
   const swContent = fs.readFileSync(swPath, 'utf8');
   const pkg = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'package.json'), 'utf8'));
-  const expectedCacheLine = `const CACHE_NAME = 'echo-tape-${pkg.version}'`;
-  if (!swContent.includes(expectedCacheLine)) {
+  const expectedPrefix = `const CACHE_NAME = 'echo-tape-${pkg.version}`;
+  if (!swContent.includes(expectedPrefix)) {
     console.error(`CACHE_NAME not updated to ${pkg.version}`);
     missing = true;
   }
