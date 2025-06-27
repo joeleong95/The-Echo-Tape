@@ -1,6 +1,9 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## [0.0.0.30] - 2025-06-27
+### Added
+- Command-line script `preview-episode` for visualizing scene flow.
 
 ## [0.0.0.29] - 2025-06-27
 ### Changed
