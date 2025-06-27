@@ -1,6 +1,10 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## [0.0.0.34] - 2025-06-29
+### Added
+- Tests for keyboard navigation and case file behaviour.
+- Initial Episode 2 file with a few scenes.
 ## [0.0.0.33] - 2025-06-28
 ### Added
 - Focus styles for interactive buttons.
