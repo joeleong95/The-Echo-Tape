@@ -1,5 +1,10 @@
 'use strict';
 
+/**
+ * UI layer controlling screen transitions and user interaction.
+ * @module ui
+ */
+
 import * as StateModule from './state.mjs';
 import * as AudioModule from './audio.mjs';
 import * as CaseFileModule from './caseFile.mjs';
@@ -44,6 +49,10 @@ let currentEpisode = null;
 let resumeScene = null;
 let firstSceneId = null;
 
+/**
+ * Dynamically load all episode JavaScript bundles.
+ * @returns {Promise<void>}
+ */
 async function loadEpisodeScripts() {
     try {
         const resp = await fetch('dist/episodes/manifest.json');
@@ -59,11 +68,21 @@ async function loadEpisodeScripts() {
     }
 }
 
+/**
+ * Display a screen element with a fade in.
+ * @param {HTMLElement} el
+ * @returns {void}
+ */
 function showScreen(el) {
     el.style.display = 'flex';
     requestAnimationFrame(() => el.classList.add('visible'));
 }
 
+/**
+ * Hide a screen element with a fade out.
+ * @param {HTMLElement} el
+ * @returns {void}
+ */
 function hideScreen(el) {
     el.classList.remove('visible');
     el.addEventListener('transitionend', function handler() {
@@ -72,6 +91,11 @@ function hideScreen(el) {
     }, { once: true });
 }
 
+/**
+ * Fetch and display an episode's scenes.
+ * @param {string} ep - Episode identifier.
+ * @returns {Promise<void>}
+ */
 async function loadEpisode(ep) {
     const screen = document.getElementById('vhs-screen');
     if (!screen) return;
@@ -156,6 +180,11 @@ async function loadEpisode(ep) {
     }
 }
 
+/**
+ * Begin playback of the selected episode.
+ * @param {string} ep
+ * @returns {Promise<void>}
+ */
 async function startEpisode(ep) {
     AudioModule.stopTitleMusic();
     AudioModule.stopTitleMusic2();
@@ -168,6 +197,11 @@ async function startEpisode(ep) {
     await loadEpisode(ep);
 }
 
+/**
+ * Show the introductory crawl before an episode.
+ * @param {string} ep
+ * @returns {void}
+ */
 function playIntro(ep) {
     selectedEpisode = ep;
     AudioModule.stopTitleMusic2();
@@ -189,6 +223,10 @@ function playIntro(ep) {
     }, 30000));
 }
 
+/**
+ * Reset all state and return to the episode selection screen.
+ * @returns {void}
+ */
 function restartGame() {
     gameContainer.style.display = 'none';
     recordLight.style.display = 'none';
@@ -208,6 +246,10 @@ function restartGame() {
     AudioModule.playTitleMusic2();
 }
 
+/**
+ * Return to the main title screen without clearing progress.
+ * @returns {void}
+ */
 function returnToTitle() {
     gameContainer.style.display = 'none';
     recordLight.style.display = 'none';
@@ -225,11 +267,21 @@ function returnToTitle() {
     AudioModule.playTitleMusic();
 }
 
+/**
+ * Make a scene element visible.
+ * @param {HTMLElement} scene
+ * @returns {void}
+ */
 function showScene(scene) {
     scene.style.display = 'block';
     requestAnimationFrame(() => scene.classList.add('visible'));
 }
 
+/**
+ * Fade out a scene and remove it from view.
+ * @param {HTMLElement} scene
+ * @returns {Promise<void>}
+ */
 function hideSceneElement(scene) {
     return new Promise(resolve => {
         scene.classList.remove('visible');
@@ -241,6 +293,12 @@ function hideSceneElement(scene) {
     });
 }
 
+/**
+ * Navigate to a new scene element by id.
+ * @param {string} sceneId
+ * @param {boolean} [fromBack=false] - Whether navigation came from the back button.
+ * @returns {Promise<void>}
+ */
 async function goToScene(sceneId, fromBack = false) {
     const targetScene = document.getElementById(sceneId);
     if (!targetScene) return;
@@ -271,6 +329,10 @@ async function goToScene(sceneId, fromBack = false) {
     }
 }
 
+/**
+ * Enable or disable the back button based on history.
+ * @returns {void}
+ */
 function updateBackButton() {
     if (!backBtn) return;
     const currentScene = document.querySelector('.interactive-scene.visible');
@@ -286,6 +348,10 @@ function updateBackButton() {
     }
 }
 
+/**
+ * Toggle visibility of the continue button based on saved progress.
+ * @returns {void}
+ */
 function updateContinueButton() {
     if (continueBtn) {
         const prog = StateModule.getProgress();
@@ -293,12 +359,20 @@ function updateContinueButton() {
     }
 }
 
+/**
+ * Navigate back to the previous scene in history.
+ * @returns {void}
+ */
 function goBack() {
     if (sceneHistory.length === 0) return;
     const prev = sceneHistory.pop();
     goToScene(prev, true);
 }
 
+/**
+ * Back button click handler deciding between goBack and return to title.
+ * @returns {void}
+ */
 function handleBackBtn() {
     const currentScene = document.querySelector('.interactive-scene.visible');
     const atFirst = currentScene && currentScene.id === firstSceneId;
@@ -309,29 +383,50 @@ function handleBackBtn() {
     }
 }
 
+/**
+ * Display the navigation history overlay.
+ * @returns {void}
+ */
 function showHistory() {
     if (!historyOverlay) return;
     historyList.textContent = sceneHistory.join(' \u2192 ');
     historyOverlay.classList.add('visible');
 }
 
+/**
+ * Hide the navigation history overlay.
+ * @returns {void}
+ */
 function closeHistory() {
     if (!historyOverlay) return;
     historyOverlay.classList.remove('visible');
 }
 
+/**
+ * Open the case file overlay.
+ * @returns {void}
+ */
 function showCaseFile() {
     if (!caseFileOverlay) return;
     CaseFileModule.init(caseFileOverlay);
     caseFileOverlay.classList.add('visible');
 }
 
+/**
+ * Close the case file overlay.
+ * @returns {void}
+ */
 function closeCaseFile() {
     if (!caseFileOverlay) return;
     CaseFileModule.stopGlitch();
     caseFileOverlay.classList.remove('visible');
 }
 
+/**
+ * Focus the first choice button within a scene for accessibility.
+ * @param {HTMLElement} scene
+ * @returns {void}
+ */
 function focusFirstChoice(scene) {
     const first = scene.querySelector('.choice-btn');
     if (first) {
@@ -339,12 +434,22 @@ function focusFirstChoice(scene) {
     }
 }
 
+/**
+ * Update off-screen announcer text for screen readers.
+ * @param {HTMLElement} scene
+ * @returns {void}
+ */
 function announceScene(scene) {
     if (sceneAnnouncer) {
         sceneAnnouncer.textContent = scene.innerText || scene.textContent || '';
     }
 }
 
+/**
+ * Handle arrow key navigation within choice buttons.
+ * @param {KeyboardEvent} event
+ * @returns {void}
+ */
 function handleKeydown(event) {
     if (historyOverlay && historyOverlay.classList.contains('visible')) return;
 
@@ -373,6 +478,10 @@ function handleKeydown(event) {
     }
 }
 
+/**
+ * Initialize all UI event listeners.
+ * @returns {void}
+ */
 function init() {
     document.addEventListener('keydown', handleKeydown);
     loadEpisodeScripts();

@@ -1,4 +1,7 @@
-// Main entry point orchestrating modules
+/**
+ * Main entry point orchestrating modules on page load.
+ * @module main
+ */
 import * as StateModule from './state.mjs';
 import * as AudioModule from './audio.mjs';
 import * as UiModule from './ui.mjs';

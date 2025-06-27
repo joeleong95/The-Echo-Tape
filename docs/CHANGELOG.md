@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 
 
+## [1.0.3] - 2025-06-30
+### Added
+- JSDoc comments across core modules for improved type hints.
+
 ## [0.0.0.21] - 2025-06-29
 ### Fixed
 - Static background sound now respects the SFX volume and mute settings.

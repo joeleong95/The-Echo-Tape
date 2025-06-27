@@ -1,9 +1,19 @@
 'use strict';
 
+/**
+ * Logic for the in-game case file overlay.
+ * @module caseFile
+ */
+
 import * as AudioModule from './audio.mjs';
 
 let glitchInterval = null;
 
+/**
+ * Initialize tabbed navigation within the case file.
+ * @param {HTMLElement} scene - The case file overlay element.
+ * @returns {void}
+ */
 function setupTabs(scene) {
     const buttons = scene.querySelectorAll('.case-tab-button');
     const contents = scene.querySelectorAll('.case-tab-content');
@@ -19,6 +29,11 @@ function setupTabs(scene) {
     if (buttons[0]) buttons[0].click();
 }
 
+/**
+ * Wire up playback buttons inside the case file.
+ * @param {HTMLElement} scene
+ * @returns {void}
+ */
 function setupAudio(scene) {
     const buttons = scene.querySelectorAll('.case-play-audio');
     buttons.forEach(btn => {
@@ -32,6 +47,11 @@ function setupAudio(scene) {
     });
 }
 
+/**
+ * Display hover effects for the mysterious VHS tape.
+ * @param {HTMLElement} scene
+ * @returns {void}
+ */
 function setupVhs(scene) {
     const tape = scene.querySelector('.case-vhs');
     const status = scene.querySelector('.case-vhs-status');
@@ -46,6 +66,11 @@ function setupVhs(scene) {
     });
 }
 
+/**
+ * Begin text glitch effect for the case file header.
+ * @param {HTMLElement} scene
+ * @returns {void}
+ */
 function startGlitch(scene) {
     const header = scene.querySelector('.case-header');
     if (!header) return;
@@ -60,6 +85,10 @@ function startGlitch(scene) {
     }, 100);
 }
 
+/**
+ * Stop the glitch interval if running.
+ * @returns {void}
+ */
 function stopGlitch() {
     if (glitchInterval) {
         clearInterval(glitchInterval);
@@ -67,6 +96,11 @@ function stopGlitch() {
     }
 }
 
+/**
+ * Initialize all case file behaviours for the given element.
+ * @param {HTMLElement} scene
+ * @returns {void}
+ */
 function init(scene) {
     if (!scene || scene.dataset.caseFileInit) return;
     scene.dataset.caseFileInit = 'true';
