@@ -1,17 +1,35 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
-## [0.0.0.34] - 2025-06-29
+
+## [0.0.0.37] - 2025-06-27
 ### Added
 - Tests for keyboard navigation and case file behaviour.
 - Initial Episode 2 file with a few scenes.
-## [0.0.0.33] - 2025-06-28
+
+## [0.0.0.36] - 2025-06-27
+### Changed
+- Updated `package.json` `main` field to reference `src/script.mjs`.
+
+
+## [0.0.0.35] - 2025-06-27
+### Changed
+- Removed leftover hardcoded episode `<script>` tags from `index.html`. Episode scripts now load exclusively via `manifest.json`.
+
+
+## [0.0.0.34] - 2025-06-27
+### Changed
+- Service worker cache name now includes a fingerprint of all assets for automatic invalidation.
+
+## [0.0.0.33] - 2025-06-27
 ### Added
 - Focus styles for interactive buttons.
 - ARIA roles and keyboard navigation for overlays.
-## [0.0.0.32] - 2025-06-28
+
+## [0.0.0.32] - 2025-06-27
 ### Added
 - Optional save export/import for cross-device progress.
+
 ## [0.0.0.31] - 2025-06-27
 ### Changed
 - UI logic split into a new `sceneNavigation` module for easier maintenance.

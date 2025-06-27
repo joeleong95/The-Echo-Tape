@@ -20,7 +20,8 @@ Image assets are stored in the `images` folder. Sound effects and music live in 
 4. Run `npm install` (if needed) and `npm test` to verify required files and script syntax.
 5. Run `npm run lint` to check code style and catch common mistakes.
 6. After editing an episode's `.json`, run `npm run build-episodes` to regenerate the `.js` files and update `sw.js`, then run `npm test` to catch any issues.
-7. Use the **Dev Tools** button on the title screen if you need to clear saved progress.
+7. The build script now computes a fingerprint of all assets and embeds it in `sw.js` to automatically invalidate old caches when files change.
+8. Use the **Dev Tools** button on the title screen if you need to clear saved progress.
 
 ## Versioning
 
