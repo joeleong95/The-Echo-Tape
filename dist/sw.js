@@ -14,6 +14,7 @@ self.addEventListener('install', event => {
       'src/state.mjs',
       'src/audio.mjs',
       'src/ui.mjs',
+      'src/sceneNavigation.mjs',
       'src/dompurify.mjs',
       'episodes/episode0.json',
       'episodes/episode1.json',
