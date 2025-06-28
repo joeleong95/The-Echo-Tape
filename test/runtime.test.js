@@ -129,9 +129,15 @@ async function runTests() {
 
   // State module tests
   State.loadState();
+  assert.strictEqual(State.getState('loopAwareLevel'), 0);
+  assert.strictEqual(State.getState('endingChoice'), null);
   assert.strictEqual(State.getState('hasTape'), false);
   State.setState('hasTape', true);
+  State.setState('endingChoice', 'escape');
+  State.setState('loopAwareLevel', 2);
   assert.strictEqual(State.getState('hasTape'), true);
+  assert.strictEqual(State.getState('endingChoice'), 'escape');
+  assert.strictEqual(State.getState('loopAwareLevel'), 2);
   assert.deepStrictEqual(JSON.parse(storage.store.echoTapeState), {
     awareOfLoop: false,
     hasTape: true,
@@ -143,17 +149,21 @@ async function runTests() {
     musicMuted: false,
     sfxMuted: false,
     musicVolume: 1,
-    sfxVolume: 1
+    sfxVolume: 1,
+    endingChoice: 'escape',
+    loopAwareLevel: 2
   });
 
   State.setProgress('1', 'start');
   const exported = State.exportSaveData();
   assert.deepStrictEqual(exported.progress, { episode: '1', scene: 'start' });
   assert.strictEqual(exported.state.hasTape, true);
+  assert.strictEqual(exported.state.endingChoice, 'escape');
   State.setState('hasTape', false);
   State.clearProgress();
   State.importSaveData(exported);
   assert.strictEqual(State.getState('hasTape'), true);
+  assert.strictEqual(State.getState('endingChoice'), 'escape');
   assert.deepStrictEqual(State.getProgress(), { episode: '1', scene: 'start' });
   State.clearProgress();
   assert.deepStrictEqual(State.getProgress(), { episode: null, scene: null });
