@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.0.39] - 2025-06-27
+### Added
+- Conditional case file tabs unlocked via new state flags.
+
 ## [0.0.0.38] - 2025-06-27
 ### Fixed
 - Updated `sceneNavigation` to import the bundled DOMPurify directly so Node tests run without build tooling.

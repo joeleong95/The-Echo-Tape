@@ -6,8 +6,29 @@
  */
 
 import * as AudioModule from './audio.mjs';
+import * as StateModule from './state.mjs';
 
 let glitchInterval = null;
+
+function applyShowIf(scene) {
+    scene.querySelectorAll('[data-show-if]').forEach(el => {
+        const condStr = el.getAttribute('data-show-if');
+        if (!condStr) return;
+        try {
+            const cond = JSON.parse(condStr);
+            let match = true;
+            for (const key in cond) {
+                if (StateModule.getState(key) !== cond[key]) {
+                    match = false;
+                    break;
+                }
+            }
+            el.style.display = match ? '' : 'none';
+        } catch (e) {
+            console.error('Invalid data-show-if', e);
+        }
+    });
+}
 
 /**
  * Initialize tabbed navigation within the case file.
@@ -104,6 +125,7 @@ function stopGlitch() {
 function init(scene) {
     if (!scene || scene.dataset.caseFileInit) return;
     scene.dataset.caseFileInit = 'true';
+    applyShowIf(scene);
     setupTabs(scene);
     setupAudio(scene);
     setupVhs(scene);

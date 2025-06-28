@@ -54,6 +54,8 @@ and buttons the player will see.
 7. **Hide options based on state.** Inside your HTML you can add
    `data-show-if='{ "stateKey": true }'` to a button. The button will only
    appear when the specified state values match.
+8. **Unlock case file tabs.** `.case-tab-button` elements also respect
+   `data-show-if`, letting you reveal new tabs when players uncover clues.
 
 See `episodes/episode1.json` for a complete example.
 

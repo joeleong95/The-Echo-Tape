@@ -91,6 +91,8 @@
                 <button class="choice-btn case-tab-button" data-target="#cf-main">&gt; CASE FILE</button>
                 <button class="choice-btn case-tab-button" data-target="#cf-persons">&gt; PERSONS OF INTEREST</button>
                 <button class="choice-btn case-tab-button" data-target="#cf-evidence">&gt; EVIDENCE</button>
+                <button class="choice-btn case-tab-button" data-show-if='{"interviewedGranny":true}' data-target="#cf-granny">&gt; GRANNY INTERVIEW</button>
+                <button class="choice-btn case-tab-button" data-show-if='{"foundEvidence1":true}' data-target="#cf-clue1">&gt; NEW CLUE</button>
             </div>
             <div id="cf-main" class="case-tab-content">
                 <p>&gt; <span class="case-query">QUERY:</span> PROPERTY VERIFICATION – NORTHWEST SECTOR C-42</p>
@@ -119,6 +121,12 @@
                 <img src="images/joeNewtTape3.jpg" alt="Distorted tape still" class="case-evidence-image">
                 <button class="choice-btn case-play-audio">&gt; PLAY ADDITIONAL AUDIO</button>
                 <p class="case-audio-transcript" style="display:none">"There's more... the tape shows a door that isn't there."</p>
+            </div>
+            <div id="cf-granny" class="case-tab-content" style="display:none">
+                <p>&gt; INTERVIEW NOTES: Granny claims Larkhill Lane vanished years ago. The cats remember.</p>
+            </div>
+            <div id="cf-clue1" class="case-tab-content" style="display:none">
+                <p>&gt; EVIDENCE 1: Map fragment discovered beneath the wallpaper.</p>
             </div>
             <div style="text-align:center; margin-top:10px;">
                 <button id="close-case-file-btn" class="choice-btn" aria-label="Close case file">Close</button>
