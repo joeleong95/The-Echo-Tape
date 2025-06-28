@@ -241,12 +241,30 @@ function handleBackBtn(returnToTitle) {
 }
 
 /**
+ * Get a short title for a scene based on its content.
+ * @param {string} id
+ * @returns {string}
+ */
+function getSceneTitle(id) {
+    const el = document.getElementById(id);
+    if (!el) return id;
+    const heading = el.querySelector('h2');
+    if (heading && heading.textContent.trim()) {
+        return heading.textContent.trim();
+    }
+    const text = (el.innerText || el.textContent || '').trim();
+    const firstLine = text.split('\n').map(l => l.trim()).find(l => l);
+    return firstLine || id;
+}
+
+/**
  * Display the navigation history overlay.
  * @returns {void}
  */
 function showHistory() {
     if (!historyOverlay) return;
-    historyList.textContent = sceneHistory.join(' \u2192 ');
+    const titles = sceneHistory.map(id => getSceneTitle(id));
+    historyList.textContent = titles.join(' \u2192 ');
     historyOverlay.classList.add('visible');
     historyOverlay.setAttribute('aria-hidden', 'false');
     if (closeHistoryBtn) closeHistoryBtn.focus();
