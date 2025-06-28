@@ -16,7 +16,9 @@ const defaultState = {
     musicMuted: false,
     sfxMuted: false,
     musicVolume: 1,
-    sfxVolume: 1
+    sfxVolume: 1,
+    endingChoice: null,
+    loopAwareLevel: 0
 };
 
 let gameState = { ...defaultState };
@@ -132,7 +134,9 @@ function updateStateSummary() {
         const caseFileText = gameState.reviewedCaseFile ? 'You studied the case file.' : 'You have yet to read the case file.';
         const trustText = gameState.trustBroken ? 'Distrust festers between you.' : 'Trust remains intact.';
         const laneText = gameState.visitedLarkhill ? 'Larkhill Lane has been explored.' : 'Larkhill Lane is still a mystery.';
-        summary.textContent = [awareText, itemText, caseFileText, trustText, laneText].join(' ');
+        const loopLevelText = `Loop awareness level: ${gameState.loopAwareLevel}`;
+        const endingText = gameState.endingChoice ? `Ending chosen: ${gameState.endingChoice}.` : 'No ending reached yet.';
+        summary.textContent = [awareText, itemText, caseFileText, trustText, laneText, loopLevelText, endingText].join(' ');
     }
 }
 

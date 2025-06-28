@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.0.40] - 2025-06-28
+### Added
+- Persistent keys `endingChoice` and `loopAwareLevel` with summary display.
+
 ## [0.0.0.39] - 2025-06-27
 ### Added
 - Conditional case file tabs unlocked via new state flags.

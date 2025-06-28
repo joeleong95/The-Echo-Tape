@@ -52,7 +52,7 @@ window.localEpisodes["episode1"] = {
     },
     {
       "id": "scene-burn-tape",
-      "html": "<div class=\"dialogue\">\n                    <span class=\"character system\">SYSTEM:</span> You grab the tape and a lighter. As the flame touches the plastic, the tape doesn't melt. It glows. The room fills with the smell of ozone and burnt sugar. The tape begins to speak, its voice a chorus of every conversation you've ever had. It knows everything.\n                </div>\n                 <div class=\"choice-container\">\n                    <p>You can't destroy it. You've only made it aware of you. This is a <span class=\"trippy-text\">DEAD END</span>.</p>\n                    <button class=\"choice-btn\" data-scene='scene-start'>Restart The Loop</button>\n                </div>",
+      "html": "<div class=\"dialogue\">\n                    <span class=\"character system\">SYSTEM:</span> You grab the tape and a lighter. As the flame touches the plastic, the tape doesn't melt. It glows. The room fills with the smell of ozone and burnt sugar. The tape begins to speak, its voice a chorus of every conversation you've ever had. It knows everything.\n                </div>\n                <div class=\"dialogue\" id=\"state-summary\"></div>\n                 <div class=\"choice-container\">\n                    <p>You can't destroy it. You've only made it aware of you. This is a <span class=\"trippy-text\">DEAD END</span>.</p>\n                    <button class=\"choice-btn\" data-scene='scene-start'>Restart The Loop</button>\n                </div>",
       "showIf": {
         "hasTape": true
       }
