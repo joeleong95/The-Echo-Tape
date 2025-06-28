@@ -26,6 +26,8 @@ function createDomElement(tag = 'div') {
             if (child.classList && child.classList.contains(cls)) results.push(child);
           } else if (selector.startsWith('#')) {
             if (child.id === selector.slice(1)) results.push(child);
+          } else if (child.tagName === selector.toUpperCase()) {
+            results.push(child);
           }
           walk(child);
         }
@@ -34,8 +36,9 @@ function createDomElement(tag = 'div') {
       return results;
     },
     setAttribute(attr, val) { if (attr === 'id') this.id = val; else if (attr === 'class') this.className = val; else this[attr] = val; },
-    addEventListener(type, handler) { this[`on${type}`] = handler; },
+    addEventListener(type, handler) { if (type === 'transitionend') handler(); else this[`on${type}`] = handler; },
     removeEventListener() {},
+    scrollIntoView() {},
     click() { if (this.onclick) this.onclick(); },
     focus() { this.focused = true; }
   };
@@ -55,7 +58,7 @@ function createDomElement(tag = 'div') {
 
 
 async function runTests() {
-  await new Promise(r => setTimeout(r, 0));
+  await new Promise(r => setTimeout(r, 20));
   const { pathToFileURL } = require('url');
   const CaseFile = await import(pathToFileURL(path.join(__dirname, '../src/caseFile.mjs')));
 
@@ -111,6 +114,59 @@ async function runTests() {
   assert.strictEqual(t1.style.display, 'none');
   playBtn.click();
   assert.strictEqual(transcript.style.display, 'block');
+
+  // Navigation history overlay test
+  const elements = {};
+  const ids = ['history-overlay', 'history-list', 'close-history-btn',
+               'back-btn', 'history-btn', 'case-file-btn', 'case-file-overlay',
+               'close-case-file-btn', 'scene-announcer'];
+  ids.forEach(id => { elements[id] = createDomElement(id === 'history-list' ? 'pre' : 'div'); });
+  elements['close-history-btn'].tagName = 'BUTTON';
+  elements['back-btn'].tagName = 'BUTTON';
+  global.document = {
+    getElementById: id => elements[id] || null,
+    querySelector(selector) {
+      if (selector === '.interactive-scene.visible') {
+        return Object.values(elements).find(e => e.classList && e.classList.contains('interactive-scene') && e.classList.contains('visible')) || null;
+      }
+      return null;
+    },
+    querySelectorAll() { return []; },
+    createElement: tag => createDomElement(tag),
+    addEventListener: () => {}
+  };
+
+  const scene1 = createDomElement('div');
+  scene1.id = 's1';
+  scene1.className = 'interactive-scene visible';
+  const h1 = createDomElement('h2');
+  h1.textContent = 'Intro';
+  scene1.appendChild(h1);
+  elements['s1'] = scene1;
+
+  const scene2 = createDomElement('div');
+  scene2.id = 's2';
+  scene2.className = 'interactive-scene';
+  const h2 = createDomElement('h2');
+  h2.textContent = 'Second';
+  scene2.appendChild(h2);
+  elements['s2'] = scene2;
+
+  const scene3 = createDomElement('div');
+  scene3.id = 's3';
+  scene3.className = 'interactive-scene';
+  scene3.textContent = 'Third scene';
+  elements['s3'] = scene3;
+
+  global.requestAnimationFrame = fn => fn();
+
+  const navUrl = pathToFileURL(path.join(__dirname, '../src/sceneNavigation.mjs')).toString() + `?v=${Date.now()}`;
+  const Navigation = await import(navUrl);
+
+  await Navigation.goToScene('s2');
+  await Navigation.goToScene('s3');
+  Navigation.showHistory();
+  assert.strictEqual(elements['history-list'].textContent, 'Intro \u2192 Second');
 }
 
 runTests();
