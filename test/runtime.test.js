@@ -138,6 +138,8 @@ async function runTests() {
     reviewedCaseFile: false,
     trustBroken: false,
     visitedLarkhill: false,
+    foundEvidence1: false,
+    interviewedGranny: false,
     musicMuted: false,
     sfxMuted: false,
     musicVolume: 1,
