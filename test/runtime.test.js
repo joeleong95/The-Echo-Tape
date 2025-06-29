@@ -232,10 +232,12 @@ async function runTests() {
   assert.strictEqual(elements['back-btn'].textContent, 'Home');
 
   delete global.window.localEpisodes;
+  navigator.onLine = false;
   await Ui.loadEpisode('99');
   const errHtml = document.getElementById('vhs-screen').innerHTML;
   assert.ok(/Failed to load episode/i.test(errHtml));
   assert.ok(errHtml.includes('retry-load-btn'));
+  assert.ok(/You appear to be offline/i.test(errHtml));
 }
 
 runTests();

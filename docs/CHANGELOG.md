@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.0.42] - 2025-06-29
+### Added
+- Offline episode load message now reports connection status and last saved progress.
+- Episode loader automatically retries after a short delay.
+
 ## [0.0.0.41] - 2025-06-28
 ### Added
 - Voiceover volume slider with voice clips in Episode 1.

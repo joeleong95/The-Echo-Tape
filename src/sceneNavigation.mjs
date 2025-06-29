@@ -27,6 +27,8 @@ const sceneAnnouncer = document.getElementById('scene-announcer');
 let sceneHistory = [];
 let currentEpisode = null;
 let firstSceneId = null;
+let loadRetryTimer = null;
+let loadRetryAttempted = false;
 
 function setCurrentEpisode(ep) {
     currentEpisode = ep;
@@ -75,22 +77,42 @@ function hideSceneElement(scene) {
 async function loadEpisode(ep, resumeScene) {
     const screen = document.getElementById('vhs-screen');
     if (!screen) return;
+    if (loadRetryTimer) {
+        clearTimeout(loadRetryTimer);
+        loadRetryTimer = null;
+    }
     let data;
     try {
         const resp = await fetch(`episodes/episode${ep}.json`);
         if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
         data = await resp.json();
+        loadRetryAttempted = false;
     } catch (err) {
         console.warn('Fetch failed, trying embedded episode data', err);
         if (window.localEpisodes && window.localEpisodes[`episode${ep}`]) {
             data = window.localEpisodes[`episode${ep}`];
         } else {
             console.error('Episode data not found');
-            screen.innerHTML = '<div class="dialogue">Failed to load episode. ' +
-                'Please check your connection and try again.</div>' +
-                '<button id="retry-load-btn" class="choice-btn">Retry</button>';
+            const onlineStatus = typeof navigator !== 'undefined'
+                && Object.prototype.hasOwnProperty.call(navigator, 'onLine')
+                ? `You appear to be ${navigator.onLine ? 'online' : 'offline'}. `
+                : '';
+            const progress = StateModule.getProgress();
+            const progressMsg = progress.episode && progress.scene
+                ? `Last saved progress: Episode ${progress.episode}, scene ${progress.scene}. `
+                : '';
+            screen.innerHTML = '<div class="dialogue">Failed to load episode. '
+                + onlineStatus + progressMsg + 'Please check your connection and try again.</div>'
+                + '<button id="retry-load-btn" class="choice-btn">Retry</button>';
             const retryBtn = document.getElementById('retry-load-btn');
             if (retryBtn) retryBtn.addEventListener('click', () => loadEpisode(ep, resumeScene));
+            if (!loadRetryTimer && !loadRetryAttempted) {
+                loadRetryAttempted = true;
+                loadRetryTimer = setTimeout(() => {
+                    loadRetryTimer = null;
+                    loadEpisode(ep, resumeScene);
+                }, 5000);
+            }
             return;
         }
     }
