@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.0.43] - 2025-06-30
+### Added
+- State persistence now falls back to sessionStorage when localStorage is unavailable.
+
 ## [0.0.0.42] - 2025-06-29
 ### Added
 - Offline episode load message now reports connection status and last saved progress.

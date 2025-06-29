@@ -24,20 +24,50 @@ const defaultState = {
 
 let gameState = { ...defaultState };
 let storageAvailable = true;
+let storage = null;
+
+try {
+    const testKey = '__storage_test__';
+    localStorage.setItem(testKey, '1');
+    localStorage.removeItem(testKey);
+    storage = localStorage;
+} catch (e) {
+    if (e instanceof DOMException && typeof sessionStorage !== 'undefined') {
+        try {
+            const testKey = '__storage_test__';
+            sessionStorage.setItem(testKey, '1');
+            sessionStorage.removeItem(testKey);
+            storage = sessionStorage;
+            console.warn('localStorage unavailable; using sessionStorage');
+        } catch (err) {
+            if (err instanceof DOMException) {
+                storageAvailable = false;
+                console.warn('No Web Storage available; using in-memory data');
+            } else {
+                throw err;
+            }
+        }
+    } else if (e instanceof DOMException) {
+        storageAvailable = false;
+        console.warn('localStorage unavailable; using in-memory data');
+    } else {
+        throw e;
+    }
+}
 
 /**
- * Attempt to load an object from localStorage.
+ * Attempt to load an object from Web Storage.
  * @param {string} key - Storage key.
  * @param {Object} fallbackObj - Default values if not found.
  * @returns {Object} Loaded data merged with the fallback.
  */
 
 function tryLoad(key, fallbackObj) {
-    if (!storageAvailable) {
+    if (!storageAvailable || !storage) {
         return { ...fallbackObj };
     }
     try {
-        const saved = localStorage.getItem(key);
+        const saved = storage.getItem(key);
         if (saved) {
             try {
                 return { ...fallbackObj, ...JSON.parse(saved) };
@@ -47,8 +77,9 @@ function tryLoad(key, fallbackObj) {
         }
     } catch (e) {
         if (e instanceof DOMException) {
-            console.warn('localStorage unavailable; using in-memory data');
+            console.warn('Storage unavailable; using in-memory data');
             storageAvailable = false;
+            storage = null;
         } else {
             throw e;
         }
@@ -57,21 +88,22 @@ function tryLoad(key, fallbackObj) {
 }
 
 /**
- * Persist data to localStorage.
+ * Persist data to Web Storage.
  * @param {string} key - Storage key.
  * @param {Object} data - Object to serialize and store.
  * @returns {void}
  */
 function trySave(key, data) {
-    if (!storageAvailable) {
+    if (!storageAvailable || !storage) {
         return;
     }
     try {
-        localStorage.setItem(key, JSON.stringify(data));
+        storage.setItem(key, JSON.stringify(data));
     } catch (e) {
         if (e instanceof DOMException) {
-            console.warn(`Unable to save ${key} to localStorage`);
+            console.warn(`Unable to save ${key} to storage`);
             storageAvailable = false;
+            storage = null;
         } else {
             throw e;
         }
