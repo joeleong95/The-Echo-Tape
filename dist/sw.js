@@ -1,6 +1,6 @@
 // Service worker for The Echo Tape
 const CACHE_PREFIX = 'echo-tape-';
-const CACHE_NAME = 'echo-tape-1.0.1-d243febd';
+const CACHE_NAME = 'echo-tape-1.0.2-4fe3acbe';
 
 self.addEventListener('install', event => {
   event.waitUntil((async () => {
@@ -29,6 +29,8 @@ self.addEventListener('install', event => {
       'audio/tape_fx.ogg',
       'audio/titleMusic.ogg',
       'audio/titleMusic2.ogg',
+      'audio/voice1.ogg',
+      'audio/voice2.ogg',
       'images/joeNewtTape.jpg',
       'images/joeNewtTape2.jpg',
       'images/joeNewtTape3.jpg',
