@@ -174,6 +174,9 @@ async function goToScene(sceneId, fromBack = false) {
         CaseFileModule.init(targetScene);
     }
     announceScene(targetScene);
+    targetScene.querySelectorAll('.voice-clip').forEach(el => {
+        AudioModule.playVoiceClip(el);
+    });
     AudioModule.playSceneSound();
     updateBackButton();
     targetScene.scrollIntoView({ behavior: 'smooth' });

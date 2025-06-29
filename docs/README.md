@@ -23,6 +23,10 @@ Image assets are stored in the `images` folder. Sound effects and music live in 
 7. The build script now computes a fingerprint of all assets and embeds it in `sw.js` to automatically invalidate old caches when files change.
 8. Use the **Dev Tools** button on the title screen if you need to clear saved progress.
 
+## Audio Controls
+
+Use the sliders in the lower corner to adjust volume. Music and sound effects have separate levels. A new **Voice Volume** slider controls playback volume for voiceover clips.
+
 ## Versioning
 
 The project uses simple incremental build numbers in the form

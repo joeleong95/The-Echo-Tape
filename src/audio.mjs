@@ -22,6 +22,7 @@ let musicMuted = false;
 let sfxMuted = false;
 let musicVolume = 1;
 let sfxVolume = 1;
+let voiceVolume = 1;
 
 /**
  * Ensure an AudioContext exists and resume it if suspended.
@@ -96,6 +97,16 @@ function playTapeFx() {
         tapeFx.currentTime = 0;
         tapeFx.play();
     }
+}
+
+/**
+ * Play a voiceover clip with the current voice volume.
+ * @param {string|HTMLMediaElement} clip
+ * @returns {void}
+ */
+function playVoiceClip(clip) {
+    const el = typeof clip === 'string' ? document.getElementById(clip) : clip;
+    playAudioElement(el, voiceVolume, false);
 }
 
 /**
@@ -209,10 +220,12 @@ function applyAudioPrefs() {
     const muteSfxBtn = document.getElementById('mute-sfx-btn');
     const musicVolSlider = document.getElementById('music-volume');
     const sfxVolSlider = document.getElementById('sfx-volume');
+    const voiceVolSlider = document.getElementById('voice-volume');
     if (muteMusicBtn) muteMusicBtn.textContent = musicMuted ? 'Unmute Music' : 'Mute Music';
     if (muteSfxBtn) muteSfxBtn.textContent = sfxMuted ? 'Unmute SFX' : 'Mute SFX';
     if (musicVolSlider) musicVolSlider.value = musicVolume;
     if (sfxVolSlider) sfxVolSlider.value = sfxVolume;
+    if (voiceVolSlider) voiceVolSlider.value = voiceVolume;
     if (titleMusic) {
         titleMusic.muted = musicMuted;
         titleMusic.volume = musicVolume;
@@ -236,6 +249,9 @@ function applyAudioPrefs() {
     if (tapeFx) {
         tapeFx.volume = sfxVolume;
     }
+    document.querySelectorAll('.voice-audio').forEach(el => {
+        el.volume = voiceVolume;
+    });
 }
 
 /**
@@ -278,6 +294,16 @@ function setSfxVolume(val) {
     applyAudioPrefs();
 }
 
+/**
+ * Set the voiceover volume.
+ * @param {number} val - Volume from 0 to 1.
+ * @returns {void}
+ */
+function setVoiceVolume(val) {
+    voiceVolume = val;
+    applyAudioPrefs();
+}
+
 /** @returns {boolean} */
 function getMusicMuted() { return musicMuted; }
 /** @returns {boolean} */
@@ -286,6 +312,8 @@ function getSfxMuted() { return sfxMuted; }
 function getMusicVolume() { return musicVolume; }
 /** @returns {number} */
 function getSfxVolume() { return sfxVolume; }
+/** @returns {number} */
+function getVoiceVolume() { return voiceVolume; }
 
 export {
     initAudio,
@@ -293,6 +321,7 @@ export {
     playSceneSound,
     playClickSound,
     playTapeFx,
+    playVoiceClip,
     stopVhsSound,
     playTitleMusic,
     stopTitleMusic,
@@ -305,8 +334,10 @@ export {
     setSfxMuted,
     setMusicVolume,
     setSfxVolume,
+    setVoiceVolume,
     getMusicMuted,
     getSfxMuted,
     getMusicVolume,
-    getSfxVolume
+    getSfxVolume,
+    getVoiceVolume
 };

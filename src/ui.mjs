@@ -32,6 +32,7 @@ const muteMusicBtn = document.getElementById('mute-music-btn');
 const muteSfxBtn = document.getElementById('mute-sfx-btn');
 const musicVolSlider = document.getElementById('music-volume');
 const sfxVolSlider = document.getElementById('sfx-volume');
+const voiceVolSlider = document.getElementById('voice-volume');
 
 let selectedEpisode = null;
 let introTimers = [];
@@ -299,6 +300,14 @@ function init() {
             const val = parseFloat(sfxVolSlider.value);
             AudioModule.setSfxVolume(val);
             StateModule.setState('sfxVolume', val);
+        });
+    }
+
+    if (voiceVolSlider) {
+        voiceVolSlider.addEventListener('input', () => {
+            const val = parseFloat(voiceVolSlider.value);
+            AudioModule.setVoiceVolume(val);
+            StateModule.setState('voiceVolume', val);
         });
     }
 

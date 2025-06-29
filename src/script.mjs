@@ -13,6 +13,7 @@ AudioModule.setMusicMuted(StateModule.getState('musicMuted'));
 AudioModule.setSfxMuted(StateModule.getState('sfxMuted'));
 AudioModule.setMusicVolume(StateModule.getState('musicVolume'));
 AudioModule.setSfxVolume(StateModule.getState('sfxVolume'));
+AudioModule.setVoiceVolume(StateModule.getState('voiceVolume'));
 AudioModule.applyAudioPrefs();
 
 UiModule.init();
