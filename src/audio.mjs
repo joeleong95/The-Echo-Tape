@@ -29,11 +29,17 @@ let voiceVolume = 1;
  * @returns {void}
  */
 function initAudio() {
-    if (!audioCtx) {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    }
-    if (audioCtx.state === 'suspended') {
-        audioCtx.resume().catch(() => {});
+    try {
+        if (!audioCtx) {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (audioCtx.state === 'suspended') {
+            audioCtx.resume().catch(err => {
+                console.error('Failed to resume audio context:', err);
+            });
+        }
+    } catch (err) {
+        console.error('Error initializing audio context:', err);
     }
 }
 
