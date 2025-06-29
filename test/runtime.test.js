@@ -150,6 +150,7 @@ async function runTests() {
     sfxMuted: false,
     musicVolume: 1,
     sfxVolume: 1,
+    voiceVolume: 1,
     endingChoice: 'escape',
     loopAwareLevel: 2
   });

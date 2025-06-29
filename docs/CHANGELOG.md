@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.0.41] - 2025-06-28
+### Added
+- Voiceover volume slider with voice clips in Episode 1.
+
 ## [0.0.0.40] - 2025-06-28
 ### Added
 - Persistent keys `endingChoice` and `loopAwareLevel` with summary display.
