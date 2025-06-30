@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.46] - 2025-07-01
+### Added
+- Tests for audio playback fallback and service worker caching.
+
 ## [0.0.45] - 2025-06-30
 ### Added
 - Optional automatic save backups to a user-selected file.
