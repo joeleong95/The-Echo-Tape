@@ -1,5 +1,6 @@
 window.localEpisodes = window.localEpisodes || {};
 window.localEpisodes["episode1"] = {
+  "title": "Episode 1: The Tape & The Lane",
   "start": "scene-start",
   "scenes": [
     {

@@ -6,6 +6,12 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Quick Start section in `README.md` summarising setup and test steps.
 
+## [0.0.50] - 2025-07-05
+### Added
+- `episode-builder` CLI for interactively creating episode JSON files.
+### Changed
+- Episodes now include a `title` property and the game loads episode titles from a generated manifest.
+
 ## [0.0.48] - 2025-07-03
 ### Added
 - Sync file selection now imports existing save data for seamless cross-device play.

@@ -27,7 +27,7 @@ const importSaveBtn = document.getElementById('import-save-btn');
 const importSaveInput = document.getElementById('import-save-input');
 const closeDevBtn = document.getElementById('close-dev-btn');
 const recordLight = document.querySelector('.record-light');
-const episodeButtons = document.querySelectorAll('.episode-btn');
+const episodeList = document.getElementById('episode-list');
 const returnTitleBtn = document.getElementById('return-title-btn');
 const muteMusicBtn = document.getElementById('mute-music-btn');
 const muteSfxBtn = document.getElementById('mute-sfx-btn');
@@ -48,14 +48,42 @@ async function loadEpisodeScripts() {
     try {
         const resp = await fetch('dist/episodes/manifest.json');
         if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-        const names = await resp.json();
-        names.forEach(name => {
+        const manifest = await resp.json();
+        manifest.forEach(({ id }) => {
             const script = document.createElement('script');
-            script.src = `dist/episodes/${name}.js`;
+            script.src = `dist/episodes/${id}.js`;
             document.body.appendChild(script);
         });
     } catch (err) {
         console.error('Failed to load episode scripts', err);
+    }
+}
+
+async function populateEpisodeButtons() {
+    if (!episodeList) return;
+    episodeList.innerHTML = '';
+    try {
+        const resp = await fetch('dist/episodes/manifest.json');
+        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+        const manifest = await resp.json();
+        manifest.forEach(ep => {
+            const btn = document.createElement('button');
+            btn.className = 'episode-btn';
+            const epCode = ep.id.replace(/^episode/, '');
+            btn.dataset.episode = epCode;
+            btn.textContent = ep.title;
+            btn.addEventListener('click', async () => {
+                if (epCode === '1') {
+                    playIntro(epCode);
+                } else {
+                    hideScreen(episodeScreen);
+                    await startEpisode(epCode);
+                }
+            });
+            episodeList.appendChild(btn);
+        });
+    } catch (err) {
+        console.error('Failed to populate episode list', err);
     }
 }
 
@@ -259,17 +287,7 @@ function init() {
         });
     }
 
-    episodeButtons.forEach(btn => {
-        btn.addEventListener('click', async () => {
-            const ep = btn.dataset.episode;
-            if (ep === '1') {
-                playIntro(ep);
-            } else {
-                hideScreen(episodeScreen);
-                await startEpisode(ep);
-            }
-        });
-    });
+    populateEpisodeButtons();
 
     const backBtn = document.getElementById('back-btn');
     const historyBtn = document.getElementById('history-btn');
