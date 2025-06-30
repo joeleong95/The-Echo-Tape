@@ -22,6 +22,7 @@ const devBtn = document.getElementById('dev-btn');
 const devScreen = document.getElementById('dev-screen');
 const clearSaveBtn = document.getElementById('clear-save-btn');
 const exportSaveBtn = document.getElementById('export-save-btn');
+const enableBackupBtn = document.getElementById('enable-backup-btn');
 const importSaveBtn = document.getElementById('import-save-btn');
 const importSaveInput = document.getElementById('import-save-input');
 const closeDevBtn = document.getElementById('close-dev-btn');
@@ -223,6 +224,17 @@ function init() {
             a.click();
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
+        });
+    }
+
+    if (enableBackupBtn) {
+        enableBackupBtn.addEventListener('click', async () => {
+            try {
+                await StateModule.chooseBackupFile();
+                alert('Automatic backup enabled');
+            } catch (err) {
+                alert('Auto backup not supported');
+            }
         });
     }
 
