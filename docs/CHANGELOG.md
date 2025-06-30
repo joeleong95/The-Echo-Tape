@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.45] - 2025-06-30
+### Added
+- Optional automatic save backups to a user-selected file.
+
 ## [0.0.44] - 2025-06-30
 ### Added
 - Error logging when the audio context fails to initialize or resume.

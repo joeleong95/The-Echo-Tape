@@ -4,7 +4,7 @@
 
 Episode 1 ultimately aims for about an hour of play time, but the project is still in its infancy—less than ten percent of the planned content exists so far.
 
-Episode 1 is playable and features sound effects and a scene history overlay. Progress is saved in your browser using local or session storage. You can export this data from the Dev Tools screen and import it on another device. Episode 2 is under construction.
+Episode 1 is playable and features sound effects and a scene history overlay. Progress is saved in your browser using local or session storage. You can export this data from the Dev Tools screen and import it on another device. A new **Enable Sync** button lets you choose a file for automatic backups – store it in a synced folder to keep progress across devices. Episode 2 is under construction.
 
 ## Writing Episodes
 

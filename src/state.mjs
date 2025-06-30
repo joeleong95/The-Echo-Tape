@@ -124,6 +124,9 @@ function loadState() {
  */
 function saveState() {
     trySave('echoTapeState', gameState);
+    if (backupHandle) {
+        backupToFile().catch(() => {});
+    }
 }
 
 /**
@@ -176,6 +179,40 @@ function updateStateSummary() {
 const progressKey = 'echoTapeProgress';
 let progress = { episode: null, scene: null };
 
+let backupHandle = null;
+
+async function backupToFile() {
+    if (!backupHandle) {
+        return;
+    }
+    try {
+        const writable = await backupHandle.createWritable();
+        await writable.write(JSON.stringify(exportSaveData()));
+        await writable.close();
+    } catch (err) {
+        console.error('Auto backup failed', err);
+    }
+}
+
+async function chooseBackupFile() {
+    if (!window.showSaveFilePicker) {
+        throw new Error('File System Access API not supported');
+    }
+    backupHandle = await window.showSaveFilePicker({
+        suggestedName: 'echo-tape-save.json',
+        types: [{ description: 'JSON', accept: { 'application/json': ['.json'] } }]
+    });
+    await backupToFile();
+}
+
+function disableBackup() {
+    backupHandle = null;
+}
+
+function isBackupEnabled() {
+    return !!backupHandle;
+}
+
 /**
  * Load episode progress from storage.
  * @returns {void}
@@ -190,6 +227,9 @@ function loadProgress() {
  */
 function saveProgress() {
     trySave(progressKey, progress);
+    if (backupHandle) {
+        backupToFile().catch(() => {});
+    }
 }
 
 /**
@@ -264,5 +304,8 @@ export {
     clearProgress,
     getProgress,
     exportSaveData,
-    importSaveData
+    importSaveData,
+    chooseBackupFile,
+    disableBackup,
+    isBackupEnabled
 };
