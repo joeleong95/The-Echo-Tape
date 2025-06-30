@@ -30,14 +30,28 @@ let firstSceneId = null;
 let loadRetryTimer = null;
 let loadRetryAttempted = false;
 
+/**
+ * Store the active episode number.
+ * @param {string} ep - Episode identifier.
+ * @returns {void}
+ */
 function setCurrentEpisode(ep) {
     currentEpisode = ep;
 }
 
+/**
+ * Remember the first scene ID for back button logic.
+ * @param {string} id - Scene element ID.
+ * @returns {void}
+ */
 function setFirstSceneId(id) {
     firstSceneId = id;
 }
 
+/**
+ * Clear stored scene history.
+ * @returns {void}
+ */
 function clearHistory() {
     sceneHistory = [];
 }
