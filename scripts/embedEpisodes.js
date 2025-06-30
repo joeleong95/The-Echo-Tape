@@ -7,6 +7,7 @@ const audioDir = path.join(__dirname, '..', 'audio');
 const imagesDir = path.join(__dirname, '..', 'images');
 
 const files = fs.readdirSync(episodesDir).filter(f => f.endsWith('.json'));
+const manifest = [];
 
 files.forEach(file => {
   const jsonPath = path.join(episodesDir, file);
@@ -25,10 +26,12 @@ files.forEach(file => {
     `\nwindow.localEpisodes[${JSON.stringify(name)}] = ` +
     JSON.stringify(jsonData, null, 2) + ';\n';
   fs.writeFileSync(jsPath, jsContent);
+
+  manifest.push({ id: name, title: jsonData.title || name });
 });
 
 // Write episode manifest for dynamic loading
-const manifest = files.map(f => path.basename(f, '.json')).sort();
+manifest.sort((a, b) => a.id.localeCompare(b.id));
 const manifestPath = path.join(__dirname, '..', 'dist', 'episodes', 'manifest.json');
 fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
 console.log('Wrote manifest with', manifest.length, 'episodes');

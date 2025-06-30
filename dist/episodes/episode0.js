@@ -1,5 +1,6 @@
 window.localEpisodes = window.localEpisodes || {};
 window.localEpisodes["episode0"] = {
+  "title": "Tutorial: Rocket League Warmup",
   "start": "scene-start",
   "scenes": [
     {

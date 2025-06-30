@@ -96,15 +96,16 @@ async function loadEpisode(ep, resumeScene) {
         loadRetryTimer = null;
     }
     let data;
+    const fileName = ep.startsWith('episode') ? ep : `episode${ep}`;
     try {
-        const resp = await fetch(`episodes/episode${ep}.json`);
+        const resp = await fetch(`episodes/${fileName}.json`);
         if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
         data = await resp.json();
         loadRetryAttempted = false;
     } catch (err) {
         console.warn('Fetch failed, trying embedded episode data', err);
-        if (window.localEpisodes && window.localEpisodes[`episode${ep}`]) {
-            data = window.localEpisodes[`episode${ep}`];
+        if (window.localEpisodes && (window.localEpisodes[fileName] || window.localEpisodes[`episode${ep}`])) {
+            data = window.localEpisodes[fileName] || window.localEpisodes[`episode${ep}`];
         } else {
             console.error('Episode data not found');
             const onlineStatus = typeof navigator !== 'undefined'

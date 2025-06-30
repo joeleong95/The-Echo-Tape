@@ -1,5 +1,6 @@
 window.localEpisodes = window.localEpisodes || {};
 window.localEpisodes["episode2"] = {
+  "title": "Episode 2 - Coming Soon",
   "start": "scene-doorway",
   "scenes": [
     {
