@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.49] - 2025-07-04
+### Added
+- Quick Start section in `README.md` summarising setup and test steps.
+
 ## [0.0.48] - 2025-07-03
 ### Added
 - Sync file selection now imports existing save data for seamless cross-device play.
