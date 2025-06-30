@@ -188,6 +188,18 @@ async function runTests() {
   assert.strictEqual(elements['sfx-static'].paused, true);
   assert.strictEqual(elements['sfx-static'].currentTime, 0);
 
+  // Audio play fallback when play() fails
+  let clickFallback = false;
+  document.addEventListener = (type, handler) => {
+    if (type === 'click') { clickFallback = true; handler(); }
+  };
+  const failEl = createAudioElement();
+  failEl.play = () => { failEl.playCalls++; return { catch(fn){ fn(new Error('x')); } }; };
+  Audio.playVoiceClip(failEl);
+  assert.ok(clickFallback);
+  assert.strictEqual(failEl.playCalls, 2);
+  document.addEventListener = () => {};
+
   // UI module tests
   const Ui = await import(pathToFileURL(path.join(__dirname, '../src/ui.mjs')));
 

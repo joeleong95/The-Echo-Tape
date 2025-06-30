@@ -198,6 +198,12 @@ try {
   console.error(_err);
   missing = true;
 }
+try {
+  require('./swCache.test.js');
+} catch (_err) {
+  console.error(_err);
+  missing = true;
+}
 if (missing) {
   console.error('Test failed');
   process.exit(1);
