@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.47] - 2025-07-02
+### Added
+- ESLint JSDoc plugin with rules requiring parameter and return types.
+- Documentation comments for episode helpers.
+
 ## [0.0.46] - 2025-07-01
 ### Added
 - Tests for audio playback fallback and service worker caching.

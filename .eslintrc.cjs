@@ -4,7 +4,8 @@ module.exports = {
     es2021: true,
     node: true
   },
-  extends: 'eslint:recommended',
+  extends: ['eslint:recommended', 'plugin:jsdoc/recommended'],
+  plugins: ['jsdoc'],
   parserOptions: {
     ecmaVersion: 12,
     sourceType: 'module'
@@ -16,6 +17,9 @@ module.exports = {
   },
   rules: {
     semi: ['error', 'always'],
-    'no-var': 'error'
+    'no-var': 'error',
+    'jsdoc/require-jsdoc': 'off',
+    'jsdoc/require-param-type': 'error',
+    'jsdoc/require-returns-type': 'error'
   }
 };
