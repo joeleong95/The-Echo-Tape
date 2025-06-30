@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.48] - 2025-07-03
+### Added
+- Sync file selection now imports existing save data for seamless cross-device play.
+
 ## [0.0.47] - 2025-07-02
 ### Added
 - ESLint JSDoc plugin with rules requiring parameter and return types.

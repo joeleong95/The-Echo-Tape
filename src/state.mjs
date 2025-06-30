@@ -202,6 +202,20 @@ async function chooseBackupFile() {
         suggestedName: 'echo-tape-save.json',
         types: [{ description: 'JSON', accept: { 'application/json': ['.json'] } }]
     });
+    try {
+        const file = await backupHandle.getFile();
+        if (file.size > 0) {
+            const text = await file.text();
+            try {
+                const data = JSON.parse(text);
+                importSaveData(data);
+            } catch (err) {
+                console.error('Invalid backup file', err);
+            }
+        }
+    } catch (err) {
+        console.error('Failed to read backup file', err);
+    }
     await backupToFile();
 }
 
