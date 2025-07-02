@@ -7,6 +7,10 @@ All notable changes to this project will be documented in this file.
 - Graceful fallback when save data is corrupted or missing.
 - Import/export now validates data shape and backups continue reliably.
 
+## [0.0.54] - 2025-07-07
+### Changed
+- Service worker now uses separate runtime and static caches with version-based cleanup for smoother offline updates.
+
 ## [0.0.49] - 2025-07-04
 ### Added
 - Quick Start section in `README.md` summarising setup and test steps.

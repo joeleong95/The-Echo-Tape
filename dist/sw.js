@@ -1,12 +1,10 @@
 // Service worker for The Echo Tape
 const CACHE_PREFIX = 'echo-tape-';
-const CACHE_NAME = 'echo-tape-1.0.2-ae08945f';
+const CACHE_NAME = 'echo-tape-1.0.2-2b3a2205';
+const RUNTIME_CACHE = `${CACHE_NAME}-runtime`;
 
-self.addEventListener('install', event => {
-  event.waitUntil((async () => {
-    const cache = await caches.open(CACHE_NAME);
-    const assets = [
-      // ASSETS_START
+const ASSETS = [
+  // ASSETS_START
       '/',
       'index.html',
       'style.css',
@@ -37,8 +35,13 @@ self.addEventListener('install', event => {
       'images/joeNewtTape3.jpg',
       'images/joeNewtTape4.jpg',
       // ASSETS_END
-    ].map(p => new URL(p, self.location.origin).toString());
-    await cache.addAll(assets);
+].map(p => self.location.origin + (p.startsWith('/') ? p : '/' + p));
+const ASSET_SET = new Set(ASSETS);
+
+self.addEventListener('install', event => {
+  event.waitUntil((async () => {
+    const cache = await caches.open(CACHE_NAME);
+    await cache.addAll(ASSETS);
     await self.skipWaiting();
   })());
 });
@@ -47,7 +50,7 @@ self.addEventListener('activate', event => {
   event.waitUntil((async () => {
     const keys = await caches.keys();
     await Promise.all(keys.map(key => {
-      if (key.startsWith(CACHE_PREFIX) && key !== CACHE_NAME) {
+      if (key.startsWith(CACHE_PREFIX) && key !== CACHE_NAME && key !== RUNTIME_CACHE) {
         return caches.delete(key);
       }
     }));
@@ -58,16 +61,18 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET') return;
   event.respondWith((async () => {
+    const url = event.request.url;
+    const isAsset = ASSET_SET.has(url);
+    const cacheName = isAsset ? CACHE_NAME : RUNTIME_CACHE;
     const cached = await caches.match(event.request);
-    if (cached) return cached;
+    if (isAsset && cached) return cached;
     try {
       const response = await fetch(event.request);
       if (response && response.status === 200 && response.type === 'basic') {
-        const cache = await caches.open(CACHE_NAME);
+        const cache = await caches.open(cacheName);
         cache.put(event.request, response.clone());
       }
       return response;
-    // Ignore network errors when offline
     } catch {
       return cached;
     }
