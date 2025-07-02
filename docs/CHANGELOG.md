@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.58] - 2025-07-08
+### Added
+- Keyboard navigation helper and overlay transitions for smoother scene flow.
+
 ## [0.0.57] - 2025-07-02
 ### Added
 - Helper function `renderScene` builds DOM for a single scene object.
