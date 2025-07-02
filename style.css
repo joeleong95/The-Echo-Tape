@@ -335,10 +335,13 @@ body {
     justify-content: center;
     align-items: center;
     z-index: 200;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
 }
 
 #history-overlay.visible {
     display: flex;
+    opacity: 1;
 }
 
 #history-overlay pre {
@@ -356,10 +359,13 @@ body {
     justify-content: center;
     align-items: center;
     z-index: 210;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
 }
 
 #case-file-overlay.visible {
     display: flex;
+    opacity: 1;
 }
 
 .audio-controls {

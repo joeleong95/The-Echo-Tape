@@ -67,6 +67,32 @@ function showScene(scene) {
 }
 
 /**
+ * Fade in an overlay element.
+ * @param {HTMLElement} overlay
+ * @returns {void}
+ */
+function showOverlay(overlay) {
+    overlay.style.display = 'flex';
+    requestAnimationFrame(() => overlay.classList.add('visible'));
+}
+
+/**
+ * Fade out an overlay element.
+ * @param {HTMLElement} overlay
+ * @returns {Promise<void>}
+ */
+function hideOverlay(overlay) {
+    return new Promise(resolve => {
+        overlay.classList.remove('visible');
+        overlay.addEventListener('transitionend', function handler() {
+            overlay.style.display = 'none';
+            overlay.removeEventListener('transitionend', handler);
+            resolve();
+        }, { once: true });
+    });
+}
+
+/**
  * Fade out a scene and hide it.
  * @param {HTMLElement} scene
  * @returns {Promise<void>}
@@ -305,7 +331,7 @@ function showHistory() {
     if (!historyOverlay) return;
     const titles = sceneHistory.map(id => getSceneTitle(id));
     historyList.textContent = titles.join(' \u2192 ');
-    historyOverlay.classList.add('visible');
+    showOverlay(historyOverlay);
     historyOverlay.setAttribute('aria-hidden', 'false');
     if (closeHistoryBtn) closeHistoryBtn.focus();
 }
@@ -316,7 +342,7 @@ function showHistory() {
  */
 function closeHistory() {
     if (!historyOverlay) return;
-    historyOverlay.classList.remove('visible');
+    hideOverlay(historyOverlay);
     historyOverlay.setAttribute('aria-hidden', 'true');
     if (historyBtn) historyBtn.focus();
 }
@@ -328,7 +354,7 @@ function closeHistory() {
 function showCaseFile() {
     if (!caseFileOverlay) return;
     CaseFileModule.init(caseFileOverlay);
-    caseFileOverlay.classList.add('visible');
+    showOverlay(caseFileOverlay);
     caseFileOverlay.setAttribute('aria-hidden', 'false');
     if (closeCaseFileBtn) closeCaseFileBtn.focus();
 }
@@ -340,7 +366,7 @@ function showCaseFile() {
 function closeCaseFile() {
     if (!caseFileOverlay) return;
     CaseFileModule.stopGlitch();
-    caseFileOverlay.classList.remove('visible');
+    hideOverlay(caseFileOverlay);
     caseFileOverlay.setAttribute('aria-hidden', 'true');
     if (caseFileBtn) caseFileBtn.focus();
 }
