@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.57] - 2025-07-02
+### Added
+- Helper function `renderScene` builds DOM for a single scene object.
+
 ## [0.0.56] - 2025-07-02
 ### Fixed
 - `npm run build-episodes` now creates the `dist/episodes` folder if missing and
