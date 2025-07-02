@@ -9,11 +9,12 @@ and buttons the player will see.
 
 ```json
 {
-  "start": "scene-start",         // ID of the first scene to display
+  "title": "Episode Name",        // shown in the episode menu
+  "start": "scene-start",        // ID of the first scene to display
   "scenes": [
     {
-      "id": "scene-start",        // unique ID for the scene
-      "html": "<p>Your HTML here</p>"   // inner HTML for the scene
+      "id": "scene-start",       // unique ID for the scene
+      "html": "<p>Your HTML here</p>"  // inner HTML for the scene
     },
     {
       "id": "scene-next",
@@ -23,14 +24,18 @@ and buttons the player will see.
 }
 ```
 
+* **title** – the text displayed in the episode selection screen.
 * **start** – the ID of the first scene to show when the episode begins.
 * **scenes** – a list of scene objects. Each scene contains:
   * **id** – a unique name for the scene. Use short, descriptive words (e.g. `alley-start`).
   * **html** – the text and choices written in simple HTML. Use paragraphs
-    (`<p>`), headings (`<h2>`), and buttons. A button should call
-    `goToScene('target-id')` when clicked.
+    (`<p>`), headings (`<h2>`), and buttons. Buttons use `data-scene="next-id"`
+    to link to another scene.
   * **showIf** – optional state conditions. If provided, the scene only appears
     when every key/value pair matches the current game state.
+
+See [EPISODE_SCHEMA.md](EPISODE_SCHEMA.md) for a complete description of the
+required fields.
 
 ## Tips for Writing
 

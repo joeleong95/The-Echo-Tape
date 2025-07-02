@@ -11,6 +11,11 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - Service worker now uses separate runtime and static caches with version-based cleanup for smoother offline updates.
 
+## [0.0.55] - 2025-07-08
+### Added
+- `docs/EPISODE_SCHEMA.md` documenting the episode JSON structure.
+- Updated `WRITING_GUIDE.md` and main README to reference the schema and include the `title` field.
+
 ## [0.0.49] - 2025-07-04
 ### Added
 - Quick Start section in `README.md` summarising setup and test steps.
