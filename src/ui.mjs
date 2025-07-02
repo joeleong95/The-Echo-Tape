@@ -8,6 +8,9 @@
 import * as StateModule from './state.mjs';
 import * as AudioModule from './audio.mjs';
 import * as Navigation from './sceneNavigation.mjs';
+import DOMPurifyLib from './dompurify.mjs';
+
+const DOMPurify = typeof window !== 'undefined' && window.DOMPurify ? window.DOMPurify : DOMPurifyLib;
 
 const titleScreen = document.getElementById('title-screen');
 const episodeScreen = document.getElementById('episode-screen');
@@ -108,6 +111,46 @@ function hideScreen(el) {
         el.style.display = 'none';
         el.removeEventListener('transitionend', handler);
     }, { once: true });
+}
+
+/**
+ * Build and append a DOM element for a single scene.
+ * @param {{id:string, html:string, showIf?:Object}} scene
+ * @param {HTMLElement} [container=document.getElementById('vhs-screen')]
+ * @returns {HTMLElement|null}
+ */
+function renderScene(scene, container = document.getElementById('vhs-screen')) {
+    if (!container || !scene) return null;
+    if (scene.showIf) {
+        for (const key in scene.showIf) {
+            if (StateModule.getState(key) !== scene.showIf[key]) {
+                return null;
+            }
+        }
+    }
+    const div = document.createElement('div');
+    div.id = scene.id;
+    div.className = 'interactive-scene';
+    div.setAttribute('role', 'dialog');
+    div.setAttribute('aria-label', scene.id);
+    div.innerHTML = DOMPurify.sanitize(scene.html || '');
+    div.querySelectorAll('[data-show-if]').forEach(el => {
+        const condStr = el.getAttribute('data-show-if');
+        if (!condStr) return;
+        try {
+            const cond = JSON.parse(condStr);
+            for (const key in cond) {
+                if (StateModule.getState(key) !== cond[key]) {
+                    el.remove();
+                    return;
+                }
+            }
+        } catch (e) {
+            console.error('Invalid data-show-if', e);
+        }
+    });
+    container.appendChild(div);
+    return div;
 }
 
 async function startEpisode(ep) {
@@ -389,6 +432,7 @@ export {
     startEpisode,
     restartGame,
     Navigation as navigation,
+    renderScene,
     loadEpisode,
     goToScene,
     updateContinueButton
