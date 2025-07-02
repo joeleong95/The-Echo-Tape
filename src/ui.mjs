@@ -46,9 +46,14 @@ let resumeScene = null;
  */
 async function loadEpisodeScripts() {
     try {
-        const resp = await fetch('dist/episodes/manifest.json');
-        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-        const manifest = await resp.json();
+        let manifest;
+        if (Array.isArray(window.localEpisodeManifest)) {
+            manifest = window.localEpisodeManifest;
+        } else {
+            const resp = await fetch('dist/episodes/manifest.json');
+            if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+            manifest = await resp.json();
+        }
         manifest.forEach(({ id }) => {
             const script = document.createElement('script');
             script.src = `dist/episodes/${id}.js`;
@@ -63,9 +68,14 @@ async function populateEpisodeButtons() {
     if (!episodeList) return;
     episodeList.innerHTML = '';
     try {
-        const resp = await fetch('dist/episodes/manifest.json');
-        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-        const manifest = await resp.json();
+        let manifest;
+        if (Array.isArray(window.localEpisodeManifest)) {
+            manifest = window.localEpisodeManifest;
+        } else {
+            const resp = await fetch('dist/episodes/manifest.json');
+            if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+            manifest = await resp.json();
+        }
         manifest.forEach(ep => {
             const btn = document.createElement('button');
             btn.className = 'episode-btn';
