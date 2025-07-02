@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.53] - 2025-07-06
+### Fixed
+- Graceful fallback when save data is corrupted or missing.
+- Import/export now validates data shape and backups continue reliably.
+
 ## [0.0.49] - 2025-07-04
 ### Added
 - Quick Start section in `README.md` summarising setup and test steps.

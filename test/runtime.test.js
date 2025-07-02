@@ -169,6 +169,17 @@ async function runTests() {
   State.clearProgress();
   assert.deepStrictEqual(State.getProgress(), { episode: null, scene: null });
 
+  // Corrupted save data handling
+  storage.store.echoTapeState = '{"hasTape":true';
+  State.loadState();
+  assert.strictEqual(State.getState('hasTape'), false);
+  storage.store.echoTapeState = '{"hasTape":"yes"}';
+  State.loadState();
+  assert.strictEqual(State.getState('hasTape'), false);
+  storage.store.echoTapeProgress = '{"episode":1}';
+  State.loadProgress();
+  assert.deepStrictEqual(State.getProgress(), { episode: null, scene: null });
+
   // Audio module tests
   Audio.setMusicVolume(0.5);
   assert.strictEqual(elements['title-music'].volume, 0.5);
