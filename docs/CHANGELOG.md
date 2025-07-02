@@ -12,6 +12,11 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - Episodes now include a `title` property and the game loads episode titles from a generated manifest.
 
+## [0.0.51] - 2025-07-05
+### Fixed
+- Episodes failed to appear when the game was opened from the file system.
+- Build now writes `manifest.js` and the UI falls back to it when fetching `manifest.json` fails.
+
 ## [0.0.48] - 2025-07-03
 ### Added
 - Sync file selection now imports existing save data for seamless cross-device play.

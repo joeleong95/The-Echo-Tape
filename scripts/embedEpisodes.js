@@ -34,6 +34,9 @@ files.forEach(file => {
 manifest.sort((a, b) => a.id.localeCompare(b.id));
 const manifestPath = path.join(__dirname, '..', 'dist', 'episodes', 'manifest.json');
 fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
+// Also write manifest.js for offline usage without fetch()
+const manifestJsPath = path.join(__dirname, '..', 'dist', 'episodes', 'manifest.js');
+fs.writeFileSync(manifestJsPath, 'window.localEpisodeManifest = ' + JSON.stringify(manifest, null, 2) + ';\n');
 console.log('Wrote manifest with', manifest.length, 'episodes');
 
 console.log('Embedded', files.length, 'episodes');
@@ -74,10 +77,13 @@ try {
       .map(f => `episodes/${f}`);
     const distEpisodesDir = path.join(__dirname, '..', 'dist', 'episodes');
     const episodeJsAssets = fs.readdirSync(distEpisodesDir)
-      .filter(f => f.endsWith('.js'))
+      .filter(f => f.endsWith('.js') && f !== 'manifest.js')
       .sort()
       .map(f => `dist/episodes/${f}`);
-    const manifestAsset = ['dist/episodes/manifest.json'];
+    const manifestAsset = [
+      'dist/episodes/manifest.json',
+      'dist/episodes/manifest.js'
+    ];
     const audioAssets = fs.readdirSync(audioDir).sort().map(f => `audio/${f}`);
     const imageAssets = fs.readdirSync(imagesDir).sort().map(f => `images/${f}`);
 
