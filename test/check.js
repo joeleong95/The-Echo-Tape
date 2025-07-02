@@ -1,6 +1,40 @@
 const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
+const Ajv = require('ajv');
+
+const ajv = new Ajv({ allErrors: true, allowUnionTypes: true });
+
+const sceneSchema = {
+  type: 'object',
+  additionalProperties: false,
+  required: ['id', 'html'],
+  properties: {
+    id: { type: 'string' },
+    html: { type: 'string' },
+    showIf: {
+      type: 'object',
+      additionalProperties: { type: ['string', 'number', 'boolean'] }
+    }
+  }
+};
+
+const episodeSchema = {
+  type: 'object',
+  additionalProperties: false,
+  required: ['title', 'start', 'scenes'],
+  properties: {
+    title: { type: 'string' },
+    start: { type: 'string' },
+    scenes: {
+      type: 'array',
+      minItems: 1,
+      items: sceneSchema
+    }
+  }
+};
+
+const validateEpisode = ajv.compile(episodeSchema);
 
 const requiredFiles = ['index.html', 'src/script.mjs', 'style.css'];
 let missing = false;
@@ -31,8 +65,11 @@ for (const jsonFile of episodeJsons) {
     continue;
   }
 
-  if (!Array.isArray(jsonData.scenes)) {
-    console.error(`No scenes array in ${jsonFile}`);
+  if (!validateEpisode(jsonData)) {
+    console.error(`Schema validation errors in ${jsonFile}:`);
+    for (const err of validateEpisode.errors) {
+      console.error(`  ${err.instancePath} ${err.message}`);
+    }
     missing = true;
     continue;
   }

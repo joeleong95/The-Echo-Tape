@@ -17,6 +17,10 @@ All notable changes to this project will be documented in this file.
 - Episodes failed to appear when the game was opened from the file system.
 - Build now writes `manifest.js` and the UI falls back to it when fetching `manifest.json` fails.
 
+## [0.0.52] - 2025-07-05
+### Added
+- Test suite now enforces episode JSON structure with a schema validator.
+
 ## [0.0.48] - 2025-07-03
 ### Added
 - Sync file selection now imports existing save data for seamless cross-device play.
