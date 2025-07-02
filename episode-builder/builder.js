@@ -7,11 +7,33 @@ const rl = readline.createInterface({
   output: process.stdout
 });
 
-function ask(question) {
-  return new Promise(resolve => rl.question(question, answer => resolve(answer.trim())));
+const sceneTemplate = `<div class="dialogue">
+  <span class="character narrator">NARRATOR:</span> Describe the scene...
+</div>
+<div class="choice-container">
+  <button class="choice-btn" data-scene="next-scene">Continue</button>
+</div>`;
+
+function ask(question, defaultValue = '') {
+  const prompt = defaultValue ? `${question} (${defaultValue}) ` : question;
+  return new Promise(resolve => {
+    rl.question(prompt, answer => {
+      const trimmed = answer.trim();
+      resolve(trimmed || defaultValue);
+    });
+  });
+}
+
+function askHtml(sceneId) {
+  console.log('\nHint: wrap dialogue in <div class="dialogue"> and use buttons with data-scene.');
+  console.log('Press Enter to insert an example snippet.');
+  return ask(`Scene HTML for "${sceneId}":`, sceneTemplate);
 }
 
 (async () => {
+  console.log('Welcome to The Echo Tape Episode Builder!');
+  console.log('For writing tips see ../docs/WRITING_GUIDE.md.');
+  console.log('Use the example snippet or write your own HTML.');
   const id = await ask('Episode ID (e.g. episode3): ');
   const title = await ask('Episode title: ');
   const scenes = [];
@@ -19,10 +41,11 @@ function ask(question) {
   while (true) {
     const sceneId = await ask('Scene ID (leave blank to finish): ');
     if (!sceneId) break;
-    const html = await ask('Scene HTML: ');
+    const html = await askHtml(sceneId);
     scenes.push({ id: sceneId, html });
   }
-  let start = await ask('ID of the starting scene: ');
+  const options = scenes.map(s => s.id).join(', ');
+  let start = await ask(`ID of the starting scene (${options}): `, scenes[0] ? scenes[0].id : '');
   if (!start && scenes[0]) start = scenes[0].id;
   if (!scenes.find(s => s.id === start) && scenes[0]) start = scenes[0].id;
 
