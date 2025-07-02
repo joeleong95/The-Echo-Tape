@@ -50,9 +50,46 @@ try {
     } else if (e instanceof DOMException) {
         storageAvailable = false;
         console.warn('localStorage unavailable; using in-memory data');
+
     } else {
         throw e;
     }
+}
+
+function sanitizeState(obj) {
+    const cleaned = { ...defaultState };
+    if (!obj || typeof obj !== 'object') {
+        return cleaned;
+    }
+    for (const key of Object.keys(cleaned)) {
+        const val = obj[key];
+        switch (typeof cleaned[key]) {
+        case 'boolean':
+            cleaned[key] = typeof val === 'boolean' ? val : cleaned[key];
+            break;
+        case 'number':
+            cleaned[key] = typeof val === 'number' && !Number.isNaN(val) ? val : cleaned[key];
+            break;
+        default:
+            if (key === 'endingChoice') {
+                cleaned[key] = typeof val === 'string' || val === null ? val : cleaned[key];
+            } else {
+                cleaned[key] = val !== undefined ? val : cleaned[key];
+            }
+        }
+    }
+    return cleaned;
+}
+
+function sanitizeProgress(obj) {
+    const defaults = { episode: null, scene: null };
+    if (!obj || typeof obj !== 'object') {
+        return defaults;
+    }
+    return {
+        episode: typeof obj.episode === 'string' || obj.episode === null ? obj.episode : null,
+        scene: typeof obj.scene === 'string' || obj.scene === null ? obj.scene : null
+    };
 }
 
 /**
@@ -115,7 +152,7 @@ function trySave(key, data) {
  * @returns {void}
  */
 function loadState() {
-    gameState = tryLoad('echoTapeState', defaultState);
+    gameState = sanitizeState(tryLoad('echoTapeState', defaultState));
 }
 
 /**
@@ -232,7 +269,7 @@ function isBackupEnabled() {
  * @returns {void}
  */
 function loadProgress() {
-    progress = tryLoad(progressKey, { episode: null, scene: null });
+    progress = sanitizeProgress(tryLoad(progressKey, { episode: null, scene: null }));
 }
 
 /**
@@ -296,11 +333,11 @@ function importSaveData(data) {
         return;
     }
     if (data.state && typeof data.state === 'object') {
-        gameState = { ...defaultState, ...data.state };
+        gameState = sanitizeState({ ...defaultState, ...data.state });
         saveState();
     }
     if (data.progress && typeof data.progress === 'object') {
-        progress = { episode: null, scene: null, ...data.progress };
+        progress = sanitizeProgress({ episode: null, scene: null, ...data.progress });
         saveProgress();
     }
 }
