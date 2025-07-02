@@ -1,6 +1,6 @@
 // Service worker for The Echo Tape
 const CACHE_PREFIX = 'echo-tape-';
-const CACHE_NAME = 'echo-tape-1.0.2-2b3a2205';
+const CACHE_NAME = 'echo-tape-1.0.2-e4c033e7';
 const RUNTIME_CACHE = `${CACHE_NAME}-runtime`;
 
 const ASSETS = [

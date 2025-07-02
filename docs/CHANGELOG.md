@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.56] - 2025-07-02
+### Fixed
+- `npm run build-episodes` now creates the `dist/episodes` folder if missing and
+  removes stale generated files. Fresh clones can build episodes without manual
+  setup.
+
 ## [0.0.53] - 2025-07-06
 ### Fixed
 - Graceful fallback when save data is corrupted or missing.

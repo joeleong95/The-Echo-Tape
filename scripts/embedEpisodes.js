@@ -5,9 +5,17 @@ const crypto = require('crypto');
 const episodesDir = path.join(__dirname, '..', 'episodes');
 const audioDir = path.join(__dirname, '..', 'audio');
 const imagesDir = path.join(__dirname, '..', 'images');
+const distDir = path.join(__dirname, '..', 'dist');
+const distEpisodesDir = path.join(distDir, 'episodes');
+
+// Ensure the output directory exists so fresh clones work without manual setup.
+fs.mkdirSync(distEpisodesDir, { recursive: true });
 
 const files = fs.readdirSync(episodesDir).filter(f => f.endsWith('.json'));
 const manifest = [];
+// Track existing generated files to remove outdated ones later
+const existingJs = fs.readdirSync(distEpisodesDir)
+  .filter(f => f.endsWith('.js') && f !== 'manifest.js');
 
 files.forEach(file => {
   const jsonPath = path.join(episodesDir, file);
@@ -20,7 +28,7 @@ files.forEach(file => {
   }
 
   const name = path.basename(file, '.json');
-  const jsPath = path.join(__dirname, '..', 'dist', 'episodes', `${name}.js`);
+  const jsPath = path.join(distEpisodesDir, `${name}.js`);
   const jsContent =
     'window.localEpisodes = window.localEpisodes || {};' +
     `\nwindow.localEpisodes[${JSON.stringify(name)}] = ` +
@@ -30,12 +38,20 @@ files.forEach(file => {
   manifest.push({ id: name, title: jsonData.title || name });
 });
 
+// Remove generated JS files that no longer have a matching JSON source
+const newJsFiles = files.map(f => `${path.basename(f, '.json')}.js`);
+for (const file of existingJs) {
+  if (!newJsFiles.includes(file)) {
+    fs.unlinkSync(path.join(distEpisodesDir, file));
+  }
+}
+
 // Write episode manifest for dynamic loading
 manifest.sort((a, b) => a.id.localeCompare(b.id));
-const manifestPath = path.join(__dirname, '..', 'dist', 'episodes', 'manifest.json');
+const manifestPath = path.join(distEpisodesDir, 'manifest.json');
 fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
 // Also write manifest.js for offline usage without fetch()
-const manifestJsPath = path.join(__dirname, '..', 'dist', 'episodes', 'manifest.js');
+const manifestJsPath = path.join(distEpisodesDir, 'manifest.js');
 fs.writeFileSync(manifestJsPath, 'window.localEpisodeManifest = ' + JSON.stringify(manifest, null, 2) + ';\n');
 console.log('Wrote manifest with', manifest.length, 'episodes');
 
@@ -75,7 +91,6 @@ try {
       .filter(f => f.endsWith(".json"))
       .sort()
       .map(f => `episodes/${f}`);
-    const distEpisodesDir = path.join(__dirname, '..', 'dist', 'episodes');
     const episodeJsAssets = fs.readdirSync(distEpisodesDir)
       .filter(f => f.endsWith('.js') && f !== 'manifest.js')
       .sort()
