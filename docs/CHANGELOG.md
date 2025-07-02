@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.59] - 2025-07-09
+### Added
+- Smooth crossfade transitions between music tracks.
+- Audio elements preload automatically for consistent playback.
+
 ## [0.0.58] - 2025-07-08
 ### Added
 - Keyboard navigation helper and overlay transitions for smoother scene flow.

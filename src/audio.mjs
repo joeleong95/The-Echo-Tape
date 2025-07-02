@@ -23,6 +23,7 @@ let sfxMuted = false;
 let musicVolume = 1;
 let sfxVolume = 1;
 let voiceVolume = 1;
+let currentMusic = null;
 
 /**
  * Ensure an AudioContext exists and resume it if suspended.
@@ -151,15 +152,57 @@ function fadeInAudio(el, duration, targetVol = 1) {
     requestAnimationFrame(step);
 }
 
+function fadeOutAudio(el, duration, onDone) {
+    if (!el) { if (onDone) onDone(); return; }
+    const startVol = el.volume;
+    const start = performance.now();
+    function step(now) {
+        const progress = Math.min((now - start) / duration, 1);
+        el.volume = startVol * (1 - progress);
+        if (progress < 1) {
+            requestAnimationFrame(step);
+        } else {
+            el.pause();
+            el.currentTime = 0;
+            if (onDone) onDone();
+        }
+    }
+    requestAnimationFrame(step);
+}
+
+function crossFadeTo(newEl, duration, targetVol = musicVolume) {
+    if (musicMuted) {
+        if (currentMusic && currentMusic !== newEl && !currentMusic.paused) {
+            currentMusic.pause();
+            currentMusic.currentTime = 0;
+        }
+        currentMusic = newEl;
+        return;
+    }
+    if (currentMusic && currentMusic !== newEl && !currentMusic.paused) {
+        fadeOutAudio(currentMusic, duration);
+    }
+    playAudioElement(newEl, targetVol, false);
+    if (newEl) {
+        newEl.volume = 0;
+        fadeInAudio(newEl, duration, targetVol);
+    }
+    currentMusic = newEl;
+}
+
+function preloadAllAudio() {
+    document.querySelectorAll("audio").forEach(el => {
+        if (el.preload !== "auto") el.preload = "auto";
+        if (el.readyState === 0) el.load();
+    });
+}
+
 /**
  * Play the main title music with a fade in.
  * @returns {void}
  */
 function playTitleMusic() {
-    playAudioElement(titleMusic, musicVolume, musicMuted);
-    if (titleMusic && !musicMuted) {
-        fadeInAudio(titleMusic, 3000, musicVolume);
-    }
+    crossFadeTo(titleMusic, 3000, musicVolume);
 }
 
 /**
@@ -168,8 +211,8 @@ function playTitleMusic() {
  */
 function stopTitleMusic() {
     if (titleMusic && !titleMusic.paused) {
-        titleMusic.pause();
-        titleMusic.currentTime = 0;
+        fadeOutAudio(titleMusic, 1000);
+        if (currentMusic === titleMusic) currentMusic = null;
     }
 }
 
@@ -178,10 +221,7 @@ function stopTitleMusic() {
  * @returns {void}
  */
 function playTitleMusic2() {
-    playAudioElement(titleMusic2, musicVolume, musicMuted);
-    if (titleMusic2 && !musicMuted) {
-        fadeInAudio(titleMusic2, 3000, musicVolume);
-    }
+    crossFadeTo(titleMusic2, 3000, musicVolume);
 }
 
 /**
@@ -190,8 +230,8 @@ function playTitleMusic2() {
  */
 function stopTitleMusic2() {
     if (titleMusic2 && !titleMusic2.paused) {
-        titleMusic2.pause();
-        titleMusic2.currentTime = 0;
+        fadeOutAudio(titleMusic2, 1000);
+        if (currentMusic === titleMusic2) currentMusic = null;
     }
 }
 
@@ -200,10 +240,7 @@ function stopTitleMusic2() {
  * @returns {void}
  */
 function playIntroMusic() {
-    playAudioElement(introMusic, musicVolume, musicMuted);
-    if (introMusic && !musicMuted) {
-        fadeInAudio(introMusic, 1000, musicVolume);
-    }
+    crossFadeTo(introMusic, 1000, musicVolume);
 }
 
 /**
@@ -212,8 +249,8 @@ function playIntroMusic() {
  */
 function stopIntroMusic() {
     if (introMusic && !introMusic.paused) {
-        introMusic.pause();
-        introMusic.currentTime = 0;
+        fadeOutAudio(introMusic, 1000);
+        if (currentMusic === introMusic) currentMusic = null;
     }
 }
 
@@ -345,5 +382,6 @@ export {
     getSfxMuted,
     getMusicVolume,
     getSfxVolume,
-    getVoiceVolume
+    getVoiceVolume,
+    preloadAllAudio
 };
