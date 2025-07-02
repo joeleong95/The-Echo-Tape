@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.60] - 2025-07-10
+### Added
+- Episode Builder now offers inline guidance and an example scene template.
+
 ## [0.0.59] - 2025-07-09
 ### Added
 - Smooth crossfade transitions between music tracks.
