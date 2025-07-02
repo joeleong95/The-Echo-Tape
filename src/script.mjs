@@ -15,6 +15,7 @@ AudioModule.setMusicVolume(StateModule.getState('musicVolume'));
 AudioModule.setSfxVolume(StateModule.getState('sfxVolume'));
 AudioModule.setVoiceVolume(StateModule.getState('voiceVolume'));
 AudioModule.applyAudioPrefs();
+AudioModule.preloadAllAudio();
 
 UiModule.init();
 UiModule.updateContinueButton();
